@@ -1,14 +1,10 @@
 abstract class LevelStateInterface{
 
-  void lostALive() {
+  void gameSetup() {
 
   }
 
-  void setProgress(int value) {
-
-  }
-
-  void evaluate() {
+  void evaluate(var value) {
 
   }
 }

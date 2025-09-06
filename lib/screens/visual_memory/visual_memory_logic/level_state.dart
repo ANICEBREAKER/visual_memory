@@ -16,7 +16,7 @@ class VisualMemoryLevelState extends ChangeNotifier
 
   final String difficulty;
   final VoidCallback onLose;
-  int _level = 0;
+  //int _level = 0;
   late int _lives;
   final int gridSize = 4; // 4x4 grid
   final int tilesToRemember = 8; // Number of tiles to remember (Used for debugging)
@@ -27,28 +27,38 @@ class VisualMemoryLevelState extends ChangeNotifier
   List<int> selectedTiles = [
   ]; // List to store user selected tile positions (0: not selected, 1: selected)
   List<int?> tileStatus = [
-  ]; // List to store tile status (null: unselected, 0: correct, 1: wrong)
+  ]; // List to store tile status (null: unselected, 1: correct, 0: wrong)
+
+
 
   @override
-  void lostALive() {
-    _lives -= 1;
+  void evaluate(var value) {
+    int index = value as int;
+    selectedTiles[index] = 1; // Mark the tile as selected
+    if (correctTiles[index] == 1) {
+      tileStatus[index] = 1; // Correct selection
+      indexOfHighlightedTiles.remove(index); // Remove from highlighted list
+    } else {
+      tileStatus[index] = 0; // Wrong selection
+      _lives -= 1; // Decrement lives on wrong selection
+    }
     notifyListeners();
-  }
-
-  @override
-  void setProgress(int value) {
-    _level = value;
-    notifyListeners();
-  }
-
-  @override
-  void evaluate() {
+    if (indexOfHighlightedTiles.isEmpty) {
+      print("Level completed!");
+    } else
     if (_lives == 0) {
       onLose();
     }
   }
 
-  void initialGameSetup() {
+  @override
+  void gameSetup() {
+    //Clear previous state
+    indexOfHighlightedTiles.clear();
+    correctTiles.clear();
+    selectedTiles.clear();
+    tileStatus.clear();
+    notifyListeners();
     // Initialize game state, e.g., generate random tiles to remember
     while (indexOfHighlightedTiles.length < tilesToRemember) {
       var intValue = Random().nextInt(gridSize * gridSize);
@@ -64,6 +74,7 @@ class VisualMemoryLevelState extends ChangeNotifier
         correctTiles.add(0);
       }
       selectedTiles.add(0);
+      tileStatus.add(null);
     }
     print("Index of highlighted tiles: $indexOfHighlightedTiles");
     print("Correct tiles: $correctTiles");
