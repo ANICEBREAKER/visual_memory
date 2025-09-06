@@ -129,20 +129,25 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                             childAspectRatio: 1,
                           ),
                           itemBuilder: (BuildContext context, int index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(squareSize * 0.2),
-                                color: Colors.white,
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Item $index',
-                                  style: TextStyle(
-                                    fontSize: squareSize * 0.4,
-                                    color: Colors.black,
+                            return InkWell(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(squareSize * 0.2),
+                                  color: Colors.white,
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Item $index',
+                                    style: TextStyle(
+                                      fontSize: squareSize * 0.25,
+                                      color: Colors.black,
+                                    ),
                                   ),
                                 ),
                               ),
+                              onTap: () {
+
+                              },
                             );
                           },
                           itemCount: itemCount,
