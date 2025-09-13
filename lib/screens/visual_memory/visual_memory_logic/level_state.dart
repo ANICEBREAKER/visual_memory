@@ -2,8 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:game_testing/level_state_interface.dart';
 
-class VisualMemoryLevelState extends ChangeNotifier
-    implements LevelStateInterface {
+class VisualMemoryLevelState extends ChangeNotifier implements LevelStateInterface {
   VisualMemoryLevelState({required this.onLose, required this.difficulty}) {
     if (difficulty == "Easy") {
       _lives = 3;
@@ -12,6 +11,7 @@ class VisualMemoryLevelState extends ChangeNotifier
     } else {
       _lives = 1;
     }
+    tileStatus = List<int?>.filled(gridSize * gridSize, null, growable: true);
   }
 
   final String difficulty;
@@ -26,8 +26,7 @@ class VisualMemoryLevelState extends ChangeNotifier
   ]; // List to store correct tile positions (0: wrong, 1: correct)
   List<int> selectedTiles = [
   ]; // List to store user selected tile positions (0: not selected, 1: selected)
-  List<int?> tileStatus = [
-  ]; // List to store tile status (null: unselected, 1: correct, 0: wrong)
+  List<int?> tileStatus = []; // List to store tile status (null: unselected, 1: correct, 0: wrong)
 
 
 
@@ -83,5 +82,4 @@ class VisualMemoryLevelState extends ChangeNotifier
     print("Selected tiles: $selectedTiles");
     notifyListeners();
   }
-
 }

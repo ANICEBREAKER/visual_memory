@@ -52,17 +52,17 @@ class VisualMemoryStartScreen extends StatelessWidget {
               children: [
                 DifficultyButton(
                   label: 'Easy',
-                  difficulty_color: Colors.green,
+                  difficulty_color: Colors.greenAccent,
                 ),
                 SizedBox(width: 20),
                 DifficultyButton(
                   label: 'Medium',
-                  difficulty_color: Colors.yellow,
+                  difficulty_color: Colors.yellowAccent,
                 ),
                 SizedBox(width: 20),
                 DifficultyButton(
                   label: 'Hard',
-                  difficulty_color: Colors.red,
+                  difficulty_color: Colors.redAccent,
                 ),
               ],
             ),
@@ -111,7 +111,7 @@ class DifficultyButton extends StatelessWidget { //temp only
           context,
           MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider<VisualMemoryLevelState>(
-              create: (_) => VisualMemoryLevelState(onLose: () {}, difficulty: label),
+              create: (_) => VisualMemoryLevelState(onLose: () {print("lose");}, difficulty: label),
               child: VisualMemoryGameScreen(difficulty: label,),
             ),
           ),

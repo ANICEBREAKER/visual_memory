@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_result_screen.dart';
+import 'package:provider/provider.dart';
 
 class VisualMemoryGameScreen extends StatefulWidget {
   const VisualMemoryGameScreen({super.key, required this.difficulty});
@@ -22,7 +24,12 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
         : widget.difficulty == "Medium"
             ? 2
             : 1;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<VisualMemoryLevelState>(context, listen: false).gameSetup();
+    });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +143,11 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                                 duration: Duration(milliseconds: 300),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(squareSize * 0.2),
-                                  color: Colors.white,
+                                  color: context.watch<VisualMemoryLevelState>().tileStatus[index] == null
+                                      ? Colors.grey[300]
+                                      : context.watch<VisualMemoryLevelState>().tileStatus[index] == 1
+                                          ? Colors.green
+                                          : Colors.red,
                                 ),
                                 child: Center(
                                   child: Text(
@@ -149,7 +160,7 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                                 ),
                               ),
                               onTap: () {
-
+                                Provider.of<VisualMemoryLevelState>(context, listen: false).evaluate(index);
                               },
                             );
                           },
@@ -187,5 +198,6 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
         ),
       ),
     );
+
   }
 }
