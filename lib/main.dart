@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_testing/screens/menu_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_game_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_result_screen.dart';
+import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -46,7 +47,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: VisualMemoryGameScreen(difficulty: "Easy"),
+      home: VisualMemoryStartScreen(),
     );
   }
 }

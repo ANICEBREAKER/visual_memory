@@ -52,18 +52,21 @@ class VisualMemoryStartScreen extends StatelessWidget {
               children: [
                 DifficultyButton(
                   label: 'Easy',
+                  difficulty_color: Colors.green,
                 ),
                 SizedBox(width: 20),
                 DifficultyButton(
                   label: 'Medium',
+                  difficulty_color: Colors.yellow,
                 ),
                 SizedBox(width: 20),
                 DifficultyButton(
                   label: 'Hard',
+                  difficulty_color: Colors.red,
                 ),
               ],
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 15),
             TextButton(
               onPressed: () {},
               style: TextButton.styleFrom(
@@ -88,9 +91,11 @@ class VisualMemoryStartScreen extends StatelessWidget {
 
 class DifficultyButton extends StatelessWidget { //temp only
   final String label;
+  final difficulty_color;
 
   const DifficultyButton({
     required this.label,
+    required this.difficulty_color,
     super.key,
   });
 
@@ -115,7 +120,7 @@ class DifficultyButton extends StatelessWidget { //temp only
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        backgroundColor: Colors.orangeAccent
+        backgroundColor: difficulty_color
       ),
       child: Text(
         label,

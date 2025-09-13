@@ -95,6 +95,8 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
             Expanded(
               child: LayoutBuilder(
                 builder: (context, constraints) {
+
+
                   int crossAxisCount = 4;
                   int itemCount = 16;
                   int rowCount = (itemCount / crossAxisCount).ceil();
@@ -130,7 +132,8 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                           ),
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
-                              child: Container(
+                              child: AnimatedContainer(
+                                duration: Duration(milliseconds: 300),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(squareSize * 0.2),
                                   color: Colors.white,
