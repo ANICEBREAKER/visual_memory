@@ -52,7 +52,7 @@ class VisualMemoryLevelState extends ChangeNotifier
   }
 
   @override
-  void gameSetup() {
+  void gameSetup() { //Considering rename since this is levelSetup not the game setup
     //Clear previous state
     indexOfHighlightedTiles.clear();
     correctTiles.clear();
@@ -76,6 +76,8 @@ class VisualMemoryLevelState extends ChangeNotifier
       selectedTiles.add(0);
       tileStatus.add(null);
     }
+    // Debug prints
+    print("Lives: $_lives");
     print("Index of highlighted tiles: $indexOfHighlightedTiles");
     print("Correct tiles: $correctTiles");
     print("Selected tiles: $selectedTiles");
