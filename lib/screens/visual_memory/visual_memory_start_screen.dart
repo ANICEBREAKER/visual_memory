@@ -111,7 +111,8 @@ class DifficultyButton extends StatelessWidget { //temp only
           context,
           MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider<VisualMemoryLevelState>(
-              create: (_) => VisualMemoryLevelState(onLose: () {print("lose");}, difficulty: label),
+              create: (_) => VisualMemoryLevelState(
+                  onLose: () {print("You lose");}, difficulty: label),
               child: VisualMemoryGameScreen(difficulty: label,),
             ),
           ),

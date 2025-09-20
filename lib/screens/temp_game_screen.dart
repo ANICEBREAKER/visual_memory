@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:game_testing/data/list.dart';
+import 'package:game_testing/data/game_list.dart';
 
 class TempGameScreen extends StatefulWidget {
   const TempGameScreen({super.key});

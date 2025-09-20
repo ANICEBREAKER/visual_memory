@@ -89,12 +89,15 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                     borderRadius: BorderRadius.circular(5),
                   ),
                   child: Text(
-                      lives == 3
+                      context.watch<VisualMemoryLevelState>().lives == 3
                           ? "Lives: 🖤🖤🖤"
-                          : lives == 2
+                          : context.watch<VisualMemoryLevelState>().lives == 2
                               ? "Lives: 🖤🖤🤍"
-                              : "Lives: 🖤🤍🤍",
-                      style: Theme.of(context).textTheme.labelSmall),
+                              : context.watch<VisualMemoryLevelState>().lives == 1
+                                  ? "Lives: 🖤🤍🤍"
+                                  : "Lives: 🤍🤍🤍",
+                      style: Theme.of(context).textTheme.labelSmall
+                  ),
                 ),
               ],
             ),

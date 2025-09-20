@@ -44,6 +44,9 @@ class VisualMemoryLevelState extends ChangeNotifier implements LevelStateInterfa
     notifyListeners();
     if (indexOfHighlightedTiles.isEmpty) {
       print("Level completed!");
+      Future.delayed(const Duration(milliseconds: 500), () {
+        gameSetup(); // Start a new level
+      });
     } else
     if (_lives == 0) {
       onLose();
@@ -82,4 +85,5 @@ class VisualMemoryLevelState extends ChangeNotifier implements LevelStateInterfa
     print("Selected tiles: $selectedTiles");
     notifyListeners();
   }
+  get lives => _lives;
 }
