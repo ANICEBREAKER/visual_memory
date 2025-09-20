@@ -1,94 +1,38 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:game_testing/level_state_interface.dart';
+import 'package:game_testing/screens/visual_memory/visual_memory_logic/game_logic.dart';
 
 class VisualMemoryLevelState extends ChangeNotifier implements LevelStateInterface {
   VisualMemoryLevelState({required this.onLose, required this.difficulty}) {
-    if (difficulty == "Easy") {
-      _lives = 3;
-    } else if (difficulty == "Medium") {
-      _lives = 2;
-    } else {
-      _lives = 1;
-    }
-    tileStatus = List<int?>.filled(gridSize * gridSize, null, growable: true);
+    _logic = VisualMemoryGameLogic(
+      onLose: onLose,
+      difficulty: difficulty,
+      notifyParent: notifyListeners,
+    );
   }
 
   final String difficulty;
   final VoidCallback onLose;
-  //int _level = 0;
-  late int _lives;
-  int gridSize = 2; // 4x4 grid
-  int tilesToRemember = 2; // Number of tiles to remember (Used for debugging)
-  List<int> indexOfHighlightedTiles = [
-  ]; // List to store highlighted tile positions
-  List<int> correctTiles = [
-  ]; // List to store correct tile positions (0: wrong, 1: correct)
-  List<int> selectedTiles = [
-  ]; // List to store user selected tile positions (0: not selected, 1: selected)
-  List<int?> tileStatus = []; // List to store tile status (null: unselected, 1: correct, 0: wrong)
+  late VisualMemoryGameLogic _logic;
 
-
+  // Expose state from logic
+  int get level => _logic.level;
+  int get lives => _logic.lives;
+  int get gridSize => _logic.gridSize;
+  int get tilesToRemember => _logic.tilesToRemember;
+  List<int> get indexOfHighlightedTiles => _logic.indexOfHighlightedTiles;
+  List<int> get correctTiles => _logic.correctTiles;
+  List<int> get selectedTiles => _logic.selectedTiles;
+  List<int?> get tileStatus => _logic.tileStatus;
+  bool get isShowingTiles => _logic.isShowingTiles;
 
   @override
-  void evaluate(var value) {
-    int index = value as int;
-    selectedTiles[index] = 1; // Mark the tile as selected
-    if (correctTiles[index] == 1) {
-      tileStatus[index] = 1; // Correct selection
-      indexOfHighlightedTiles.remove(index); // Remove from highlighted list
-    } else {
-      tileStatus[index] = 0; // Wrong selection
-      _lives -= 1; // Decrement lives on wrong selection
-    }
-    notifyListeners();
-    if (indexOfHighlightedTiles.isEmpty) {
-      print("Level completed!");
-      Future.delayed(const Duration(milliseconds: 500), () {
-        gameSetup(); // Start a new level
-      });
-    } else
-    if (_lives == 0) {
-      onLose();
-    }
+  void evaluate(var value) async {
+    await _logic.evaluate(value);
   }
 
   @override
-  void gameSetup() { //Considering rename since this is levelSetup not the game setup
-    //Clear previous state
-    indexOfHighlightedTiles.clear();
-    correctTiles.clear();
-    selectedTiles.clear();
-    tileStatus.clear();
-    notifyListeners();
-    //Decide the number of tiles to remember based on level
-    tilesToRemember++;
-    if (gridSize < 6 && tilesToRemember*1.25 > (gridSize * gridSize) / 2) {
-      gridSize++;
-    } //TODO: Adjust this later
-    // Initialize game state, e.g., generate random tiles to remember
-    while (indexOfHighlightedTiles.length < tilesToRemember) {
-      var intValue = Random().nextInt(gridSize * gridSize);
-      if (!indexOfHighlightedTiles.contains(intValue)) {
-        indexOfHighlightedTiles.add(intValue);
-      }
-    }
-    indexOfHighlightedTiles.sort();
-    for (int i = 0; i < gridSize * gridSize; i++) {
-      if (indexOfHighlightedTiles.contains(i)) {
-        correctTiles.add(1);
-      } else {
-        correctTiles.add(0);
-      }
-      selectedTiles.add(0);
-      tileStatus.add(null);
-    }
-    // Debug prints
-    print("Lives: $_lives");
-    print("Index of highlighted tiles: $indexOfHighlightedTiles");
-    print("Correct tiles: $correctTiles");
-    print("Selected tiles: $selectedTiles");
-    notifyListeners();
+  void gameSetup() {
+    _logic.gameSetup();
   }
-  get lives => _lives;
 }

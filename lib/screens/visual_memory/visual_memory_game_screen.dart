@@ -76,7 +76,7 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
                   ),
-                  child: Text("Levels: $levels",
+                  child: Text("Levels: ${context.watch<VisualMemoryLevelState>().level}",
                       style: Theme.of(context).textTheme.labelSmall),
                 ),
                 SizedBox(
@@ -132,46 +132,64 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                       child: SizedBox(
                         width: gridWidth,
                         height: gridHeight,
-                        child: GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: crossAxisCount,
-                            crossAxisSpacing: gridSpacing,
-                            mainAxisSpacing: gridSpacing,
-                            childAspectRatio: 1,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            return InkWell(
-                              child: AnimatedContainer(
-                                duration: Duration(milliseconds: 300),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(squareSize * 0.2),
-                                  color: context.watch<VisualMemoryLevelState>().tileStatus[index] == null
-                                      ? Colors.grey[300]
-                                      : context.watch<VisualMemoryLevelState>().tileStatus[index] == 1
-                                          ? Colors.green
-                                          : Colors.red,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    'Item $index',
-                                    style: TextStyle(
-                                      fontSize: squareSize * 0.25,
-                                      color: Colors.black,
+                        child: ScrollConfiguration(
+                          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                          child: SizedBox(
+                          child: GridView.builder(
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: crossAxisCount,
+                              crossAxisSpacing: gridSpacing,
+                              mainAxisSpacing: gridSpacing,
+                              childAspectRatio: 1,
+                            ),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Consumer<VisualMemoryLevelState>(
+                                builder: (context, levelState, child) {
+                                  return InkWell(
+                                    onTap: () {
+                                      if (levelState.isShowingTiles) return;
+                                      levelState.evaluate(index);
+                                    },
+                                    customBorder: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(squareSize * 0.2),
                                     ),
-                                  ),
-                                ),
-                              ),
-                              onTap: () {
-                                Provider.of<VisualMemoryLevelState>(context, listen: false).evaluate(index);
-                              },
-                            );
-                          },
-                          itemCount: itemCount,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                        ),
+                                    child: AnimatedContainer(
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.easeInOut,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(squareSize * 0.2),
+                                        color: levelState.isShowingTiles
+                                            ? (levelState.indexOfHighlightedTiles.contains(index)
+                                                ? Colors.green
+                                                : Colors.grey[300])
+                                        : (levelState.tileStatus[index] == null
+                                            ? Colors.grey[300]
+                                            : levelState.tileStatus[index] == 1
+                                                ? Colors.green
+                                                : Colors.red)
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'Item $index',
+                                          style: TextStyle(
+                                            fontSize: squareSize * 0.25,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                              );
+                            },
+                            itemCount: itemCount,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                          ),
+                                                    ),
                       ),
                     ),
+                  )
                   );
                 },
               ),
