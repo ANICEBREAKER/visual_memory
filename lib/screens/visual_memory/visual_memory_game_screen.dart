@@ -13,7 +13,7 @@ class VisualMemoryGameScreen extends StatefulWidget {
 }
 
 class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
-  int levels = 0;
+  int levels = 1;
   int lives = 0;
 
   @override
@@ -106,10 +106,9 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
               child: LayoutBuilder(
                 builder: (context, constraints) {
 
-
-                  int crossAxisCount = 4;
-                  int itemCount = 16;
-                  int rowCount = (itemCount / crossAxisCount).ceil();
+                  int crossAxisCount = context.watch<VisualMemoryLevelState>().gridSize;
+                  int itemCount = crossAxisCount * crossAxisCount;
+                  int rowCount = crossAxisCount;
 
                   // Calculate available width and height for the grid
                   double availableWidth = constraints.maxWidth - 2 * horizontalPadding;

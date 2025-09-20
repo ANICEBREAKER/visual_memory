@@ -18,8 +18,8 @@ class VisualMemoryLevelState extends ChangeNotifier implements LevelStateInterfa
   final VoidCallback onLose;
   //int _level = 0;
   late int _lives;
-  final int gridSize = 4; // 4x4 grid
-  final int tilesToRemember = 8; // Number of tiles to remember (Used for debugging)
+  int gridSize = 2; // 4x4 grid
+  int tilesToRemember = 2; // Number of tiles to remember (Used for debugging)
   List<int> indexOfHighlightedTiles = [
   ]; // List to store highlighted tile positions
   List<int> correctTiles = [
@@ -61,6 +61,11 @@ class VisualMemoryLevelState extends ChangeNotifier implements LevelStateInterfa
     selectedTiles.clear();
     tileStatus.clear();
     notifyListeners();
+    //Decide the number of tiles to remember based on level
+    tilesToRemember++;
+    if (gridSize < 6 && tilesToRemember*1.25 > (gridSize * gridSize) / 2) {
+      gridSize++;
+    } //TODO: Adjust this later
     // Initialize game state, e.g., generate random tiles to remember
     while (indexOfHighlightedTiles.length < tilesToRemember) {
       var intValue = Random().nextInt(gridSize * gridSize);
