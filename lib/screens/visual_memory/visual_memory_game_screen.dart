@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_result_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class VisualMemoryGameScreen extends StatefulWidget {
@@ -197,10 +198,8 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
             SizedBox(height: screenHeight * 0.01),
             ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => VisualMemoryResultScreen()),
-                );
+                final level = context.read<VisualMemoryLevelState>().level;
+                context.push('/result?level=$level');
               },
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(
@@ -218,6 +217,5 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
         ),
       ),
     );
-
   }
 }

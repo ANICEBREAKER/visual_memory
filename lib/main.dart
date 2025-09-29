@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/screens/menu_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_game_screen.dart';
+import 'package:game_testing/screens/visual_memory/visual_memory_logic/router.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_result_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: VisualMemoryStartScreen(),
+      routerConfig: visualMemoryGoRouter,
     );
   }
 }

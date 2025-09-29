@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import '../menu_screen.dart';
 
 class VisualMemoryResultScreen extends StatefulWidget {
-  const VisualMemoryResultScreen({super.key});
+  final int level;
+  const VisualMemoryResultScreen({super.key, required this.level});
 
   @override
   State<VisualMemoryResultScreen> createState() =>
@@ -58,7 +58,7 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Your level was: ${context.watch<VisualMemoryLevelState>().level}',
+              Text('Your level was: ${widget.level}',
                   style: Theme.of(context).textTheme.bodyLarge),
               Card(
                 elevation: 5,
@@ -69,7 +69,7 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
                 margin: EdgeInsets.all(20),
                 child: Container(
                   padding: EdgeInsets.all(10),
-                  child: Text('Level X',
+                  child: Text('Level ${widget.level}',
                       style: Theme.of(context).textTheme.bodyMedium)),
               ), // Level Showing
               Text(
@@ -115,11 +115,12 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => VisualMemoryStartScreen()),
-                  );
+                  context.go('/');
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //       builder: (context) => VisualMemoryStartScreen()),
+                  // );
                 },
                 style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),

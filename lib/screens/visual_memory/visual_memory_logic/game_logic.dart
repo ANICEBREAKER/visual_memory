@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:game_testing/screens/visual_memory/visual_memory_logic/router.dart';
 //import '../visual_memory_result_screen.dart';
 
 class VisualMemoryGameLogic {
@@ -26,7 +27,7 @@ class VisualMemoryGameLogic {
   late int _lives;
   int _placeholder_level_decider = 1;
   int gridSize = 3;
-  int tilesToRemember = 3;
+  int tilesToRemember = 2;
   List<int> indexOfHighlightedTiles = [];
   List<int> correctTiles = [];
   List<int> selectedTiles = [];
@@ -61,13 +62,14 @@ class VisualMemoryGameLogic {
         gameSetup();
       });
     } else if (_lives == 0) {
-      onLose();
+      visualMemoryGoRouter.push('/result?level=$level');
+      //onLose();
       //Navigator.push(context, MaterialPageRoute(builder: (context) => VisualMemoryResultScreen())
     }
   }
 
   void gameSetup() {
-    if (_placeholder_level_decider == gridSize - 1) {
+    if (_placeholder_level_decider == gridSize) {
       gridSize++;
       _placeholder_level_decider = 1;
     } else {

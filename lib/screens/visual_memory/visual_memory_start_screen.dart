@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_game_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_result_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class VisualMemoryStartScreen extends StatelessWidget {
@@ -90,7 +91,7 @@ class VisualMemoryStartScreen extends StatelessWidget {
   }
 }
 
-class DifficultyButton extends StatelessWidget { //temp only
+class DifficultyButton extends StatelessWidget {
   final String label;
   final difficulty_color;
 
@@ -104,22 +105,7 @@ class DifficultyButton extends StatelessWidget { //temp only
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => VisualMemoryGameScreen(difficulty: label,)),
-        // );
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ChangeNotifierProvider<VisualMemoryLevelState>(
-              create: (_) => VisualMemoryLevelState(
-                  onLose: () {
-                    print("You lose");
-                    }, difficulty: label),
-              child: VisualMemoryGameScreen(difficulty: label,),
-            ),
-          ),
-        );
+        context.go('/game?difficulty=$label');
       },
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -133,3 +119,4 @@ class DifficultyButton extends StatelessWidget { //temp only
     );
   }
 }
+
