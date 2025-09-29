@@ -39,7 +39,7 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
 
     // Responsive paddings and spacings
     final horizontalPadding = screenWidth * 0.07; // 7% of width
-    final gridSpacing = screenWidth * 0.018; // ~2% of width
+    final gridSpacing = screenWidth * 0.010; // ~2% of width
     final gridPadding = screenHeight * 0.015; // ~1.5% of height
 
     return Scaffold(

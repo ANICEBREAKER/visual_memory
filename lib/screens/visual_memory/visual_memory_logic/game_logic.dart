@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-
-import '../visual_memory_result_screen.dart';
+//import '../visual_memory_result_screen.dart';
 
 class VisualMemoryGameLogic {
   VisualMemoryGameLogic({
@@ -25,8 +24,9 @@ class VisualMemoryGameLogic {
 
   int level = 0;
   late int _lives;
-  int gridSize = 2;
-  int tilesToRemember = 2;
+  int _placeholder_level_decider = 1;
+  int gridSize = 3;
+  int tilesToRemember = 3;
   List<int> indexOfHighlightedTiles = [];
   List<int> correctTiles = [];
   List<int> selectedTiles = [];
@@ -67,11 +67,15 @@ class VisualMemoryGameLogic {
   }
 
   void gameSetup() {
+    if (_placeholder_level_decider == gridSize - 1) {
+      gridSize++;
+      _placeholder_level_decider = 1;
+    } else {
+      _placeholder_level_decider++;
+    }
     tilesToRemember++;
     level++;
-    if (gridSize < 6 && tilesToRemember * 1.25 > (gridSize * gridSize) / 2) {
-      gridSize++;
-    }
+
     while (indexOfHighlightedTiles.length < tilesToRemember) {
       var intValue = Random().nextInt(gridSize * gridSize);
       if (!indexOfHighlightedTiles.contains(intValue)) {
