@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import '../menu_screen.dart';
 
 class VisualMemoryResultScreen extends StatefulWidget {
@@ -56,7 +58,7 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Your score was:',
+              Text('Your level was: ${context.watch<VisualMemoryLevelState>().level}',
                   style: Theme.of(context).textTheme.bodyLarge),
               Card(
                 elevation: 5,

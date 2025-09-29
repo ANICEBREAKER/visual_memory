@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 
+import '../visual_memory_result_screen.dart';
+
 class VisualMemoryGameLogic {
   VisualMemoryGameLogic({
     required this.onLose,
@@ -60,6 +62,7 @@ class VisualMemoryGameLogic {
       });
     } else if (_lives == 0) {
       onLose();
+      //Navigator.push(context, MaterialPageRoute(builder: (context) => VisualMemoryResultScreen())
     }
   }
 

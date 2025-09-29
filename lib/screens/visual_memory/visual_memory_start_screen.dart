@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_game_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
+import 'package:game_testing/screens/visual_memory/visual_memory_result_screen.dart';
 import 'package:provider/provider.dart';
 
 class VisualMemoryStartScreen extends StatelessWidget {
@@ -112,7 +113,9 @@ class DifficultyButton extends StatelessWidget { //temp only
           MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider<VisualMemoryLevelState>(
               create: (_) => VisualMemoryLevelState(
-                  onLose: () {print("You lose");}, difficulty: label),
+                  onLose: () {
+                    print("You lose");
+                    }, difficulty: label),
               child: VisualMemoryGameScreen(difficulty: label,),
             ),
           ),
