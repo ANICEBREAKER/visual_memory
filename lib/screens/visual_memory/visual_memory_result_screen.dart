@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/player_progress/player_progress.dart';
+import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import '../menu_screen.dart';
 
 class VisualMemoryResultScreen extends StatefulWidget {
   final int level;
-  const VisualMemoryResultScreen({super.key, required this.level});
+  final String difficulty;
+  const VisualMemoryResultScreen({super.key, required this.level, required this.difficulty});
 
   @override
   State<VisualMemoryResultScreen> createState() =>
@@ -15,16 +19,26 @@ class VisualMemoryResultScreen extends StatefulWidget {
 }
 
 class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
-  bool isNewHighScore = false;
   bool isConnectedWithInternet = false;
 
   @override
   void initState() {
+    print("Player score: ${widget.level}");
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await context.read<PlayerProgress>().getLatestFromStore( 'visual_memory', widget.difficulty);
+      if (mounted) {
+        context.read<PlayerProgress>().setLevelReached(widget.level, 'visual_memory', widget.difficulty);
+      } else {
+        print("Widget not mounted, cannot access context.");
+        return;
+      }
+    });
     hasSecureInternetConnection().then((value) {
       setState(() {
         isConnectedWithInternet = value;
       });
     });
+    print("Stored high score: ${context.read<PlayerProgress>().highestLevelReached}");
     super.initState();
   }
 
@@ -34,10 +48,7 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => MenuScreen()),
-              );
+              context.go('/');
             },
             icon: Icon(
               Icons.arrow_back,
@@ -73,7 +84,7 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
                       style: Theme.of(context).textTheme.bodyMedium)),
               ), // Level Showing
               Text(
-                isNewHighScore ? 'New High Score!' : 'Good job!',
+                context.watch<PlayerProgress>().isNewHighScore ? 'New High Score!' : 'Good job!',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               SizedBox(height: 20),
@@ -84,10 +95,11 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
                   size: 50,
                 ),
                 title: Text(
-                  isNewHighScore
+                  context.watch<PlayerProgress>().isNewHighScore
                       ? 'Congrats on the high score, think you can beat it?'
-                      : 'Wanna try again to beat your high score of level X?',
+                      : 'Wanna try again to beat your high score of Level ${context.watch<PlayerProgress>().highestLevelReached} ?',
                   style: Theme.of(context).textTheme.labelSmall,
+                  //highestLevelReached
                 ),
                 tileColor: Colors.white,
                 shape: RoundedRectangleBorder(
@@ -116,11 +128,6 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
               ElevatedButton(
                 onPressed: () {
                   context.go('/');
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //       builder: (context) => VisualMemoryStartScreen()),
-                  // );
                 },
                 style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),

@@ -1,11 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:game_testing/screens/visual_memory/visual_memory_logic/router.dart';
+import 'package:game_testing/router.dart';
 //import '../visual_memory_result_screen.dart';
 
 class VisualMemoryGameLogic {
   VisualMemoryGameLogic({
-    required this.onLose,
     required this.difficulty,
     required this.notifyParent,
   }) {
@@ -20,7 +19,6 @@ class VisualMemoryGameLogic {
   }
 
   final String difficulty;
-  final VoidCallback onLose;
   final VoidCallback notifyParent;
 
   int level = 0;
@@ -49,22 +47,13 @@ class VisualMemoryGameLogic {
     notifyParent();
     if (indexOfHighlightedTiles.isEmpty) {
       await Future.delayed(Duration(milliseconds: 500), () {
-        indexOfHighlightedTiles.clear();
-        correctTiles.clear();
-        selectedTiles.clear();
-        tileStatus.clear();
-        for (int i = 0; i < gridSize * gridSize; i++) {
-          tileStatus.add(null);
-        }
-        notifyParent();
+        clearGame();
       });
       await Future.delayed(const Duration(milliseconds: 500), () {
         gameSetup();
       });
     } else if (_lives == 0) {
-      visualMemoryGoRouter.push('/result?level=$level');
-      //onLose();
-      //Navigator.push(context, MaterialPageRoute(builder: (context) => VisualMemoryResultScreen())
+      visualMemoryGoRouter.push('/result?level=$level&difficulty=$difficulty');
     }
   }
 
@@ -100,6 +89,17 @@ class VisualMemoryGameLogic {
       isShowingTiles = false;
       notifyParent();
     });
+  }
+
+  void clearGame() {
+    indexOfHighlightedTiles.clear();
+    correctTiles.clear();
+    selectedTiles.clear();
+    tileStatus.clear();
+    for (int i = 0; i < gridSize * gridSize; i++) {
+      tileStatus.add(null);
+    }
+    notifyParent();
   }
 }
 

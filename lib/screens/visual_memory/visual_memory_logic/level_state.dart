@@ -3,16 +3,14 @@ import 'package:game_testing/level_state_interface.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_logic/game_logic.dart';
 
 class VisualMemoryLevelState extends ChangeNotifier implements LevelStateInterface {
-  VisualMemoryLevelState({required this.onLose, required this.difficulty}) {
+  VisualMemoryLevelState({required this.difficulty}) {
     _logic = VisualMemoryGameLogic(
-      onLose: onLose,
       difficulty: difficulty,
       notifyParent: notifyListeners,
     );
   }
 
   final String difficulty;
-  final VoidCallback onLose;
   late VisualMemoryGameLogic _logic;
 
   // Expose state from logic
@@ -33,6 +31,8 @@ class VisualMemoryLevelState extends ChangeNotifier implements LevelStateInterfa
 
   @override
   void gameSetup() {
+
+    _logic.clearGame();
     _logic.gameSetup();
   }
 }
