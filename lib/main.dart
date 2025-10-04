@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/player_progress/player_progress.dart';
 import 'package:game_testing/screens/menu_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_game_screen.dart';
-import 'package:game_testing/screens/visual_memory/visual_memory_logic/router.dart';
+import 'package:game_testing/router.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_result_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(
+    child: const MyApp(),
+    providers: [
+      ChangeNotifierProvider(create: (context) => PlayerProgress()),
+    ],
+  ));
 }
 
 class MyApp extends StatelessWidget {
