@@ -199,7 +199,7 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
             ElevatedButton(
               onPressed: () {
                 final level = context.read<VisualMemoryLevelState>().level;
-                context.push('/result?level=$level');
+                context.push('/result?level=$level&difficulty=${widget.difficulty}');
               },
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(
