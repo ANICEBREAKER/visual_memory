@@ -27,6 +27,7 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await context.read<PlayerProgress>().getLatestFromStore( 'visual_memory', widget.difficulty);
       if (mounted) {
+        print("Stored high score: ${context.read<PlayerProgress>().highestLevelReached}");
         context.read<PlayerProgress>().setLevelReached(widget.level, 'visual_memory', widget.difficulty);
       } else {
         print("Widget not mounted, cannot access context.");
@@ -38,7 +39,6 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
         isConnectedWithInternet = value;
       });
     });
-    print("Stored high score: ${context.read<PlayerProgress>().highestLevelReached}");
     super.initState();
   }
 
