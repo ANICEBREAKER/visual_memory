@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:game_testing/screens/temp_game_screen.dart';
+import 'package:game_testing/screens/common/temp_game_screen.dart';
 
-import '../data/game_list.dart';
+import '../../data/game_list.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
