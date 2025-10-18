@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:game_testing/service/database.dart';
+import 'package:game_testing/service/auth_service.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
