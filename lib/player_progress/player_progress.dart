@@ -63,3 +63,4 @@ class PlayerProgress extends ChangeNotifier {
     }
   }
 }
+//TODO: Fix the SharedPreferences issues [a.k.a] local storage in the program [particularly for player progress]
