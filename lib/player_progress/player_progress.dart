@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'persistence/local_storage_player_progress_persistence.dart';
 import 'persistence/player_progress_persistence.dart';
+import 'package:game_testing/service/game_progress_storage_service.dart';
 
 /// Encapsulates the player's progress.
 class PlayerProgress extends ChangeNotifier {
@@ -14,6 +15,7 @@ class PlayerProgress extends ChangeNotifier {
   /// [LocalStoragePlayerProgressPersistence] (i.e. NSUserDefaults on iOS,
   /// SharedPreferences on Android or local storage on the web).
   final PlayerProgressPersistence _store;
+  final SupabaseGameService _gameService = SupabaseGameService();
 
   int _highestLevelReached = 0;
   bool isNewHighScore = false;
@@ -28,10 +30,10 @@ class PlayerProgress extends ChangeNotifier {
 
   /// Resets the player's progress so it's like if they just started
   /// playing the game for the first time.
-  void reset(String game, String difficulty) {
+  void reset() {
     _highestLevelReached = 0;
     notifyListeners();
-    _store.saveHighestLevelReached(level: _highestLevelReached, game: game, difficulty: difficulty);
+    //_store.saveHighestLevelReached(level: _highestLevelReached, game: game, difficulty: difficulty);
   }
 
   /// Registers [level] as reached.
@@ -43,7 +45,8 @@ class PlayerProgress extends ChangeNotifier {
       _highestLevelReached = level;
       isNewHighScore = true;
       notifyListeners();
-      unawaited(_store.saveHighestLevelReached(level: level, game: game, difficulty: difficulty));
+      //unawaited(_store.saveHighestLevelReached(level: level, game: game, difficulty: difficulty));
+      _gameService.setGameData(level, game, difficulty);
     } else {
       isNewHighScore = false;
     }
