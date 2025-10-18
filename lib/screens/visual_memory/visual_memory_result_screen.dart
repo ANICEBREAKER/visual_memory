@@ -6,7 +6,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import '../menu_screen.dart';
+import '../common/menu_screen.dart';
 
 class VisualMemoryResultScreen extends StatefulWidget {
   final int level;
@@ -25,6 +25,7 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
   void initState() {
     print("Player score: ${widget.level}");
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      context.read<PlayerProgress>().reset();
       await context.read<PlayerProgress>().getLatestFromStore( 'visual_memory', widget.difficulty);
       if (mounted) {
         print("Stored high score: ${context.read<PlayerProgress>().highestLevelReached}");
@@ -48,7 +49,7 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              context.go('/');
+              context.go('/menu');
             },
             icon: Icon(
               Icons.arrow_back,
@@ -127,7 +128,7 @@ class _VisualMemoryResultScreenState extends State<VisualMemoryResultScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  context.go('/');
+                  context.go('/difficulty');
                 },
                 style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),

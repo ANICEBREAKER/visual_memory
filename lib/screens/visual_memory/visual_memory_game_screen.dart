@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
-import 'package:game_testing/screens/visual_memory/visual_memory_result_screen.dart';
+import 'package:game_testing/player_progress/player_progress.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +47,7 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              context.go('/difficulty');
             },
             icon: Icon(
               Icons.arrow_back,

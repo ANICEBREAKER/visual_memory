@@ -18,6 +18,14 @@ path: '/',
     return WelcomeScreen();
   },
   routes: <RouteBase>[
+    GoRoute(path: '/difficulty', builder: (BuildContext context, GoRouterState state) => VisualMemoryStartScreen()),
+    GoRoute(
+      path: '/result',
+      builder: (BuildContext context, GoRouterState state) {
+        final level = int.tryParse(state.uri.queryParameters['level'] ?? '0') ?? 0;
+        return VisualMemoryResultScreen(level: level, difficulty: state.uri.queryParameters['difficulty'].toString());
+      },
+    ),
     GoRoute(
       path: '/game',
       builder: (BuildContext context, GoRouterState state) {
@@ -29,13 +37,6 @@ path: '/',
               ),
           child: VisualMemoryGameScreen(difficulty: difficulty),
         );
-      },
-    ),
-    GoRoute(
-      path: '/result',
-      builder: (BuildContext context, GoRouterState state) {
-        final level = int.tryParse(state.uri.queryParameters['level'] ?? '0') ?? 0;
-        return VisualMemoryResultScreen(level: level, difficulty: state.uri.queryParameters['difficulty'].toString());
       },
     ),
     GoRoute(path: '/login', builder: (BuildContext context, GoRouterState state) => LoginScreen()),
