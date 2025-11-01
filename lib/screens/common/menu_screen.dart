@@ -48,7 +48,6 @@ class _MenuScreenState extends State<MenuScreen> {
                     MaterialPageRoute(builder: (context) => dummyGames[0].destination),
                   );
                 },
-                tileColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
@@ -61,7 +60,6 @@ class _MenuScreenState extends State<MenuScreen> {
                   style: Theme.of(context).textTheme.labelMedium
                 ),
                 subtitle: Text('Sample text here', style: Theme.of(context).textTheme.labelSmall),
-                tileColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
