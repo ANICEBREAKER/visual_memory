@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:game_testing/player_progress/player_progress.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../../helper/connection_checker.dart';
+import '../../../helper/connection_checker.dart';
+import '../../../router.dart';
 
-class QuickMathsResultScreen extends StatefulWidget {
+class GameResultScreen extends StatefulWidget {
   final int level;
   final String difficulty;
-  const QuickMathsResultScreen({super.key, required this.level, required this.difficulty});
+  final String game_path;
+  const GameResultScreen({super.key, required this.level, required this.difficulty, required this.game_path});
 
   @override
-  State<QuickMathsResultScreen> createState() =>
+  State<GameResultScreen> createState() =>
       _QuickMathsResultScreen();
 }
 
-class _QuickMathsResultScreen extends State<QuickMathsResultScreen> {
+class _QuickMathsResultScreen extends State<GameResultScreen> {
   bool isConnectedWithInternet = false;
 
   @override
@@ -22,10 +24,10 @@ class _QuickMathsResultScreen extends State<QuickMathsResultScreen> {
     print("Player score: ${widget.level}");
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       context.read<PlayerProgress>().reset();
-      await context.read<PlayerProgress>().getLatestFromStore( 'quick_maths', widget.difficulty);
+      await context.read<PlayerProgress>().getLatestFromStore( widget.game_path, widget.difficulty);
       if (mounted) {
         //print("Stored high score: ${context.read<PlayerProgress>().highestLevelReached}");
-        context.read<PlayerProgress>().setLevelReached(widget.level, 'quick_maths', widget.difficulty);
+        context.read<PlayerProgress>().setLevelReached(widget.level, widget.game_path, widget.difficulty);
       } else {
         //print("Widget not mounted, cannot access context.");
         return;
@@ -45,7 +47,7 @@ class _QuickMathsResultScreen extends State<QuickMathsResultScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              context.go('/menu');
+              context.go(RoutePath.menu.path);
             },
             icon: Icon(
               Icons.arrow_back,
@@ -124,7 +126,7 @@ class _QuickMathsResultScreen extends State<QuickMathsResultScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-                  context.go('/difficulty');
+                  context.go(RoutePath.gameSelection.path);
                 },
                 style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
