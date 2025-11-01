@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
-
+import 'package:game_testing/screens/quick_maths/quick_maths_start_screen.dart';
 // The class for a game item
 class GameTileItem {
   final String name;
@@ -15,6 +15,7 @@ class GameTileItem {
     this.destination = const Placeholder(), // Default destination
   });
 }
+
 
 // Dummy list of games
 List<GameTileItem> dummyGames = [
@@ -34,6 +35,7 @@ List<GameTileItem> dummyGames = [
     name: "Quick maths",
     description: "Solve as many math equations as fast as you can!",
     icon: "https://static.thenounproject.com/png/4411488-200.png", // A calculator icon
+    destination: QuickMathsStartScreen(),
   ),
 
   GameTileItem(
