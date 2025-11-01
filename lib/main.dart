@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/player_progress/player_progress.dart';
 import 'package:game_testing/router.dart';
+import 'package:game_testing/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -26,38 +27,41 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
-        scaffoldBackgroundColor: Colors.blue,
-        appBarTheme: AppBarTheme(color: Colors.blue),
-        textTheme: TextTheme().copyWith(
-          bodyLarge: TextStyle(
-              fontSize: 40,
-              fontWeight: FontWeight.bold,
-              color: Colors.white
-          ),
-          bodyMedium: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              color: Colors.white
-          ),
-          bodySmall: TextStyle(
-              fontSize: 16,
-              color: Colors.white
-          ),
-          labelSmall: TextStyle(
-              fontSize: 16,
-              //color: Colors.black
-          ),
-          labelMedium: TextStyle(
-            fontSize: 20,
-            //color: Colors.black,
-            fontWeight: FontWeight.bold
-          )
-        ),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.light(context),
+      darkTheme: AppTheme.dark(context),
+      themeMode: ThemeMode.dark,
       routerConfig: visualMemoryGoRouter,
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
+      //   scaffoldBackgroundColor: Colors.blue,
+      //   appBarTheme: AppBarTheme(color: Colors.blue),
+      //   textTheme: TextTheme().copyWith(
+      //     bodyLarge: TextStyle(
+      //         fontSize: 40,
+      //         fontWeight: FontWeight.bold,
+      //         color: Colors.white
+      //     ),
+      //     bodyMedium: TextStyle(
+      //         fontSize: 30,
+      //         fontWeight: FontWeight.bold,
+      //         color: Colors.white
+      //     ),
+      //     bodySmall: TextStyle(
+      //         fontSize: 16,
+      //         color: Colors.white
+      //     ),
+      //     labelSmall: TextStyle(
+      //         fontSize: 16,
+      //         //color: Colors.black
+      //     ),
+      //     labelMedium: TextStyle(
+      //       fontSize: 20,
+      //       //color: Colors.black,
+      //       fontWeight: FontWeight.bold
+      //     )
+      //   ),
+      //   useMaterial3: true,
+      // ),
     );
   }
 }
