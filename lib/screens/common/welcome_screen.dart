@@ -5,6 +5,8 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:game_testing/main.dart';
 
+import '../../router.dart';
+
 class WelcomeScreen extends StatefulWidget {
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -39,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                     child: AnimatedTextKit(
                       animatedTexts: [
-                        TyperAnimatedText('GoodChat')
+                        TyperAnimatedText('Puzzle Game')
                       ],
                       totalRepeatCount: 1,
                     )
@@ -51,7 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             ElevatedButton(
                 onPressed: (){
-                  context.go('/login');
+                  context.go(RoutePath.login.path);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightBlueAccent,
@@ -66,7 +68,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
             ElevatedButton(
                 onPressed: (){
-                  context.go('/register');
+                  context.go(RoutePath.register.path);
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightBlueAccent,

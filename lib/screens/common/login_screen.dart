@@ -4,6 +4,8 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../router.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -75,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       final User? user = res.user;
                       if (user != null) {
                         print('Log in successfully!');
-                        context.go('/menu');
+                        context.go(RoutePath.menu.path);
                       }
                     } catch (e) {
                       print(e);

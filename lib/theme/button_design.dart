@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../router.dart';
 class DifficultyButton extends StatelessWidget {
   final String label;
   final difficulty_color;
@@ -14,7 +16,7 @@ class DifficultyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        context.go('/game?difficulty=$label');
+        context.go(RoutePath.visualMemoryGameScreen.path + '?difficulty=$label');
       },
       style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),

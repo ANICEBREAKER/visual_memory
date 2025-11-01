@@ -4,6 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:game_testing/service/auth_service.dart';
 
+import '../../router.dart';
+
 class RegistrationScreen extends StatefulWidget {
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();
@@ -74,7 +76,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       final Session? session = res.session;
                       final User? user = res.user;
                       if (user != null) {
-                        context.go('/menu');
+                        context.go(RoutePath.menu.path);
                       }
                     } catch (e) {
                       print(e);
