@@ -4,6 +4,8 @@ import 'package:game_testing/player_progress/player_progress.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
+import '../../router.dart';
+
 class VisualMemoryGameScreen extends StatefulWidget {
   const VisualMemoryGameScreen({super.key, required this.difficulty});
 
@@ -47,7 +49,7 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              context.go('/difficulty');
+              context.go(RoutePath.menu.path);
             },
             icon: Icon(
               Icons.arrow_back,
@@ -170,13 +172,13 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                                                 : Colors.red)
                                       ),
                                       child: Center(
-                                        child: Text(
-                                          'Item $index',
-                                          style: TextStyle(
-                                            fontSize: squareSize * 0.25,
-                                            color: Colors.black,
-                                          ),
-                                        ),
+                                        // child: Text(
+                                        //   'Item $index',
+                                        //   style: TextStyle(
+                                        //     fontSize: squareSize * 0.25,
+                                        //     color: Colors.black,
+                                        //   ),
+                                        // ), Only used for debug purposes, or cheating
                                       ),
                                     ),
                                   );
@@ -199,7 +201,7 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
             ElevatedButton(
               onPressed: () {
                 final level = context.read<VisualMemoryLevelState>().level;
-                context.push('/result?level=$level&difficulty=${widget.difficulty}');
+                context.push('/result?game_path=visual_memory&level=$level&difficulty=${widget.difficulty}');
               },
               style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(
