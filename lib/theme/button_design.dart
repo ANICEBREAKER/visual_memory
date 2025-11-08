@@ -5,10 +5,12 @@ import '../router.dart';
 class DifficultyButton extends StatelessWidget {
   final String label;
   final difficulty_color;
+  final RoutePath gamePath;
 
   const DifficultyButton({
     required this.label,
     required this.difficulty_color,
+    required this.gamePath,
     super.key,
   });
 
@@ -16,7 +18,7 @@ class DifficultyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        context.go(RoutePath.visualMemoryGameScreen.path + '?difficulty=$label');
+        context.go(gamePath.path + '?difficulty=$label');
       },
       style: ElevatedButton.styleFrom(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),

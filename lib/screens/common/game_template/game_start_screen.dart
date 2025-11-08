@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/theme/button_design.dart';
 
+import '../../../router.dart';
+
 class GameStartScreen extends StatelessWidget {
   final String name;
   final String description;
   final String icon;
-  const GameStartScreen({super.key, required this.name, required this.description, required this.icon});
+  final RoutePath gamePath;
+  const GameStartScreen({super.key, required this.name, required this.description, required this.icon, required this.gamePath});
 
   @override
   Widget build(BuildContext context) {
@@ -54,16 +57,19 @@ class GameStartScreen extends StatelessWidget {
                 DifficultyButton(
                   label: 'Easy',
                   difficulty_color: Colors.greenAccent,
+                  gamePath: gamePath,
                 ),
                 SizedBox(width: 20),
                 DifficultyButton(
                   label: 'Medium',
                   difficulty_color: Colors.yellowAccent,
+                  gamePath: gamePath,
                 ),
                 SizedBox(width: 20),
                 DifficultyButton(
                   label: 'Hard',
                   difficulty_color: Colors.redAccent,
+                  gamePath: gamePath,
                 ),
               ],
             ),
