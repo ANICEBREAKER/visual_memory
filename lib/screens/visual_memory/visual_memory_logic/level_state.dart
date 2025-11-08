@@ -31,7 +31,6 @@ class VisualMemoryLevelState extends ChangeNotifier implements LevelStateInterfa
 
   @override
   void gameSetup() {
-
     _logic.clearGame();
     _logic.gameSetup();
   }

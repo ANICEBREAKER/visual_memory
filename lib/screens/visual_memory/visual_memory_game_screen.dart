@@ -8,7 +8,6 @@ import '../../router.dart';
 
 class VisualMemoryGameScreen extends StatefulWidget {
   const VisualMemoryGameScreen({super.key, required this.difficulty});
-
   final String difficulty;
 
   @override
