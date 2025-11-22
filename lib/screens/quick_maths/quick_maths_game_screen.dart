@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../router.dart';
 import '../quick_maths/widget/simple_numpad.dart';
+import 'quick_maths_logic/game_logic.dart';
+import 'widget/equation_list.dart';
+import 'widget/equation_tiles.dart';
 
 class QuickMathsGameScreen extends StatefulWidget {
   const QuickMathsGameScreen({super.key});
@@ -12,16 +16,31 @@ class QuickMathsGameScreen extends StatefulWidget {
 }
 
 class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
+  late QuickMathsGameLogic logic;
+
+  @override
+  void initState() {
+    super.initState();
+    logic = QuickMathsGameLogic(
+      difficulty: "Easy",
+      notifyParent: () => setState(() {}),
+    );
+    logic.gameSetup();
+    logic.startTimer();
+  }
+
+  @override
+  void dispose() {
+    logic.stopTimer();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final screenWidth = mediaQuery.size.width;
     final screenHeight = mediaQuery.size.height;
 
-    // // Responsive paddings and spacings
-    // final horizontalPadding = screenWidth * 0.07; // 7% of width
-    // final gridSpacing = screenWidth * 0.010; // ~2% of width
-    // final gridPadding = screenHeight * 0.015; // ~1.5% of height
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -59,7 +78,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Text("Levels: ",
+                    child: Text("Levels: ${logic.level}",
                         style: Theme.of(context).textTheme.labelSmall),
                   ),
                   SizedBox(
@@ -71,17 +90,8 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Text("Lives: 🖤🖤🖤")
-                    // Text(
-                    //     context.watch<VisualMemoryLevelState>().lives == 3
-                    //         ? "Lives: 🖤🖤🖤"
-                    //         : context.watch<VisualMemoryLevelState>().lives == 2
-                    //         ? "Lives: 🖤🖤🤍"
-                    //         : context.watch<VisualMemoryLevelState>().lives == 1
-                    //         ? "Lives: 🖤🤍🤍"
-                    //         : "Lives: 🤍🤍🤍",
-                    //     style: Theme.of(context).textTheme.labelSmall
-                    // ),
+                    child: Text(
+                        "Lives: ${'🖤' * logic.lives}${'🤍' * (3 - logic.lives)}"),
                   ),
                 ],
               ),
@@ -98,17 +108,16 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Center(
+                    Expanded(
                       child: StepProgressIndicator(
-                        totalSteps: 100,
-                        currentStep: 32, //Import variables from quick maths logic
+                        totalSteps: logic.totalSteps,
+                        currentStep: logic.currentStep, // pulled from logic
                         size: 8,
-                        fallbackLength: screenWidth*0.91,
                         padding: 0,
                         selectedColor: Colors.red,
                         unselectedColor: Colors.green,
                         roundedEdges: Radius.circular(10),
-                      )
+                      ),
                     ),
                   ],
                 )
@@ -119,6 +128,10 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
               flex: 10,
               child: Container(
                 color: Colors.grey[700],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: EquationList(equations: logic.equations),
+                ),
               ),
             ), //Displaying equations
             SizedBox(height: screenHeight * 0.01),
@@ -147,8 +160,18 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                     useBackspace: true,
                     optionText: 'Clear',
                     onPressed: (str) {
-                      print(str);
-                      //Insert logic/function to handle numpad input
+                      // handle special keys
+                      if (str == 'Clear') return;
+                      if (str == '⌫') {
+                        // you may implement input buffer handling here
+                        return;
+                      }
+
+                      // try parse and evaluate
+                      final parsed = int.tryParse(str);
+                      if (parsed != null) {
+                        logic.evaluate(parsed);
+                      }
                     },
                   ),
                 ),
