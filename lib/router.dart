@@ -4,6 +4,7 @@ import 'package:game_testing/screens/common/login_screen.dart';
 import 'package:game_testing/screens/common/registration_screen.dart';
 import 'package:game_testing/screens/common/temp_game_screen.dart';
 import 'package:game_testing/screens/common/welcome_screen.dart';
+import 'package:game_testing/screens/quick_maths/quick_maths_logic/level_state.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -66,8 +67,16 @@ final GoRouter visualMemoryGoRouter = GoRouter(routes: <RouteBase>[
               QuickMathsStartScreen()),
       GoRoute(
           path: RoutePath.quickMathsGameScreen.path,
-          builder: (BuildContext context, GoRouterState state) =>
-              QuickMathsGameScreen()),
+        builder: (BuildContext context, GoRouterState state) {
+          final difficulty = state.uri.queryParameters['difficulty'] ?? 'Easy';
+          return ChangeNotifierProvider<QuickMathsLevelState>(
+            create: (_) => QuickMathsLevelState(
+              difficulty: difficulty,
+            ),
+            child: QuickMathsGameScreen(difficulty: difficulty),
+          );
+        },
+      ),
 
       // Common Routes
       GoRoute(
