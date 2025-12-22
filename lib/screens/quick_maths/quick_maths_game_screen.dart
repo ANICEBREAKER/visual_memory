@@ -1,37 +1,35 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:game_testing/screens/quick_maths/quick_maths_logic/level_state.dart';
+import 'package:game_testing/screens/quick_maths/widget/equation_tile.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../router.dart';
 import '../quick_maths/widget/simple_numpad.dart';
-import 'quick_maths_logic/game_logic.dart';
 import 'widget/equation_list.dart';
-import 'widget/equation_tiles.dart';
 
 class QuickMathsGameScreen extends StatefulWidget {
-  const QuickMathsGameScreen({super.key});
+  QuickMathsGameScreen({super.key, required this.difficulty});
+  String difficulty = 'Easy';
 
   @override
   State<QuickMathsGameScreen> createState() => _QuickMathsGameScreenState();
 }
 
 class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
-  late QuickMathsGameLogic logic;
+
+  String playerAnswer = "";
 
   @override
   void initState() {
     super.initState();
-    logic = QuickMathsGameLogic(
-      difficulty: "Easy",
-      notifyParent: () => setState(() {}),
-    );
-    logic.gameSetup();
-    logic.startTimer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<QuickMathsLevelState>(context, listen: false).gameSetup();
+    });
   }
 
   @override
   void dispose() {
-    logic.stopTimer();
     super.dispose();
   }
 
@@ -78,7 +76,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: Text("Levels: ${logic.level}",
+                    child: Text("Levels: ${context.watch<QuickMathsLevelState>().level}",
                         style: Theme.of(context).textTheme.labelSmall),
                   ),
                   SizedBox(
@@ -91,7 +89,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
-                        "Lives: ${'🖤' * logic.lives}${'🤍' * (3 - logic.lives)}"),
+                        "Lives: ${'🖤' * context.watch<QuickMathsLevelState>().lives}${'🤍' * (3 - context.watch<QuickMathsLevelState>().lives)}"),
                   ),
                 ],
               ),
@@ -110,12 +108,12 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                   children: [
                     Expanded(
                       child: StepProgressIndicator(
-                        totalSteps: logic.totalSteps,
-                        currentStep: logic.currentStep, // pulled from logic
+                        totalSteps: context.watch<QuickMathsLevelState>().totalSteps,
+                        currentStep: context.watch<QuickMathsLevelState>().currentStep, // pulled from logic
                         size: 8,
                         padding: 0,
-                        selectedColor: Colors.red,
-                        unselectedColor: Colors.green,
+                        selectedColor: Colors.green,
+                        unselectedColor: Colors.red,
                         roundedEdges: Radius.circular(10),
                       ),
                     ),
@@ -130,7 +128,12 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                 color: Colors.grey[700],
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: EquationList(equations: logic.equations),
+                  child: Column(
+                    children: [
+                      EquationTile(eq: context.watch<QuickMathsLevelState>().equations.first, index: 0, playerAnswer: playerAnswer, verticalEmptySpace: 6, horizontalEmptySpace: 8,),
+                      Expanded(child: EquationList(equations: context.watch<QuickMathsLevelState>().equations)),
+                    ],
+                  )
                 ),
               ),
             ), //Displaying equations
@@ -161,16 +164,25 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                     optionText: 'Clear',
                     onPressed: (str) {
                       // handle special keys
-                      if (str == 'Clear') return;
-                      if (str == '⌫') {
-                        // you may implement input buffer handling here
-                        return;
-                      }
-
+                      setState(() {
+                        if (str == 'Clear') {
+                          playerAnswer = "";
+                        } else if (str == 'BACKSPACE') {
+                          if (playerAnswer.length == 1) {
+                            playerAnswer = "";
+                          } else {
+                            playerAnswer.substring(0, playerAnswer.length - 1);
+                          }
+                          return;
+                        } else {
+                          playerAnswer += str;
+                        }
+                      });
                       // try parse and evaluate
-                      final parsed = int.tryParse(str);
-                      if (parsed != null) {
-                        logic.evaluate(parsed);
+                      final parsed = int.tryParse(playerAnswer);
+                      if (parsed != null && context.read<QuickMathsLevelState>().equations.first.result.toString().length == parsed.toString().length) {
+                        context.read<QuickMathsLevelState>().evaluate(parsed);
+                        playerAnswer = "";
                       }
                     },
                   ),
