@@ -26,25 +26,87 @@ class EquationTile extends StatelessWidget {
         padding: const EdgeInsets.all(12.0),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 18,
-              backgroundColor: Colors.blueAccent,
-              child: Text(
-                '${index + 1}',
-                style: const TextStyle(color: Colors.white),
+            Text(
+              '${index + 1}.',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
               ),
             ),
             SizedBox(width: 12,),
-            Expanded(
+            Container(
+              height: 35,
+              width: 35,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                border: Border.all(color: Colors.blueAccent, width: 2),
+              ),
               child: Text(
-                '${eq.firstNumber} ${eq.operator} ${eq.secondNumber} = ${playerAnswer}',
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black87,
-                ),
+                '${eq.firstNumber}',
+                style: const TextStyle(color: Colors.black, fontSize: 20),
               ),
             ),
+            SizedBox(width: 6,),
+            Text(
+              '${eq.operator}',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(width: 6,),
+            Container(
+              height: 35,
+              width: 35,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                border: Border.all(color: Colors.blueAccent, width: 2),
+              ),
+              child: Text(
+                '${eq.secondNumber}',
+                style: const TextStyle(color: Colors.black, fontSize: 20),
+              ),
+            ),
+            SizedBox(width: 6,),
+            Text(
+              "=",
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(width: 6,),
+            Container(
+              height: 35,
+              width: 35,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                border: Border.all(color: Colors.blueAccent, width: 2),
+              ),
+              child: Text(
+                '${playerAnswer}',
+                style: const TextStyle(color: Colors.black, fontSize: 20),
+              ),
+            ),
+            // Expanded(
+            //   child: Text(
+            //     '${eq.firstNumber} ${eq.operator} ${eq.secondNumber} = ${playerAnswer}',
+            //     style: const TextStyle(
+            //       fontSize: 18,
+            //       fontWeight: FontWeight.w600,
+            //       color: Colors.black87,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
