@@ -59,7 +59,7 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
       level += 1;
       // remove the solved equation and generate a new one to keep list length steady
       equations.removeAt(0);
-      generateEquation();
+      generateEquation(level + 19);
       // reset timer for next equation
       timeRemaining = totalSeconds.toDouble();
     } else {
@@ -75,7 +75,6 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
       // keep the same equation but reset timer so player can try again
       timeRemaining = totalSeconds.toDouble();
     }
-
     notifyListeners();
   }
 
@@ -85,20 +84,48 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
     equations.clear();
     stopTimer();
     for (int i = 0; i < 20; i++) {
-      generateEquation();
+      generateEquation(i);
     }
     timeRemaining = totalSeconds.toDouble();
     notifyListeners();
     startTimer();
   }
 
-  void generateEquation() {
+  void generateEquation(int index) {
     final rng = Random();
-    // choose operator
-    final ops = ['+', '-', '×'];
-    final op = ops[rng.nextInt(ops.length)];
-    int a = rng.nextInt(12) + 1; // 1..12
-    int b = rng.nextInt(12) + 1;
+
+    String op;
+    int a;
+    int b;
+
+    if (index < 10) {
+      // First 10: only + and -, numbers between 0..10
+      op = rng.nextBool() ? '+' : '-';
+      a = rng.nextInt(11); // 0..10
+      b = rng.nextInt(11); // 0..10
+    } else if (index < 20) {
+      // Next 10: introduce multiplication (1..10), + and - still 0..10
+      final ops = ['+', '-', '×'];
+      op = ops[rng.nextInt(ops.length)];
+      if (op == '×') {
+        a = rng.nextInt(10) + 1; // 1..10
+        b = rng.nextInt(10) + 1; // 1..10
+      } else {
+        a = rng.nextInt(21); // 0..20
+        b = rng.nextInt(21); // 0..20
+      }
+    } else {
+      // index >= 20: + and - use 1..30, multiplication: 1..10 * 1..20
+      final ops = ['+', '-', '×'];
+      op = ops[rng.nextInt(ops.length)];
+      if (op == '×') {
+        a = rng.nextInt(11); // 0..10
+        b = rng.nextInt(20) + 1; // 1..20
+      } else {
+        a = rng.nextInt(31); // 0..30
+        b = rng.nextInt(31); // 0..30
+      }
+    }
 
     // For subtraction, ensure non-negative result
     if (op == '-' && a < b) {
@@ -108,17 +135,12 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
     }
 
     int result;
-
-    switch (op) {
-      case '+':
-        result = a + b;
-      case '-':
-        result = a - b;
-      case '×':
-      case '*':
-        result = a * b;
-      default:
-        result = 0 ;
+    if (op == '+') {
+      result = a + b;
+    } else if (op == '-') {
+      result = a - b;
+    } else {
+      result = a * b;
     }
 
     final tile = EquationData(firstNumber: a, secondNumber: b, operator: op, result: result);
