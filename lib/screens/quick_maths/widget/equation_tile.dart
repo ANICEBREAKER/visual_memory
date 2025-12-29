@@ -8,13 +8,15 @@ class EquationTile extends StatelessWidget {
     required this.index,
     required this.playerAnswer,
     required this.verticalEmptySpace,
-    required this.horizontalEmptySpace
+    required this.horizontalEmptySpace,
+    required this.isMainEquation,
   });
   final EquationData eq;
   final int index;
   final String playerAnswer;
   final double verticalEmptySpace;
   final double horizontalEmptySpace;
+  final bool isMainEquation;
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +25,23 @@ class EquationTile extends StatelessWidget {
       color: Colors.white,
       elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(10),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              '${index + 1}.',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
-              ),
-            ),
-            SizedBox(width: 12,),
+            // Text(
+            //   '${index + 1}.',
+            //   style: const TextStyle(
+            //     fontSize: 18,
+            //     fontWeight: FontWeight.w600,
+            //     color: Colors.black87,
+            //   ),
+            // ),
+            //SizedBox(width: 12,),
             Container(
-              height: 35,
-              width: 35,
+              height: isMainEquation ? 70 : 50,
+              width: isMainEquation ? 70 : 50,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -46,22 +50,22 @@ class EquationTile extends StatelessWidget {
               ),
               child: Text(
                 '${eq.firstNumber}',
-                style: const TextStyle(color: Colors.black, fontSize: 20),
+                style: TextStyle(color: Colors.black, fontSize: isMainEquation ? 30 : 20),
               ),
             ),
             SizedBox(width: 6,),
             Text(
-              '${eq.operator}',
-              style: const TextStyle(
-                fontSize: 20,
+              eq.operator,
+              style: TextStyle(
+                fontSize: isMainEquation ? 30 : 20,
                 fontWeight: FontWeight.w600,
                 color: Colors.black87,
               ),
             ),
             SizedBox(width: 6,),
             Container(
-              height: 35,
-              width: 35,
+              height: isMainEquation ? 70 : 50,
+              width: isMainEquation ? 70 : 50,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -70,22 +74,22 @@ class EquationTile extends StatelessWidget {
               ),
               child: Text(
                 '${eq.secondNumber}',
-                style: const TextStyle(color: Colors.black, fontSize: 20),
+                style: TextStyle(color: Colors.black, fontSize: isMainEquation ? 30 : 20),
               ),
             ),
             SizedBox(width: 6,),
             Text(
               "=",
-              style: const TextStyle(
-                fontSize: 20,
+              style: TextStyle(
+                fontSize: isMainEquation ? 30 : 20,
                 fontWeight: FontWeight.w600,
                 color: Colors.black87,
               ),
             ),
             SizedBox(width: 6,),
             Container(
-              height: 35,
-              width: 35,
+              height: isMainEquation ? 70 : 50,
+              width: isMainEquation ? 70 : 50,
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -93,24 +97,13 @@ class EquationTile extends StatelessWidget {
                 border: Border.all(color: Colors.blueAccent, width: 2),
               ),
               child: Text(
-                '${playerAnswer}',
-                style: const TextStyle(color: Colors.black, fontSize: 20),
+                playerAnswer,
+                style: TextStyle(color: Colors.black, fontSize: isMainEquation ? 30 : 20),
               ),
             ),
-            // Expanded(
-            //   child: Text(
-            //     '${eq.firstNumber} ${eq.operator} ${eq.secondNumber} = ${playerAnswer}',
-            //     style: const TextStyle(
-            //       fontSize: 18,
-            //       fontWeight: FontWeight.w600,
-            //       color: Colors.black87,
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
     );
   }
 }
-

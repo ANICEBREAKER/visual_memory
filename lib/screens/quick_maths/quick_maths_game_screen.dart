@@ -39,6 +39,13 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
     final screenWidth = mediaQuery.size.width;
     final screenHeight = mediaQuery.size.height;
 
+    // Responsive tile height for equations (will be clamped)
+    double tileHeight = screenHeight * 0.09; // ~9% of height per tile
+    if (tileHeight < 56) tileHeight = 56;
+    if (tileHeight > 96) tileHeight = 96;
+
+    final equations = context.watch<QuickMathsLevelState>().equations;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -122,22 +129,145 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
               ),
             ), //Displaying timer
             SizedBox(height: screenHeight * 0.005),
+            // Equations area: fixed height to show at most 4 tiles (1 top + 3 follow-ups)
             Expanded(
-              flex: 10,
+              flex: 6,
+              //height: tileHeight * 4 + 16, // extra padding
               child: Container(
                 color: Colors.grey[700],
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      EquationTile(eq: context.watch<QuickMathsLevelState>().equations.first, index: 0, playerAnswer: playerAnswer, verticalEmptySpace: 6, horizontalEmptySpace: 8,),
-                      Expanded(child: EquationList(equations: context.watch<QuickMathsLevelState>().equations)),
+                      // Top/current tile with fade-out + slide transition on change
+                      SizedBox(
+                        height: tileHeight,
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 500),
+                          transitionBuilder: (child, animation) {
+                            // Combined slide up for incoming, fade for outgoing
+                            final inAnimation = Tween<Offset>(
+                              begin: const Offset(0, 0.2),
+                              end: Offset.zero,
+                            ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
+                            return SlideTransition(position: inAnimation, child: FadeTransition(opacity: animation, child: child));
+                          },
+                          child: (equations.isNotEmpty)
+                              ? SizedBox(
+                                  key: ValueKey(equations.first.hashCode),
+                                  height: tileHeight,
+                                  child: EquationTile(
+                                    eq: equations.first,
+                                    index: 0,
+                                    playerAnswer: playerAnswer,
+                                    verticalEmptySpace: 4,
+                                    horizontalEmptySpace: 6,
+                                    isMainEquation: true
+                                  ),
+                                )
+                              : SizedBox(
+                                  key: const ValueKey('empty_top'),
+                                  height: tileHeight,
+                                  child: const SizedBox.shrink(),
+                                ),
+                        ),
+                      ),
+                      const SizedBox(height: 3),
+                      // Follow-up list (max 3) wrapped in AnimatedSwitcher so the block animates up when the top changes
+                      Expanded(
+                        child: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 350),
+                          transitionBuilder: (child, animation) {
+                            final offset = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
+                                .animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
+                            return SlideTransition(position: offset, child: FadeTransition(opacity: animation, child: child));
+                          },
+                          child: SizedBox(
+                            key: ValueKey(equations.length), // rebuild when equations length changes
+                            height: tileHeight * 3,
+                            child: EquationList(
+                              equations: equations,
+                              tileHeight: tileHeight,
+                              verticalSpacing: 6,
+                              horizontalSpacing: 48,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   )
                 ),
               ),
             ), //Displaying equations
             SizedBox(height: screenHeight * 0.01),
+            // Numpad area: responsive sizing using LayoutBuilder
+            // LayoutBuilder(builder: (context, constraints) {
+            //   // apply container padding inside the numpad area
+            //   final horizontalPadding = constraints.maxWidth * 0.03; // 3% padding
+            //   final availableWidth = constraints.maxWidth - horizontalPadding * 2;
+            //   // 3 buttons per row, 2 gaps between columns
+            //   final gridSpacing = 6.0;
+            //   final buttonWidth = (availableWidth - gridSpacing * 2) / 3;
+            //   // button height approximately similar to width, but allow room for 4 rows
+            //   double numpadContainerHeight = screenHeight * 0.28;
+            //   if (numpadContainerHeight < 180) numpadContainerHeight = 180;
+            //   if (numpadContainerHeight > 380) numpadContainerHeight = 380;
+            //   final buttonHeight = (numpadContainerHeight - 3 * gridSpacing) / 4;
+            //
+            //   return SizedBox(
+            //     height: numpadContainerHeight,
+            //     child:
+            //     Expanded(
+            //       child: Container(
+            //         width: double.infinity,
+            //         decoration: BoxDecoration(
+            //           borderRadius: BorderRadius.circular(10),
+            //           color: Colors.grey[600],
+            //         ),
+            //         child: Padding(
+            //           padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8),
+            //           child: SimpleNumpad(
+            //             buttonWidth: buttonWidth,
+            //             buttonHeight: buttonHeight,
+            //             gridSpacing: gridSpacing,
+            //             buttonBorderRadius: 8,
+            //             foregroundColor: Colors.white,
+            //             backgroundColor: Colors.black.withAlpha(200),
+            //             textStyle: const TextStyle(
+            //               color: Colors.white,
+            //               fontSize: 22,
+            //               fontWeight: FontWeight.w400,
+            //             ),
+            //             useBackspace: true,
+            //             optionText: 'Clear',
+            //             onPressed: (str) {
+            //               // handle special keys
+            //               setState(() {
+            //                 if (str == 'Clear') {
+            //                   playerAnswer = "";
+            //                 } else if (str == 'BACKSPACE') {
+            //                   if (playerAnswer.isNotEmpty) {
+            //                     playerAnswer = playerAnswer.substring(0, playerAnswer.length - 1);
+            //                   }
+            //                   return;
+            //                 } else {
+            //                   playerAnswer += str;
+            //                 }
+            //               });
+            //               // try parse and evaluate
+            //               final parsed = int.tryParse(playerAnswer);
+            //               if (parsed != null && context.read<QuickMathsLevelState>().equations.isNotEmpty && context.read<QuickMathsLevelState>().equations.first.result.toString().length == parsed.toString().length) {
+            //                 context.read<QuickMathsLevelState>().evaluate(parsed);
+            //                 playerAnswer = "";
+            //               }
+            //             },
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   );
+            // }),
             Expanded(
               flex: 6,
               child: Container(
@@ -147,12 +277,9 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                   color: Colors.grey[600],
                 ),
                 child: Padding(
-                  padding: EdgeInsets.all(8),
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   child: SimpleNumpad(
-                    buttonWidth: 40,
-                    buttonHeight: screenHeight * 0.022, // TODO: Make responsive height for buttons
-                    gridSpacing: 5,
-                    buttonBorderRadius: 5,
+                    buttonBorderRadius: 8,
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.black.withAlpha(200),
                     textStyle: const TextStyle(
@@ -168,10 +295,8 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                         if (str == 'Clear') {
                           playerAnswer = "";
                         } else if (str == 'BACKSPACE') {
-                          if (playerAnswer.length == 1) {
-                            playerAnswer = "";
-                          } else {
-                            playerAnswer.substring(0, playerAnswer.length - 1);
+                          if (playerAnswer.isNotEmpty) {
+                            playerAnswer = playerAnswer.substring(0, playerAnswer.length - 1);
                           }
                           return;
                         } else {
@@ -180,15 +305,15 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                       });
                       // try parse and evaluate
                       final parsed = int.tryParse(playerAnswer);
-                      if (parsed != null && context.read<QuickMathsLevelState>().equations.first.result.toString().length == parsed.toString().length) {
+                      if (parsed != null && context.read<QuickMathsLevelState>().equations.isNotEmpty && context.read<QuickMathsLevelState>().equations.first.result.toString().length == parsed.toString().length) {
                         context.read<QuickMathsLevelState>().evaluate(parsed);
                         playerAnswer = "";
                       }
                     },
                   ),
                 ),
-            )
-            ) //At the bottom of the screen showing numpad
+              ),
+            ),
           ],
         ),
       ),
