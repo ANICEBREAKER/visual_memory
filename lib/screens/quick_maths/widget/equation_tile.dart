@@ -48,18 +48,24 @@ class EquationTile extends StatelessWidget {
                 color: Colors.white,
                 border: Border.all(color: Colors.blueAccent, width: 2),
               ),
-              child: Text(
-                '${eq.firstNumber}',
-                style: TextStyle(color: Colors.black, fontSize: isMainEquation ? 30 : 20),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  '${eq.firstNumber}',
+                  style: TextStyle(color: Colors.black, fontSize: isMainEquation ? 30 : 20),
+                ),
               ),
             ),
             SizedBox(width: 6,),
-            Text(
-              eq.operator,
-              style: TextStyle(
-                fontSize: isMainEquation ? 30 : 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                eq.operator,
+                style: TextStyle(
+                  fontSize: isMainEquation ? 30 : 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
               ),
             ),
             SizedBox(width: 6,),
@@ -72,18 +78,24 @@ class EquationTile extends StatelessWidget {
                 color: Colors.white,
                 border: Border.all(color: Colors.blueAccent, width: 2),
               ),
-              child: Text(
-                '${eq.secondNumber}',
-                style: TextStyle(color: Colors.black, fontSize: isMainEquation ? 30 : 20),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  '${eq.secondNumber}',
+                  style: TextStyle(color: Colors.black, fontSize: isMainEquation ? 30 : 20),
+                ),
               ),
             ),
             SizedBox(width: 6,),
-            Text(
-              "=",
-              style: TextStyle(
-                fontSize: isMainEquation ? 30 : 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                "=",
+                style: TextStyle(
+                  fontSize: isMainEquation ? 30 : 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
               ),
             ),
             SizedBox(width: 6,),
@@ -96,9 +108,12 @@ class EquationTile extends StatelessWidget {
                 color: Colors.white,
                 border: Border.all(color: Colors.blueAccent, width: 2),
               ),
-              child: Text(
-                playerAnswer,
-                style: TextStyle(color: Colors.black, fontSize: isMainEquation ? 30 : 20),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  playerAnswer,
+                  style: TextStyle(color: Colors.black, fontSize: isMainEquation ? 30 : 20),
+                ),
               ),
             ),
           ],
