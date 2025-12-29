@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 class SimpleNumpad extends StatelessWidget {
   const SimpleNumpad({
     super.key,
-    required this.buttonWidth,
-    required this.buttonHeight,
     this.gridSpacing = 2,
     required this.onPressed,
     this.optionText,
@@ -22,12 +20,6 @@ class SimpleNumpad extends StatelessWidget {
     this.backspaceSize = 24,
     this.removeBlankButton = false,
   });
-
-  /// Button width.
-  final double buttonWidth;
-
-  /// Button height.
-  final double buttonHeight;
 
   /// Spacing of buttons.
   final double gridSpacing;
@@ -66,31 +58,29 @@ class SimpleNumpad extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: buttonWidth * 3 + gridSpacing * 2,
-      child: GridView.count(
-        padding: EdgeInsets.zero,
-        physics: const NeverScrollableScrollPhysics(),
-        crossAxisCount: 3,
-        crossAxisSpacing: gridSpacing,
-        mainAxisSpacing: gridSpacing,
-        shrinkWrap: true,
-        childAspectRatio: buttonWidth / buttonHeight,
-        children: [
-          _padTextButton("1"),
-          _padTextButton("2"),
-          _padTextButton("3"),
-          _padTextButton("4"),
-          _padTextButton("5"),
-          _padTextButton("6"),
-          _padTextButton("7"),
-          _padTextButton("8"),
-          _padTextButton("9"),
-          optionText != null ? _padTextButton(optionText!) : _padDummyButton(),
-          _padTextButton("0"),
-          useBackspace ? _padImageButton() : _padDummyButton(),
-        ],
-      ),
+    // make sure childAspectRatio is a valid double (avoid division by zero)
+    return GridView.count(
+      padding: EdgeInsets.zero,
+      physics: const NeverScrollableScrollPhysics(),
+      crossAxisCount: 3,
+      crossAxisSpacing: gridSpacing,
+      mainAxisSpacing: gridSpacing,
+      shrinkWrap: true,
+      childAspectRatio: 2,
+      children: [
+        _padTextButton("1"),
+        _padTextButton("2"),
+        _padTextButton("3"),
+        _padTextButton("4"),
+        _padTextButton("5"),
+        _padTextButton("6"),
+        _padTextButton("7"),
+        _padTextButton("8"),
+        _padTextButton("9"),
+        optionText != null ? _padTextButton(optionText!) : _padDummyButton(),
+        _padTextButton("0"),
+        useBackspace ? _padImageButton() : _padDummyButton(),
+      ],
     );
   }
 
