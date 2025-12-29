@@ -50,6 +50,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
+              Provider.of<QuickMathsLevelState>(context, listen: false).stopTimer();
               context.go(RoutePath.menu.path);
             },
             icon: Icon(
