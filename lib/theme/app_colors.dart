@@ -1,102 +1,112 @@
 import 'package:flutter/material.dart';
 
-/// App-wide color palette: deep blue modern base, 2 themes, 3 button colors, semantic, text, border.
+/// App-wide color palette (replaced with new palette requested).
 class AppColors {
-  // --- CORE & GLOBAL ---
-  static const Color transparent = Color(
-    0x00000000,
-  ); // Replaces direct Colors.transparent usage
+  static const Color transparent = Color(0x00000000);
 
-  // --- LIGHT THEME ---
-  // Updated pastel pink palette: background (very light), surface (light), primary (soft accent), secondary (stronger accent)
-  static const Color surfaceLight = Color(
-    0xFFFDE4EC,
-  ); // light pastel pink surface
-  // A card surface that sits visually between backgroundLight and surfaceLight.
-  // Computed roughly as the midpoint of the two: avg(FFF7FA, FDE4EC) ≈ FEEEF3
-  static const Color cardLight = Color(
-    0xFFFEEEF3,
-  ); // elevated card on light theme
-  static const Color backgroundLight = Color(
-    0xFFFFF7FA,
-  ); // near-white pink-tinted background
-  static const Color primaryLight = Color(0xFFF48FB1); // Pink 200 style primary
-  static const Color secondaryLight = Color(0xFFEC407A); // Pink 400 accent
+  // --- PRIMARY BRAND COLORS --- [Maybe used for anything needing a primary accent <maybe>]
+  static const Color primaryLight = Color(0xFFE91E63); // Vibrant Pink
+  static const Color primaryDark = Color(0xFF2196F3); // Vibrant Blue
 
-  // --- DARK THEME ---
-  static const Color backgroundDark = Color(0xFF141C34); // Deep navy
-  static const Color surfaceDark = Color(0xFF162147); // Slightly lighter navy
-  static const Color cardDark = Color(0xB122305B); // Card surface
-  // Bright sky blue that stands out on deep navy backgrounds
-  // static const Color primaryDark = Color(0xFF38BDF8); // Sky 400-ish
-  // Lighter sky-blue accent that stays blue/cyan-ish and distinct from primaryDark
-  static const Color secondaryDark = Color(0xFF22D3EE); // Sky 300-ish
-  static const Color primaryDark = Color(
-    0xFF1f8fff,
-  ); // Custom bright blue for dark theme
-  // --- BUTTON COLORS (shared) ---
-  static const Color buttonCyan = Color(0xFF1f8fff); // Vibrant cyan
-  static const Color buttonOrange = Color(0xFFff6d1f); // Vibrant orange
-  static const Color buttonPurple = Color(0xFF681b98); // Vibrant purple
-  // --- LIGHT-THEME BUTTON TRIO (pastel variants) ---
-  static const Color buttonLightCyan = Color(
-    0xFFfaa09e,
-  ); // pastel cyan from palette
-  static const Color buttonLightOrange = Color(0xFFfac9a3); // pastel peach
-  static const Color buttonLightPurple = Color(0xFFF6E4B6); // pastel yellow
-  // --- SEMANTIC COLORS ---
-  static const Color success = Color(0xFF009f42);
-  // static const Color error = Color(0xFFb41c2b);
-  static const Color error = Color(0xffff443a);
+  // ==========================================
+  // 1. THEME COLOR EXTENSIONS
+  // ==========================================
 
-  static const Color warning = Color(0xFFf0ad4e);
-  static const Color info = Color(0xFF388cfa); // Use cyan for info
+  // --- LIGHT THEME EXTENSIONS ---
+  static const Color surfaceLightVariant = Color(0xFFF5F5F7);
+  static const Color backgroundLightDimmed = Color(0xFFE0E0E0);
+  static const Color primaryLightVariant = Color(0xFF64B5F6);
+  static const Color secondaryLightVariant = Color(0xFF00B8D4);
 
-  // --- TEXT COLORS ---
-  static const Color textPrimaryLight = Color.fromARGB(
-    255,
-    52,
-    73,
-    105,
-  ); // Deep gray
-  static const Color textSecondaryLight = Color.fromARGB(
-    255,
-    227,
-    239,
-    252,
-  ); // Off-white
-  static const Color textDisabledLight = Color(0xFF94A3B8);
-  static const Color textPrimaryDark = Color.fromARGB(
-    255,
-    222,
-    236,
-    248,
-  ); // Off-white
-  static const Color textSecondaryDark = Color(0xFFE2E8F0);
-  static const Color textDisabledDark = Color(0xFF64748B);
+  // --- DARK THEME EXTENSIONS ---
+  static const Color surfaceDarkVariant = Color(0xFF1A1F2E);
+  static const Color backgroundDarkDimmed = Color(0xFF05070C);
+  static const Color primaryDarkVariant = Color(0xFF64B5F6);
+  static const Color secondaryDarkVariant = Color(0xFF00B8D4);
 
-  // --- BORDER COLORS ---
-  static const Color borderLight = Color(0xFFE2E8F0);
-  static const Color borderDark = Color(0xFF22304A);
+  // ==========================================
+  // 2. TYPOGRAPHY & BORDERS
+  // ==========================================
 
-  /// Returns a semantic color used for mastery level badges.
-  /// Centralizes the mapping so UI components reuse consistent colors.
-  static Color masteryColor(int level) {
-    switch (level) {
-      case 0:
-        return AppColors.error;
-      case 1:
-        return AppColors.warning;
-      case 2:
-        return AppColors.info;
-      case 3:
-        return AppColors.success;
-      case 4:
-        return AppColors.buttonCyan;
-      case 5:
-        return AppColors.buttonPurple;
-      default:
-        return AppColors.textDisabledLight;
-    }
-  }
+  // --- LIGHT THEME TEXT & BORDERS ---
+  /// Deep dark charcoal for main headings and primary body text in light mode
+  static const Color textPrimaryLight = Color(0xFF121212);
+  /// Medium grey for descriptions, hints, and secondary labels in light mode
+  static const Color textSecondaryLight = Color(0xFF757575);
+  /// Light silver for subtle dividers and card outlines in light mode
+  static const Color borderLight = Color(0xFFE0E0E0);
+
+  // --- DARK THEME TEXT & BORDERS ---
+  /// Pure white for maximum contrast on dark backgrounds
+  static const Color textPrimaryDark = Color(0xFFFFFFFF);
+  /// Soft blue-grey to reduce eye strain for secondary details in dark mode
+  static const Color textSecondaryDark = Color(0xFF90A4AE);
+  /// Deep slate navy to define elements subtly in dark mode
+  static const Color borderDark = Color(0xFF2C3444);
+
+  // ==========================================
+  // 3. DIFFICULTY LEVEL COLORS
+  // ==========================================
+  static const Color easyDifficulty = Color(0xFF26A69A);
+  static const Color mediumDifficulty = Color(0xFFFFB300);
+  static const Color hardDifficulty = Color(0xFFB71C1C);
+
+  // ==========================================
+  // 4. ANSWER FEEDBACK COLORS
+  // ==========================================
+  static const Color correctAnswer = Color(0xFF76FF03);
+  static const Color wrongAnswer = Color(0xFFFF1744);
+
+  // ==========================================
+  // 5. SELECT GAME SCREEN COLORS
+  // ==========================================
+  static const Color gameCardBackground = Color(0xFF121826);
+  static const Color gameCardBorder = Color(0xFF2C3444);
+  static const Color gameCardHighlight = Color(0xFF3D475C);
+  static const Color gameCategoryHeader = Color(0xFF90A4AE);
+
+  // ==========================================
+  // 6. UI STATE COLORS
+  // ==========================================
+  static const Color disabledBackground = Color(0xFFBDBDBD);
+  static const Color hoverOverlay = Color(0x26FFFFFF);
+  static const Color focusBorder = Color(0xFF2196F3);
+  static const Color selectedItemBackground = Color(0x1A2196F3);
+  static const Color quitLightButtonBackground = Color(0xFFFF6E68);
+  static const Color quitDarkButtonBackground = Color(0xFFFF8957);
+
+  // ==========================================
+  // 7. ADDITIONAL SEMANTIC COLORS
+  // ==========================================
+  static const Color highlight = Color(0xFFFFF176);
+  static const Color link = Color(0xFF4FC3F7);
+  static const Color placeholder = Color(0xFF757575);
+
+  // ==========================================
+  // 8. GAME CATEGORY NEON COLORS
+  // ==========================================
+
+  // --- Visual Memory (Blue) ---
+  static const Color iconMemory = Color(0xFF00E5FF);
+  static const Color iconMemoryBg = Color(0x1A00E5FF); // 10% Opacity
+
+  // --- Flashing Tiles (Amber/Yellow) ---
+  static const Color iconTiles = Color(0xFFFFD600);
+  static const Color iconTilesBg = Color(0x1AFFD600);
+
+  // --- Quick Maths (Emerald Green) ---
+  static const Color iconMath = Color(0xFF00E676);
+  static const Color iconMathBg = Color(0x1A00E676);
+
+  // --- Word Ladder (Orange) ---
+  static const Color iconWord = Color(0xFFFF9100);
+  static const Color iconWordBg = Color(0x1AFF9100);
+
+  // --- Color Match (Purple) ---
+  static const Color iconColor = Color(0xFFD500F9);
+  static const Color iconColorBg = Color(0x1AD500F9);
+
+  // --- Logic Flow (Coral/Pink) ---
+  static const Color iconLogic = Color(0xFFFF4081);
+  static const Color iconLogicBg = Color(0x1AFF4081);
 }
