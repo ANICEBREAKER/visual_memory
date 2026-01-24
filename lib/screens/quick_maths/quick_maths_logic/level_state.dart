@@ -19,6 +19,7 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
   }
 
   final String difficulty;
+  final GlobalKey <AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   List<EquationData> equations = [];
   late int lives;
   late int correct;
@@ -58,6 +59,14 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
       // correct answer
       level += 1;
       // remove the solved equation and generate a new one to keep list length steady
+      listKey.currentState?.removeItem(
+        0,
+        (context, animation) => SizeTransition(
+          sizeFactor: animation,
+          child: Container(),
+        ),
+        duration: const Duration(milliseconds: 1000),
+      );
       equations.removeAt(0);
       generateEquation(level + 19);
       // reset timer for next equation
@@ -75,7 +84,7 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
       // keep the same equation but reset timer so player can try again
       timeRemaining = totalSeconds.toDouble();
     }
-    notifyListeners();
+    //notifyListeners();
   }
 
   @override
@@ -144,8 +153,9 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
     }
 
     final tile = EquationData(firstNumber: a, secondNumber: b, operator: op, result: result);
+    listKey.currentState?.insertItem(equations.length - 1);
     equations.add(tile);
-    notifyListeners();
+    //notifyListeners();
   }
 
   void startTimer() {

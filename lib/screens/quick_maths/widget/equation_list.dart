@@ -8,6 +8,8 @@ class EquationList extends StatelessWidget {
   final double tileHeight;
   final double verticalSpacing;
   final double horizontalSpacing;
+  final String playerAnswer;
+  final GlobalKey<AnimatedListState> listKey;
 
   const EquationList({
     super.key,
@@ -15,6 +17,8 @@ class EquationList extends StatelessWidget {
     required this.tileHeight,
     this.verticalSpacing = 8,
     this.horizontalSpacing = 12,
+    required this.playerAnswer,
+    required this.listKey,
   });
 
   @override
@@ -27,26 +31,50 @@ class EquationList extends StatelessWidget {
     final followUpCount = max(0, equations.length - 1);
     final visibleCount = min(3, followUpCount);
 
-    return ListView.builder(
-      padding: EdgeInsets.symmetric(vertical: verticalSpacing),
-      shrinkWrap: true,
-      itemCount: visibleCount,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        final eq = equations[index + 1];
-        // Wrap each tile in a fixed-height box so the overall layout is stable
-        return SizedBox(
-          height: tileHeight,
-          child: EquationTile(
-            eq: eq,
-            index: index + 1,
-            playerAnswer: "?",
-            verticalEmptySpace: verticalSpacing / 2,
-            horizontalEmptySpace: horizontalSpacing / 2,
-            isMainEquation: false,
-          ),
-        );
-      },
+    // return ListView.builder(
+    //   padding: EdgeInsets.symmetric(vertical: verticalSpacing),
+    //   shrinkWrap: true,
+    //   itemCount: visibleCount,
+    //   physics: const NeverScrollableScrollPhysics(),
+    //   itemBuilder: (context, index) {
+    //     final eq = equations[index + 1];
+    //     // Wrap each tile in a fixed-height box so the overall layout is stable
+    //     return SizedBox(
+    //       height: tileHeight,
+    //       child: EquationTile(
+    //         eq: eq,
+    //         index: index + 1,
+    //         playerAnswer: "?",
+    //         verticalEmptySpace: verticalSpacing / 2,
+    //         horizontalEmptySpace: horizontalSpacing / 2,
+    //         isMainEquation: false,
+    //       ),
+    //     );
+    //   },
+    // );
+    return AnimatedList(
+        padding: EdgeInsets.symmetric(vertical: verticalSpacing),
+        key: listKey,
+        initialItemCount: equations.length,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index, animation) {
+          return SizeTransition(
+            sizeFactor: animation,
+            key: UniqueKey(),
+            child: SizedBox(
+              height: tileHeight,
+              child: EquationTile(
+                eq: equations[index],
+                index: index,
+                playerAnswer: "?",
+                verticalEmptySpace: verticalSpacing / 2,
+                horizontalEmptySpace: horizontalSpacing / 2,
+                isMainEquation: false,
+              ),
+            ),
+          );
+        }
     );
   }
 }

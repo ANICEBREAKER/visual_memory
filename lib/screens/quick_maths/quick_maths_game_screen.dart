@@ -131,76 +131,87 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
             ), //Displaying timer
             SizedBox(height: screenHeight * 0.005),
             // Equations area: fixed height to show at most 4 tiles (1 top + 3 follow-ups)
+            // Expanded(
+            //   flex: 6,
+            //   //height: tileHeight * 4 + 16, // extra padding
+            //   child: Container(
+            //     color: Colors.grey[700],
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           // Top/current tile with fade-out + slide transition on change
+            //           SizedBox(
+            //             height: tileHeight,
+            //             child: AnimatedSwitcher(
+            //               duration: const Duration(milliseconds: 500),
+            //               transitionBuilder: (child, animation) {
+            //                 // Combined slide up for incoming, fade for outgoing
+            //                 final inAnimation = Tween<Offset>(
+            //                   begin: const Offset(0, 0.2),
+            //                   end: Offset.zero,
+            //                 ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
+            //                 return SlideTransition(position: inAnimation, child: FadeTransition(opacity: animation, child: child));
+            //               },
+            //               child: (equations.isNotEmpty)
+            //                   ? SizedBox(
+            //                       key: ValueKey(equations.first.hashCode),
+            //                       height: tileHeight,
+            //                       child: EquationTile(
+            //                         eq: equations.first,
+            //                         index: 0,
+            //                         playerAnswer: playerAnswer,
+            //                         verticalEmptySpace: 4,
+            //                         horizontalEmptySpace: 6,
+            //                         isMainEquation: true
+            //                       ),
+            //                     )
+            //                   : SizedBox(
+            //                       key: const ValueKey('empty_top'),
+            //                       height: tileHeight,
+            //                       child: const SizedBox.shrink(),
+            //                     ),
+            //             ),
+            //           ),
+            //           const SizedBox(height: 3),
+            //           // Follow-up list (max 3) wrapped in AnimatedSwitcher so the block animates up when the top changes
+            //           Expanded(
+            //             child: AnimatedSwitcher(
+            //               duration: const Duration(milliseconds: 350),
+            //               transitionBuilder: (child, animation) {
+            //                 final offset = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
+            //                     .animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
+            //                 return SlideTransition(position: offset, child: FadeTransition(opacity: animation, child: child));
+            //               },
+            //               child: SizedBox(
+            //                 key: ValueKey(equations.length), // rebuild when equations length changes
+            //                 height: tileHeight * 3,
+            //                 child: EquationList(
+            //                   equations: equations,
+            //                   tileHeight: tileHeight,
+            //                   verticalSpacing: 6,
+            //                   horizontalSpacing: 48,
+            //                 ),
+            //               ),
+            //             ),
+            //           ),
+            //         ],
+            //       )
+            //     ),
+            //   ),
+            // ), //Displaying equations
             Expanded(
               flex: 6,
-              //height: tileHeight * 4 + 16, // extra padding
-              child: Container(
-                color: Colors.grey[700],
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // Top/current tile with fade-out + slide transition on change
-                      SizedBox(
-                        height: tileHeight,
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 500),
-                          transitionBuilder: (child, animation) {
-                            // Combined slide up for incoming, fade for outgoing
-                            final inAnimation = Tween<Offset>(
-                              begin: const Offset(0, 0.2),
-                              end: Offset.zero,
-                            ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
-                            return SlideTransition(position: inAnimation, child: FadeTransition(opacity: animation, child: child));
-                          },
-                          child: (equations.isNotEmpty)
-                              ? SizedBox(
-                                  key: ValueKey(equations.first.hashCode),
-                                  height: tileHeight,
-                                  child: EquationTile(
-                                    eq: equations.first,
-                                    index: 0,
-                                    playerAnswer: playerAnswer,
-                                    verticalEmptySpace: 4,
-                                    horizontalEmptySpace: 6,
-                                    isMainEquation: true
-                                  ),
-                                )
-                              : SizedBox(
-                                  key: const ValueKey('empty_top'),
-                                  height: tileHeight,
-                                  child: const SizedBox.shrink(),
-                                ),
-                        ),
-                      ),
-                      const SizedBox(height: 3),
-                      // Follow-up list (max 3) wrapped in AnimatedSwitcher so the block animates up when the top changes
-                      Expanded(
-                        child: AnimatedSwitcher(
-                          duration: const Duration(milliseconds: 350),
-                          transitionBuilder: (child, animation) {
-                            final offset = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
-                                .animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
-                            return SlideTransition(position: offset, child: FadeTransition(opacity: animation, child: child));
-                          },
-                          child: SizedBox(
-                            key: ValueKey(equations.length), // rebuild when equations length changes
-                            height: tileHeight * 3,
-                            child: EquationList(
-                              equations: equations,
-                              tileHeight: tileHeight,
-                              verticalSpacing: 6,
-                              horizontalSpacing: 48,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                ),
+              child: EquationList(
+                equations: equations,
+                tileHeight: tileHeight,
+                verticalSpacing: 6,
+                horizontalSpacing: 48,
+                playerAnswer: playerAnswer,
+                listKey: Provider.of<QuickMathsLevelState>(context, listen: false).listKey,
               ),
-            ), //Displaying equations
+            ),
             SizedBox(height: screenHeight * 0.01),
             // Numpad area: responsive sizing using LayoutBuilder
             // LayoutBuilder(builder: (context, constraints) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/data/game_list.dart';
+import '../../theme/responsive_config.dart';
 
 class TempGameScreen extends StatefulWidget {
   const TempGameScreen({super.key});
@@ -22,7 +23,7 @@ class _TempGameScreenState extends State<TempGameScreen> {
       body: ListView.builder(
         itemCount: dummyGames.length,
           itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+            padding: ResponsiveConfig.padding(context, size: PaddingSize.xs),
             child: ListTile(
               title: Text(dummyGames[index].name, style: Theme.of(context).textTheme.labelMedium,),
               subtitle: Text(dummyGames[index].description, style: Theme.of(context).textTheme.labelSmall),
