@@ -21,8 +21,8 @@ class AppColors {
   // --- DARK THEME EXTENSIONS ---
   static const Color surfaceDarkVariant = Color(0xFF1A1F2E);
   static const Color backgroundDarkDimmed = Color(0xFF05070C);
-  static const Color primaryDarkVariant = Color(0xFF64B5F6);
-  static const Color secondaryDarkVariant = Color(0xFF00B8D4);
+  static const Color primaryDarkVariant = Color(0xFF3EB8F6);
+  static const Color secondaryDarkVariant = Color(0xFF3B83F6);
 
   // ==========================================
   // 2. TYPOGRAPHY & BORDERS

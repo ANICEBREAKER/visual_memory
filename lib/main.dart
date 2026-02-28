@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_testing/player_progress/player_progress.dart';
 import 'package:game_testing/router.dart';
 import 'package:game_testing/theme/app_theme.dart';
+import 'package:game_testing/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

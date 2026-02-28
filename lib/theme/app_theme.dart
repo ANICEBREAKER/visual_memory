@@ -39,17 +39,22 @@ class AppTheme {
         primary: AppColors.primaryLight,
         onPrimary: AppColors
             .textPrimaryLight, // switched to dark for contrast on soft pink primary
-        secondary: AppColors.secondaryLight,
-        onSecondary: AppColors.textSecondaryLight, // off-white on deeper accent
-        surface: AppColors.surfaceLight,
+        // mapped secondary -> secondaryLightVariant
+        secondary: AppColors.secondaryLightVariant,
+        onSecondary: AppColors.textSecondaryLight,
+        // mapped surface -> surfaceLightVariant
+        surface: AppColors.surfaceLightVariant,
         onSurface: AppColors.textPrimaryLight,
-        error: AppColors.error,
+        // mapped error -> wrongAnswer (semantic error color)
+        error: AppColors.wrongAnswer,
         onError: AppColors.textSecondaryLight,
-        tertiary: AppColors.buttonPurple,
+        // mapped tertiary -> iconColor (purple)
+        tertiary: AppColors.iconColor,
         onTertiary: AppColors.textSecondaryLight,
         outline: AppColors.borderLight,
       ),
-      scaffoldBackgroundColor: AppColors.backgroundLight,
+      // mapped background -> backgroundLightDimmed
+      scaffoldBackgroundColor: AppColors.backgroundLightDimmed,
       // cardColor: AppColors.cardLight,
       textTheme: ThemeData.light().textTheme.apply(
         fontFamily: 'Nunito',
@@ -181,18 +186,22 @@ class AppTheme {
           borderSide: BorderSide(color: AppColors.primaryLight, width: 2),
           borderRadius: BorderRadius.circular(12),
         ),
-        fillColor: AppColors.surfaceLight.withValues(alpha: alphaMedium),
+        // mapped fillColor -> surfaceLightVariant
+        fillColor: AppColors.surfaceLightVariant.withValues(alpha: alphaMedium),
         filled: true,
-        hintStyle: const TextStyle(color: AppColors.textDisabledLight),
+        // mapped hintStyle -> placeholder
+        hintStyle: const TextStyle(color: AppColors.placeholder),
         labelStyle: const TextStyle(color: AppColors.textPrimaryLight),
       ),
       cardTheme: CardThemeData().copyWith(
-        color: AppColors.cardLight,
+        // mapped cardLight -> surfaceLightVariant
+        color: AppColors.surfaceLightVariant,
         // color: AppColors.cardLight.withValues(alpha: alphaMedium),
         elevation: 3,
         shape: RoundedRectangleBorder(
           side: BorderSide(
-            color: AppColors.secondaryLight.withValues(alpha: alphaMedium),
+            // mapped secondaryLight -> secondaryLightVariant
+            color: AppColors.secondaryLightVariant.withValues(alpha: alphaMedium),
             width: 1.5,
           ),
           borderRadius: ResponsiveConfig.borderRadius(
@@ -212,28 +221,35 @@ class AppTheme {
         brightness: Brightness.dark,
         primary: AppColors.primaryDark,
         onPrimary: AppColors.textPrimaryDark,
-        secondary: AppColors.secondaryDark,
+        // mapped secondary -> secondaryDarkVariant
+        secondary: AppColors.secondaryDarkVariant,
         onSecondary: AppColors.textPrimaryDark,
-        surface: AppColors.surfaceDark,
+        // mapped surface -> surfaceDarkVariant
+        surface: AppColors.surfaceDarkVariant,
         onSurface: AppColors.textPrimaryDark,
-        error: AppColors.error,
+        // mapped error -> wrongAnswer
+        error: AppColors.wrongAnswer,
         onError: AppColors.textPrimaryDark,
-        tertiary: AppColors.buttonOrange,
+        // mapped tertiary -> iconWord (orange)
+        tertiary: AppColors.iconWord,
         onTertiary: AppColors.textPrimaryDark,
         outline: AppColors.borderDark,
       ),
       textTheme: ThemeData.dark().textTheme.apply(
         fontFamily: 'Nunito',
-        bodyColor: AppColors.textSecondaryLight,
-        displayColor: AppColors.textSecondaryLight,
+        // mapped body/display color -> textSecondaryDark
+        bodyColor: AppColors.textSecondaryDark,
+        displayColor: AppColors.textSecondaryDark,
       ),
-      scaffoldBackgroundColor: AppColors.backgroundDark,
+      // mapped scaffoldBackgroundColor -> backgroundDarkDimmed
+      scaffoldBackgroundColor: AppColors.backgroundDarkDimmed,
       appBarTheme: AppBarTheme(
         titleTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-          color: AppColors.textSecondaryLight,
+          // mapped to dark secondary text
+          color: AppColors.textSecondaryDark,
           fontWeight: FontWeight.bold,
         ),
-        backgroundColor: AppColors.surfaceDark,
+        backgroundColor: AppColors.surfaceDarkVariant,
         foregroundColor: AppColors.textPrimaryDark,
         elevation: 0,
         centerTitle: false,
@@ -349,14 +365,17 @@ class AppTheme {
           borderSide: const BorderSide(color: AppColors.primaryDark, width: 2),
           borderRadius: BorderRadius.circular(12),
         ),
-        fillColor: AppColors.surfaceDark,
+        // mapped fillColor -> surfaceDarkVariant
+        fillColor: AppColors.surfaceDarkVariant,
         filled: true,
         labelStyle: const TextStyle(color: AppColors.textSecondaryDark),
-        hintStyle: const TextStyle(color: AppColors.textDisabledDark),
+        // mapped hintStyle -> placeholder (neutral)
+        hintStyle: const TextStyle(color: AppColors.placeholder),
       ),
       cardTheme: CardThemeData(
-        color: AppColors.cardDark,
-        
+        // mapped cardDark -> surfaceDarkVariant
+        color: AppColors.surfaceDarkVariant,
+
         elevation: 3,
         shape: RoundedRectangleBorder(
           side: BorderSide(
@@ -375,23 +394,22 @@ class AppTheme {
   // Context-aware helpers: pick light/dark trio based on Theme.of(context)
   static ButtonStyle cyanButtonOf(BuildContext context) {
     final isLight = Theme.of(context).brightness == Brightness.light;
-    final color = isLight ? AppColors.buttonLightCyan : AppColors.buttonCyan;
+    // mapped button colors -> iconMemoryBg / iconMemory
+    final color = isLight ? AppColors.iconMemoryBg : AppColors.iconMemory;
     return _coloredButton(context, color);
   }
 
   static ButtonStyle orangeButtonOf(BuildContext context) {
     final isLight = Theme.of(context).brightness == Brightness.light;
-    final color = isLight
-        ? AppColors.buttonLightOrange
-        : AppColors.buttonOrange;
+    // mapped button colors -> iconWordBg / iconWord
+    final color = isLight ? AppColors.iconWordBg : AppColors.iconWord;
     return _coloredButton(context, color);
   }
 
   static ButtonStyle purpleButtonOf(BuildContext context) {
     final isLight = Theme.of(context).brightness == Brightness.light;
-    final color = isLight
-        ? AppColors.buttonLightPurple
-        : AppColors.buttonPurple;
+    // mapped button colors -> iconColorBg / iconColor
+    final color = isLight ? AppColors.iconColorBg : AppColors.iconColor;
     return _coloredButton(context, color);
   }
 
@@ -440,15 +458,15 @@ class AppTheme {
     if (showAnswer) {
       if (isSelected) {
         return isCorrect
-            ? AppColors.success.withValues(alpha: alphaHigh)
-            : AppColors.error.withValues(alpha: alphaHigh);
+            ? AppColors.correctAnswer.withValues(alpha: alphaHigh)
+            : AppColors.wrongAnswer.withValues(alpha: alphaHigh);
       } else if (isCorrect) {
-        return AppColors.success.withValues(alpha: alphaHigh);
+        return AppColors.correctAnswer.withValues(alpha: alphaHigh);
       }
     } else if (isSelected && showAnswer) {
       return isCorrect
-          ? AppColors.success.withValues(alpha: alphaHigh)
-          : AppColors.error.withValues(alpha: alphaHigh);
+          ? AppColors.correctAnswer.withValues(alpha: alphaHigh)
+          : AppColors.wrongAnswer.withValues(alpha: alphaHigh);
     }
     return AppColors.transparent;
   }
