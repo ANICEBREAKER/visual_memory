@@ -202,24 +202,34 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(height: 12.0),
 
                     // Blue highlighted tappable line to go back to login
-                    Container(
-                      width: double.infinity,
-                      color: AppColors.selectedItemBackground,
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
-                      child: TextButton(
-                        onPressed: () {
-                          context.go(RoutePath.login.path);
-                        },
-                        child: Text(
-                          "Already have an account? Log in →",
-                          style: TextStyle(
-                            color: AppColors.link,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline,
-                          ),
-                        ),
+                    // Container(
+                    //   width: double.infinity,
+                    //   color: AppColors.selectedItemBackground,
+                    //   padding: EdgeInsets.symmetric(vertical: 12.0),
+                    //   child: TextButton(
+                    //     onPressed: () {
+                    //       context.go(RoutePath.login.path);
+                    //     },
+                    //     child: Text(
+                    //       "Already have an account? Log in →",
+                    //       style: TextStyle(
+                    //         color: AppColors.link,
+                    //         fontWeight: FontWeight.bold,
+                    //         decoration: TextDecoration.underline,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    TextButton(
+                      onPressed: () {
+                        context.go(RoutePath.login.path); // or Navigator.push(...)
+                      },
+                      child: Text(
+                        'Already have an account? Log in →',
+                        style: TextStyle(
+                            color: AppColors.primaryDarkVariant, fontSize: 18.0),
                       ),
-                    ),
+                    )
                   ],
                 ),
               ),

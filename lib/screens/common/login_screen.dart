@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Text(
                   'Train your brain with fun!',
                   style: TextStyle(
-                    fontSize: 25.0,
+                    fontSize: 20.0,
                     fontWeight: FontWeight.w900,
                     color: AppColors.textSecondaryDark,
                   ),
