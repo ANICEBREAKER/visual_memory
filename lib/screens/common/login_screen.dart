@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: AppColors.primaryDarkVariant, width: 2.0),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primaryDarkVariant.withOpacity(0.5),
+                      color: AppColors.primaryDarkVariant,
                       spreadRadius: 2,
                       blurRadius: 5,
                       offset: Offset(0, 3),
@@ -162,59 +162,59 @@ class _LoginScreenState extends State<LoginScreen> {
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ),
-                  //border: Border.all(color: AppColors.borderDark, width: 1.0),
                   borderRadius: BorderRadius.circular(30.0),
                   boxShadow: [
                     BoxShadow(
                       color: AppColors.primaryDarkVariant.withOpacity(0.5),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
+                      offset: Offset(0, 3),
                     ),
                   ],
                 ),
-                // ensure the button container fills available width even when Column is centered
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () async {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      try {
-                        final AuthResponse res = await supabase.signIn(
-                          email,
-                          password,
-                        );
-                        final Session? session = res.session;
-                        final User? user = res.user;
-                        if (user != null) {
-                          print('Log in successfully!');
-                          context.go(RoutePath.menu.path);
-                        }
-                      } catch (e) {
-                        print(e);
-                        setState(() {
-                          error = e.toString();
-                        });
+                  onPressed: () async {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    try {
+                      final AuthResponse res = await supabase.signIn(
+                        email,
+                        password,
+                      );
+                      final Session? session = res.session;
+                      final User? user = res.user;
+                      if (user != null) {
+                        print('Log in successfully!');
+                        context.go(RoutePath.menu.path);
                       }
+                    } catch (e) {
+                      print(e);
                       setState(() {
-                        isLoading = false;
+                        error = e.toString();
                       });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
+                    }
+                    setState(() {
+                      isLoading = false;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
-                    child: Text(
-                      'Log In →',
-                      style: TextStyle(
-                        color: AppColors.textPrimaryDark,
-                        fontSize: 25.0,
-                      ),
-                    )),
+                    padding: EdgeInsets.symmetric(vertical: 14.0),
+                  ),
+                  child: Text(
+                    'Log In →',
+                    style: TextStyle(
+                      color: AppColors.textPrimaryDark,
+                      fontSize: 20.0,
+                    ),
+                  ),
+                ),
               ),
-              SizedBox(height: 4.0),
+              SizedBox(height: 12.0),
               TextButton(
                 onPressed: () {
                   context.go(RoutePath.register.path); // or Navigator.push(...)
@@ -224,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   style: TextStyle(
                       color: AppColors.primaryDarkVariant, fontSize: 18.0),
                 ),
-              )
+              ),
             ],
           ),
         ),

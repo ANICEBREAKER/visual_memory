@@ -26,7 +26,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               decoration: BoxDecoration(
                 color: AppColors.surfaceDarkVariant,
                 borderRadius: BorderRadius.circular(20.0),
-                border: Border.all(color: AppColors.primaryDarkVariant, width: 2.0),
+                border: Border.all(
+                    color: AppColors.primaryDarkVariant, width: 2.0),
                 boxShadow: [
                   BoxShadow(
                     color: AppColors.primaryDarkVariant.withOpacity(0.5),
@@ -38,15 +39,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               width: 150.0,
               height: 150.0,
-              child: Hero(
-                tag: 'logo',
-                child: SizedBox(
-                  height: 75.0,
-                  width: 75.0,
-                  child: Icon(
-                    Icons.extension,
-                    size: 75.0,
-                    color: AppColors.primaryDarkVariant,
+              child: Center(
+                child: Hero(
+                  tag: 'logo',
+                  child: SizedBox(
+                    height: 90.0,
+                    width: 90.0,
+                    child: Icon(
+                      Icons.extension,
+                      size: 90.0,
+                      color: AppColors.primaryDarkVariant,
+                    ),
                   ),
                 ),
               ),
@@ -88,7 +91,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
             SizedBox(
-              height: 20.0,
+              height: 80.0,
             ),
             Container(
               decoration: BoxDecoration(
@@ -129,7 +132,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
             ),
             SizedBox(
-              height: 20.0,
+              height: 25.0,
             ),
             // ElevatedButton(
             //     onPressed: (){
@@ -187,3 +190,4 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
   }
 }
+//wwwwwwwwwwwwwwaa

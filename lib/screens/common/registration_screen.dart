@@ -81,7 +81,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(height: 8.0),
                     Center(
                       child: Text(
-                        'Create your account',
+                        'Let\'s get you set up for fun!',
                         style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.w700,
