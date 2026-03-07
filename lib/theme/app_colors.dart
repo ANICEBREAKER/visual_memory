@@ -47,7 +47,7 @@ class AppColors {
   // ==========================================
   // 3. DIFFICULTY LEVEL COLORS
   // ==========================================
-  static const Color easyDifficulty = Color(0xFF26A69A);
+  static const Color easyDifficulty = Color(0xFF42A626);
   static const Color mediumDifficulty = Color(0xFFFFB300);
   static const Color hardDifficulty = Color(0xFFB71C1C);
 

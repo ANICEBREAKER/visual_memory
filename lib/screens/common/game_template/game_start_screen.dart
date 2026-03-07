@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/theme/button_design.dart';
+import 'package:game_testing/theme/responsive_config.dart';
 
 import '../../../router.dart';
 
@@ -51,27 +52,28 @@ class GameStartScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                DifficultyButton(
-                  label: 'Easy',
-                  difficulty_color: Colors.greenAccent,
-                  gamePath: gamePath,
-                ),
-                SizedBox(width: 20),
-                DifficultyButton(
-                  label: 'Medium',
-                  difficulty_color: Colors.yellowAccent,
-                  gamePath: gamePath,
-                ),
-                SizedBox(width: 20),
-                DifficultyButton(
-                  label: 'Hard',
-                  difficulty_color: Colors.redAccent,
-                  gamePath: gamePath,
-                ),
-              ],
+            Padding(
+              padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: ResponsiveConfig.spacing(context, size: SpacingSize.xs),
+                children: [
+                  DifficultyButton(
+                    label: 'Easy',
+                    gamePath: gamePath,
+                  ),
+                  SizedBox(width: 20),
+                  DifficultyButton(
+                    label: 'Medium',
+                    gamePath: gamePath,
+                  ),
+                  SizedBox(width: 20),
+                  DifficultyButton(
+                    label: 'Hard',
+                    gamePath: gamePath,
+                  ),
+                ],
+              ),
             ),
             SizedBox(height: 15),
             TextButton(
