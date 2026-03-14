@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:game_testing/player_progress/player_progress.dart';
 import 'package:game_testing/router.dart';
 import 'package:game_testing/theme/app_theme.dart';
-import 'package:game_testing/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -13,10 +12,10 @@ void main() async {
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlwcWNpdWZhaG1zZmR5dXFodGh4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAxNjY3NTQsImV4cCI6MjA3NTc0Mjc1NH0.21rND-lcELGmzWbQ8FLBbzG85w419s2P2zgaPQmS5s8',
   );
   runApp(MultiProvider(
-    child: const MyApp(),
     providers: [
       ChangeNotifierProvider(create: (context) => PlayerProgress()),
     ],
+    child: const MyApp(),
   ));
 }
 
