@@ -29,3 +29,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  fonts:
+    - family: GoogleSans
+      fonts:
+        - asset: lib/fonts/GoogleSans.ttf
+        - asset: lib/fonts/GoogleSans-Italic.ttf

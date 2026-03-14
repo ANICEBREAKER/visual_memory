@@ -236,7 +236,7 @@ class AppTheme {
         outline: AppColors.borderDark,
       ),
       textTheme: ThemeData.dark().textTheme.apply(
-        fontFamily: 'Nunito',
+        fontFamily: 'GoogleSans',
         // mapped body/display color -> textSecondaryDark
         bodyColor: AppColors.textSecondaryDark,
         displayColor: AppColors.textSecondaryDark,
