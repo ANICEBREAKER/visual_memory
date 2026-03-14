@@ -3,6 +3,7 @@ import 'package:game_testing/theme/button_design.dart';
 import 'package:game_testing/theme/responsive_config.dart';
 
 import '../../../router.dart';
+import '../../../theme/app_colors.dart';
 
 class GameStartScreen extends StatelessWidget {
   final String name;
@@ -33,16 +34,19 @@ class GameStartScreen extends StatelessWidget {
                   color: Colors.white
               ),
             ),
-            SizedBox(height: 20),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white
+            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xs)),
+            Padding(
+              padding: ResponsiveConfig.padding(context, size: PaddingSize.l),
+              child: Text(
+                description,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.white
+                ),
               ),
             ),
-            SizedBox(height: 15),
+            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs)),
             Text(
               'Select your difficulty',
               style: TextStyle(
@@ -61,34 +65,32 @@ class GameStartScreen extends StatelessWidget {
                   DifficultyButton(
                     label: 'Easy',
                     gamePath: gamePath,
+                    icon: Icons.sentiment_satisfied,
                   ),
                   SizedBox(width: 20),
                   DifficultyButton(
                     label: 'Medium',
                     gamePath: gamePath,
+                    icon: Icons.sentiment_neutral,
                   ),
                   SizedBox(width: 20),
                   DifficultyButton(
                     label: 'Hard',
                     gamePath: gamePath,
+                    icon: Icons.sentiment_dissatisfied,
                   ),
                 ],
               ),
             ),
             SizedBox(height: 15),
             TextButton(
-              onPressed: () {},
-              style: TextButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                backgroundColor: Colors.white,
-              ),
+              onPressed: () {
+                Placeholder();
+              },
               child: Text(
-                'View leaderboard',
+                'View Leaderboard',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black,
-                ),
+                    color: AppColors.primaryDarkVariant, fontSize: 18.0),
               ),
             ),
           ],
