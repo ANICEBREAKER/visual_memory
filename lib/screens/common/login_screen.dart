@@ -91,6 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
                   email = value;
+                  email = value;
                 },
                 decoration: InputDecoration(
                   prefixIcon: Icon(

@@ -14,180 +14,230 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     //timeDilation = 2;
     return Scaffold(
-      backgroundColor: AppColors.surfaceDarkVariant,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          // center children horizontally so the top icon Container keeps its explicit width
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.surfaceDarkVariant,
-                borderRadius: BorderRadius.circular(20.0),
-                border: Border.all(
-                    color: AppColors.primaryDarkVariant, width: 2.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primaryDarkVariant.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              width: 150.0,
-              height: 150.0,
-              child: Center(
-                child: Hero(
-                  tag: 'logo',
-                  child: SizedBox(
-                    height: 90.0,
-                    width: 90.0,
-                    child: Icon(
-                      Icons.extension,
-                      size: 90.0,
-                      color: AppColors.primaryDarkVariant,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 50.0,
-            ),
-            Center(
-              child: DefaultTextStyle(
-                  style: TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.textPrimaryDark,
-                  ),
-                  child: AnimatedTextKit(
-                    animatedTexts: [
-                      TyperAnimatedText('Smart Games')
+        backgroundColor: AppColors.surfaceDarkVariant,
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // center children horizontally so the top icon Container keeps its explicit width
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceDarkVariant,
+                    borderRadius: BorderRadius.circular(20.0),
+                    border: Border.all(
+                        color: AppColors.primaryDarkVariant, width: 2.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primaryDarkVariant.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
                     ],
-                    totalRepeatCount: 1,
-                  )
-              ),
-            ),
-            SizedBox(
-              height: 5.0,
-            ),
-            Center(
-              child: DefaultTextStyle(
-                  style: TextStyle(
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.textSecondaryDark,
                   ),
-                  child: AnimatedTextKit(
-                    animatedTexts: [
-                      TyperAnimatedText('Train your brain with fun!')
+                  width: 150.0,
+                  height: 150.0,
+                  child: Center(
+                    child: Hero(
+                      tag: 'logo',
+                      child: SizedBox(
+                        height: 90.0,
+                        width: 90.0,
+                        child: Icon(
+                          Icons.extension,
+                          size: 90.0,
+                          color: AppColors.primaryDarkVariant,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 50.0,
+                ),
+                Center(
+                  child: DefaultTextStyle(
+                      style: TextStyle(
+                        fontSize: 45.0,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textPrimaryDark,
+                      ),
+                      child: AnimatedTextKit(
+                        animatedTexts: [TyperAnimatedText('Smart Games')],
+                        totalRepeatCount: 1,
+                      )),
+                ),
+                SizedBox(
+                  height: 5.0,
+                ),
+                Center(
+                  child: DefaultTextStyle(
+                      style: TextStyle(
+                        fontSize: 25.0,
+                        fontWeight: FontWeight.w900,
+                        color: AppColors.textSecondaryDark,
+                      ),
+                      child: AnimatedTextKit(
+                        animatedTexts: [
+                          TyperAnimatedText('Train your brain with fun!')
+                        ],
+                        totalRepeatCount: 1,
+                      )),
+                ),
+                SizedBox(
+                  height: 80.0,
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.primaryDarkVariant,
+                        AppColors.secondaryDarkVariant
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    //border: Border.all(color: AppColors.borderDark, width: 1.0),
+                    borderRadius: BorderRadius.circular(30.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primaryDarkVariant.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
                     ],
-                    totalRepeatCount: 1,
-                  )
-              ),
-            ),
-            SizedBox(
-              height: 80.0,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColors.primaryDarkVariant, AppColors.secondaryDarkVariant],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+                  ),
+                  // ensure the button container fills available width even when Column is centered
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        context.go(RoutePath.login.path);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        'Log In →',
+                        style: TextStyle(
+                          color: AppColors.textPrimaryDark,
+                          fontSize: 25.0,
+                        ),
+                      )),
                 ),
-                //border: Border.all(color: AppColors.borderDark, width: 1.0),
-                borderRadius: BorderRadius.circular(30.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primaryDarkVariant.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              // ensure the button container fills available width even when Column is centered
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: (){
-                    context.go(RoutePath.login.path);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                  child: Text(
-                    'Log In →',
-                    style: TextStyle(
-                      color: AppColors.textPrimaryDark,
-                      fontSize: 25.0,
-                    ),
-                  )
-              ),
-            ),
-            SizedBox(
-              height: 25.0,
-            ),
-            // ElevatedButton(
-            //     onPressed: (){
-            //       context.go(RoutePath.register.path);
-            //     },
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: Colors.lightBlueAccent,
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(30.0),
-            //       ),
-            //     ),
-            //     child: Text('Registration')
-            // ),
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColors.primaryDarkVariant, AppColors.secondaryDarkVariant],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
+                SizedBox(
+                  height: 25.0,
                 ),
-                //border: Border.all(color: AppColors.borderDark, width: 1.0),
-                borderRadius: BorderRadius.circular(30.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primaryDarkVariant.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3), // changes position of shadow
-                  ),
-                ],
-              ),
-              // also make registration button full-width
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: (){
-                    context.go(RoutePath.register.path);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
+                // ElevatedButton(
+                //     onPressed: (){
+                //       context.go(RoutePath.register.path);
+                //     },
+                //     style: ElevatedButton.styleFrom(
+                //       backgroundColor: Colors.lightBlueAccent,
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(30.0),
+                //       ),
+                //     ),
+                //     child: Text('Registration')
+                // ),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.primaryDarkVariant,
+                        AppColors.secondaryDarkVariant
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
                     ),
+                    //border: Border.all(color: AppColors.borderDark, width: 1.0),
+                    borderRadius: BorderRadius.circular(30.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primaryDarkVariant.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
+                  // also make registration button full-width
+                  width: double.infinity,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        context.go(RoutePath.register.path);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                      ),
+                      child: Text(
+                        'Registration →',
+                        style: TextStyle(
+                          color: AppColors.textPrimaryDark,
+                          fontSize: 25.0,
+                        ),
+                      )),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                Center(
                   child: Text(
-                    'Registration →',
+                    'or log in with',
                     style: TextStyle(
-                      color: AppColors.textPrimaryDark,
-                      fontSize: 25.0,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.w900,
+                      color: AppColors.textSecondaryDark,
                     ),
-                  )
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+                  ),
+                ),
+                SizedBox(
+                  height: 30.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppColors.secondaryDarkVariant,
+                        shadowColor: AppColors.primaryDarkVariant
+                      ),
+                      icon: Icon(Icons.login, color: Colors.white),
+                      onPressed: () {
+                        // Implement Google login functionality here
+                      },
+                    ),
+                    SizedBox(width: 20.0),
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppColors.secondaryDarkVariant,
+                        shadowColor: AppColors.primaryDarkVariant
+                      ),
+                      icon: Icon(Icons.login, color: Colors.white),
+                      onPressed: () {
+                        // Implement Github login functionality here
+                      },
+                    ),
+                    SizedBox(width: 20.0),
+                    IconButton(
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppColors.secondaryDarkVariant,
+                        shadowColor: AppColors.primaryDarkVariant
+                      ),
+                      icon: Icon(Icons.login, color: Colors.white),
+                      onPressed: () {
+                        // Implement Github login functionality here
+                      },
+                    ),
+                  ],
+                ),
+              ]),
+        ));
   }
 }
-//wwwwwwwwwwwwwwaa
