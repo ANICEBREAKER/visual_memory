@@ -90,6 +90,12 @@ class ResponsiveConfig {
     final h = v * 1.25;
     return EdgeInsets.symmetric(horizontal: h, vertical: v);
   }
+
+  // ---- TEXT SIZE ----
+  static double textSize(BuildContext context, {TextSize size = TextSize.m}) {
+    final scale = _scaleOf(context);
+    return (_baseUnit * 2) * size.multiplier * scale;
+  }
 }
 
 /// Discrete spacing steps built on top of the base unit (8dp).
@@ -176,6 +182,27 @@ extension IconSizeX on IconSize {
         return 2.0; // ~32
       case IconSize.xl:
         return 2.5; // ~40
+    }
+  }
+}
+
+enum TextSize { s, m, l, xl, xxl, xxxl }
+
+extension TextSizeX on TextSize {
+  double get multiplier {
+    switch (this) {
+      case TextSize.s:
+        return 15.0 / 16.0; // 15
+      case TextSize.m:
+        return 18.0 / 16.0; // 18
+      case TextSize.l:
+        return 20.0 / 16.0; // 20
+      case TextSize.xl:
+        return 25.0 / 16.0; // 25
+      case TextSize.xxl:
+        return 30.0 / 16.0; // 30
+      case TextSize.xxxl:
+        return 45.0 / 16.0; // 45
     }
   }
 }

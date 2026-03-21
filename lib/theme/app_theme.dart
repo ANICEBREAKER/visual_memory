@@ -37,8 +37,8 @@ class AppTheme {
       colorScheme: ColorScheme(
         brightness: Brightness.light,
         primary: AppColors.primaryLight,
-        onPrimary: AppColors
-            .textPrimaryLight, // switched to dark for contrast on soft pink primary
+        onPrimary: AppColors.textPrimaryLight,
+        // switched to dark for contrast on soft pink primary
         // mapped secondary -> secondaryLightVariant
         secondary: AppColors.secondaryLightVariant,
         onSecondary: AppColors.textSecondaryLight,
@@ -57,118 +57,114 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.backgroundLightDimmed,
       // cardColor: AppColors.cardLight,
       textTheme: ThemeData.light().textTheme.apply(
-        fontFamily: 'Nunito',
-        bodyColor: AppColors.textPrimaryLight,
-        displayColor: AppColors.textPrimaryLight,
-      ),
+            fontFamily: 'Nunito',
+            bodyColor: AppColors.textPrimaryLight,
+            displayColor: AppColors.textPrimaryLight,
+          ),
       appBarTheme: AppBarTheme(
         titleTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-          color: AppColors.textSecondaryLight,
-          fontWeight: FontWeight.bold,
-        ),
-
+              color: AppColors.textSecondaryLight,
+              fontWeight: FontWeight.bold,
+            ),
         backgroundColor: AppColors.primaryLight,
         foregroundColor: AppColors.textPrimaryLight,
         elevation: 0,
         centerTitle: false,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style:
-            ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryLight,
-              foregroundColor: AppColors.textSecondaryLight,
-              textStyle: const TextStyle(fontWeight: FontWeight.bold),
-              shape: RoundedRectangleBorder(
-                borderRadius: ResponsiveConfig.borderRadius(
-                  context,
-                  size: RadiusSize.m,
-                ),
-              ),
-              padding: ResponsiveConfig.buttonPadding(
-                context,
-                size: PaddingSize.m,
-              ),
-              elevation: 2,
-            ).copyWith(
-              overlayColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return _pressedOverlayFor(
-                    AppColors.primaryLight,
-                    isLightTheme: true,
-                  );
-                }
-                if (states.contains(WidgetState.hovered) ||
-                    states.contains(WidgetState.focused)) {
-                  return _hoverOverlayFor(
-                    AppColors.primaryLight,
-                    isLightTheme: true,
-                  );
-                }
-                return null;
-              }),
-              enableFeedback: false,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primaryLight,
+          foregroundColor: AppColors.textSecondaryLight,
+          textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(
+            borderRadius: ResponsiveConfig.borderRadius(
+              context,
+              size: RadiusSize.m,
             ),
+          ),
+          padding: ResponsiveConfig.buttonPadding(
+            context,
+            size: PaddingSize.m,
+          ),
+          elevation: 2,
+        ).copyWith(
+          overlayColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.pressed)) {
+              return _pressedOverlayFor(
+                AppColors.primaryLight,
+                isLightTheme: true,
+              );
+            }
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.focused)) {
+              return _hoverOverlayFor(
+                AppColors.primaryLight,
+                isLightTheme: true,
+              );
+            }
+            return null;
+          }),
+          enableFeedback: false,
+        ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style:
-            OutlinedButton.styleFrom(
-              foregroundColor: AppColors.primaryLight,
-              side: BorderSide(color: AppColors.primaryLight, width: 2),
-              textStyle: const TextStyle(fontWeight: FontWeight.bold),
-              shape: RoundedRectangleBorder(
-                borderRadius: ResponsiveConfig.borderRadius(
-                  context,
-                  size: RadiusSize.m,
-                ),
-              ),
-              padding: ResponsiveConfig.buttonPadding(
-                context,
-                size: PaddingSize.m,
-              ),
-            ).copyWith(
-              overlayColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return _pressedOverlayFor(
-                    AppColors.primaryLight,
-                    isLightTheme: true,
-                  );
-                }
-                if (states.contains(WidgetState.hovered) ||
-                    states.contains(WidgetState.focused)) {
-                  return _hoverOverlayFor(
-                    AppColors.primaryLight,
-                    isLightTheme: true,
-                  );
-                }
-                return null;
-              }),
-              enableFeedback: false,
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primaryLight,
+          side: BorderSide(color: AppColors.primaryLight, width: 2),
+          textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(
+            borderRadius: ResponsiveConfig.borderRadius(
+              context,
+              size: RadiusSize.m,
             ),
+          ),
+          padding: ResponsiveConfig.buttonPadding(
+            context,
+            size: PaddingSize.m,
+          ),
+        ).copyWith(
+          overlayColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.pressed)) {
+              return _pressedOverlayFor(
+                AppColors.primaryLight,
+                isLightTheme: true,
+              );
+            }
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.focused)) {
+              return _hoverOverlayFor(
+                AppColors.primaryLight,
+                isLightTheme: true,
+              );
+            }
+            return null;
+          }),
+          enableFeedback: false,
+        ),
       ),
       textButtonTheme: TextButtonThemeData(
-        style:
-            TextButton.styleFrom(
-              foregroundColor: AppColors.primaryLight,
-              textStyle: const TextStyle(fontWeight: FontWeight.bold),
-            ).copyWith(
-              overlayColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return _pressedOverlayFor(
-                    AppColors.primaryLight,
-                    isLightTheme: true,
-                  );
-                }
-                if (states.contains(WidgetState.hovered) ||
-                    states.contains(WidgetState.focused)) {
-                  return _hoverOverlayFor(
-                    AppColors.primaryLight,
-                    isLightTheme: true,
-                  );
-                }
-                return null;
-              }),
-              enableFeedback: false,
-            ),
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.primaryLight,
+          textStyle: const TextStyle(fontWeight: FontWeight.bold),
+        ).copyWith(
+          overlayColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.pressed)) {
+              return _pressedOverlayFor(
+                AppColors.primaryLight,
+                isLightTheme: true,
+              );
+            }
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.focused)) {
+              return _hoverOverlayFor(
+                AppColors.primaryLight,
+                isLightTheme: true,
+              );
+            }
+            return null;
+          }),
+          enableFeedback: false,
+        ),
       ),
       listTileTheme: const ListTileThemeData(
         textColor: AppColors.textPrimaryLight,
@@ -201,7 +197,8 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           side: BorderSide(
             // mapped secondaryLight -> secondaryLightVariant
-            color: AppColors.secondaryLightVariant.withValues(alpha: alphaMedium),
+            color:
+                AppColors.secondaryLightVariant.withValues(alpha: alphaMedium),
             width: 1.5,
           ),
           borderRadius: ResponsiveConfig.borderRadius(
@@ -236,121 +233,118 @@ class AppTheme {
         outline: AppColors.borderDark,
       ),
       textTheme: ThemeData.dark().textTheme.apply(
-        fontFamily: 'GoogleSans',
-        // mapped body/display color -> textSecondaryDark
-        bodyColor: AppColors.textSecondaryDark,
-        displayColor: AppColors.textSecondaryDark,
-      ),
+            fontFamily: 'GoogleSans',
+            // mapped body/display color -> textSecondaryDark
+            bodyColor: AppColors.textSecondaryDark,
+            displayColor: AppColors.textPrimaryDark,
+          ),
       // mapped scaffoldBackgroundColor -> backgroundDarkDimmed
       scaffoldBackgroundColor: AppColors.backgroundDarkDimmed,
       appBarTheme: AppBarTheme(
         titleTextStyle: Theme.of(context).textTheme.titleLarge?.copyWith(
-          // mapped to dark secondary text
-          color: AppColors.textSecondaryDark,
-          fontWeight: FontWeight.bold,
-        ),
+              // mapped to dark secondary text
+              color: AppColors.textSecondaryDark,
+              fontWeight: FontWeight.bold,
+            ),
         backgroundColor: AppColors.surfaceDarkVariant,
         foregroundColor: AppColors.textPrimaryDark,
         elevation: 0,
         centerTitle: false,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
-        style:
-            ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryDark,
-              foregroundColor: AppColors.textPrimaryDark,
-              textStyle: const TextStyle(fontWeight: FontWeight.bold),
-              shape: RoundedRectangleBorder(
-                borderRadius: ResponsiveConfig.borderRadius(
-                  context,
-                  size: RadiusSize.m,
-                ),
-              ),
-              padding: ResponsiveConfig.buttonPadding(
-                context,
-                size: PaddingSize.m,
-              ),
-              elevation: 2,
-            ).copyWith(
-              overlayColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return _pressedOverlayFor(
-                    AppColors.primaryDark,
-                    isLightTheme: false,
-                  );
-                }
-                if (states.contains(WidgetState.hovered) ||
-                    states.contains(WidgetState.focused)) {
-                  return _hoverOverlayFor(
-                    AppColors.primaryDark,
-                    isLightTheme: false,
-                  );
-                }
-                return null;
-              }),
-              enableFeedback: false,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primaryDark,
+          foregroundColor: AppColors.textPrimaryDark,
+          textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(
+            borderRadius: ResponsiveConfig.borderRadius(
+              context,
+              size: RadiusSize.m,
             ),
+          ),
+          padding: ResponsiveConfig.buttonPadding(
+            context,
+            size: PaddingSize.m,
+          ),
+          elevation: 2,
+        ).copyWith(
+          overlayColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.pressed)) {
+              return _pressedOverlayFor(
+                AppColors.primaryDark,
+                isLightTheme: false,
+              );
+            }
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.focused)) {
+              return _hoverOverlayFor(
+                AppColors.primaryDark,
+                isLightTheme: false,
+              );
+            }
+            return null;
+          }),
+          enableFeedback: false,
+        ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
-        style:
-            OutlinedButton.styleFrom(
-              foregroundColor: AppColors.primaryDark,
-              side: const BorderSide(color: AppColors.primaryDark, width: 2),
-              textStyle: const TextStyle(fontWeight: FontWeight.bold),
-              shape: RoundedRectangleBorder(
-                borderRadius: ResponsiveConfig.borderRadius(
-                  context,
-                  size: RadiusSize.m,
-                ),
-              ),
-              padding: ResponsiveConfig.buttonPadding(
-                context,
-                size: PaddingSize.m,
-              ),
-            ).copyWith(
-              overlayColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return _pressedOverlayFor(
-                    AppColors.primaryDark,
-                    isLightTheme: false,
-                  );
-                }
-                if (states.contains(WidgetState.hovered) ||
-                    states.contains(WidgetState.focused)) {
-                  return _hoverOverlayFor(
-                    AppColors.primaryDark,
-                    isLightTheme: false,
-                  );
-                }
-                return null;
-              }),
-              enableFeedback: false,
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primaryDark,
+          side: const BorderSide(color: AppColors.primaryDark, width: 2),
+          textStyle: const TextStyle(fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(
+            borderRadius: ResponsiveConfig.borderRadius(
+              context,
+              size: RadiusSize.m,
             ),
+          ),
+          padding: ResponsiveConfig.buttonPadding(
+            context,
+            size: PaddingSize.m,
+          ),
+        ).copyWith(
+          overlayColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.pressed)) {
+              return _pressedOverlayFor(
+                AppColors.primaryDark,
+                isLightTheme: false,
+              );
+            }
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.focused)) {
+              return _hoverOverlayFor(
+                AppColors.primaryDark,
+                isLightTheme: false,
+              );
+            }
+            return null;
+          }),
+          enableFeedback: false,
+        ),
       ),
       textButtonTheme: TextButtonThemeData(
-        style:
-            TextButton.styleFrom(
-              foregroundColor: AppColors.primaryDark,
-              textStyle: const TextStyle(fontWeight: FontWeight.bold),
-            ).copyWith(
-              overlayColor: WidgetStateProperty.resolveWith((states) {
-                if (states.contains(WidgetState.pressed)) {
-                  return _pressedOverlayFor(
-                    AppColors.primaryDark,
-                    isLightTheme: false,
-                  );
-                }
-                if (states.contains(WidgetState.hovered) ||
-                    states.contains(WidgetState.focused)) {
-                  return _hoverOverlayFor(
-                    AppColors.primaryDark,
-                    isLightTheme: false,
-                  );
-                }
-                return null;
-              }),
-              enableFeedback: false,
-            ),
+        style: TextButton.styleFrom(
+          foregroundColor: AppColors.primaryDark,
+          textStyle: const TextStyle(fontWeight: FontWeight.bold),
+        ).copyWith(
+          overlayColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.pressed)) {
+              return _pressedOverlayFor(
+                AppColors.primaryDark,
+                isLightTheme: false,
+              );
+            }
+            if (states.contains(WidgetState.hovered) ||
+                states.contains(WidgetState.focused)) {
+              return _hoverOverlayFor(
+                AppColors.primaryDark,
+                isLightTheme: false,
+              );
+            }
+            return null;
+          }),
+          enableFeedback: false,
+        ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
@@ -471,37 +465,94 @@ class AppTheme {
     return AppColors.transparent;
   }
 
-  /// Returns theme-appropriate text styles for different contexts
-  static TextStyle questionTextStyle(BuildContext context) {
-    return Theme.of(context).textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.w600,
-          color: Theme.of(context).colorScheme.onSurface,
-        ) ??
-        const TextStyle();
-  }
+  // /// Returns theme-appropriate text styles for different contexts
+  // static TextStyle questionTextStyle(BuildContext context) {
+  //   return Theme.of(context).textTheme.titleLarge?.copyWith(
+  //         fontWeight: FontWeight.w600,
+  //         color: Theme.of(context).colorScheme.onSurface,
+  //       ) ??
+  //       const TextStyle();
+  // }
+  //
+  // static TextStyle choiceTextStyle(BuildContext context) {
+  //   return Theme.of(
+  //         context,
+  //       ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500) ??
+  //       const TextStyle();
+  // }
+  //
+  // static TextStyle masteryLevelTextStyle(BuildContext context) {
+  //   return Theme.of(context).textTheme.labelSmall?.copyWith(
+  //         fontWeight: FontWeight.bold,
+  //         color: AppColors.textSecondaryLight,
+  //       ) ??
+  //       const TextStyle();
+  // }
+  //
+  // /// Returns text style for IPA (International Phonetic Alphabet) text using NotoSans font
+  // static TextStyle ipaTextStyle(BuildContext context) {
+  //   return Theme.of(context).textTheme.bodyMedium?.copyWith(
+  //         fontFamily: 'NotoSans',
+  //         fontWeight: FontWeight.normal,
+  //         fontStyle: FontStyle.italic,
+  //       ) ??
+  //       const TextStyle(fontFamily: 'NotoSans', fontStyle: FontStyle.italic);
+  // }
 
-  static TextStyle choiceTextStyle(BuildContext context) {
-    return Theme.of(
-          context,
-        ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500) ??
-        const TextStyle();
-  }
-
-  static TextStyle masteryLevelTextStyle(BuildContext context) {
-    return Theme.of(context).textTheme.labelSmall?.copyWith(
-          fontWeight: FontWeight.bold,
-          color: AppColors.textSecondaryLight,
-        ) ??
-        const TextStyle();
-  }
-
-  /// Returns text style for IPA (International Phonetic Alphabet) text using NotoSans font
-  static TextStyle ipaTextStyle(BuildContext context) {
+  static TextStyle titleTextStyle(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
-          fontFamily: 'NotoSans',
-          fontWeight: FontWeight.normal,
-          fontStyle: FontStyle.italic,
-        ) ??
-        const TextStyle(fontFamily: 'NotoSans', fontStyle: FontStyle.italic);
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xxxl),
+              fontWeight: FontWeight.w900,
+              color: AppColors.textPrimaryDark,
+            ) ??
+        const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
+  }
+
+  static TextStyle subtitleTextStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xxl),
+              fontWeight: FontWeight.w900,
+              color: AppColors.textPrimaryDark,
+            ) ??
+        const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
+  }
+
+  static TextStyle descriptionTextStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xl),
+              fontWeight: FontWeight.normal,
+              color: AppColors.textSecondaryDark,
+            ) ??
+        const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
+  }
+
+  static TextStyle cardTitleTextStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontFamily: 'GoogleSans',
+              fontWeight: FontWeight.w900,
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.l),
+              color: AppColors.textPrimaryDark,
+            ) ??
+        const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
+  }
+
+  static TextStyle cardSubtitleTextStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium?.copyWith(
+              fontFamily: 'GoogleSans',
+              fontWeight: FontWeight.normal,
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.s),
+              color: AppColors.textSecondaryDark,
+            ) ??
+        const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
+  }
+
+  static TextStyle textButtonTextStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: AppColors.primaryDarkVariant,
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.m),
+              fontWeight: FontWeight.normal,
+              fontFamily: 'GoogleSans',
+            ) ??
+        const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
   }
 }
