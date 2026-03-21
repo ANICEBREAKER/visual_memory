@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/data/game_list.dart';
+import 'package:game_testing/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import '../../router.dart';
 import '../../theme/app_colors.dart';
@@ -62,18 +63,10 @@ class _TempGameScreenState extends State<TempGameScreen> {
                       child: ListTile(
                         title: Text(
                           dummyGames[index].name,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w900,
-                            color: AppColors.textPrimaryDark,
-                          ),
+                          style: AppTheme.cardTitleTextStyle(context),
                         ),
                         subtitle: Text(dummyGames[index].description,
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.textSecondaryDark,
-                            ),
+                            style: AppTheme.cardSubtitleTextStyle(context),
                         ),
                         leading: Container(
                           width: 50,

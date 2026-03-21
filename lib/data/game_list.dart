@@ -65,7 +65,7 @@ List<GameTileItem> dummyGames = [
       displayColor: AppColors.iconColorBg),
   GameTileItem(
       name: "Logic Flow",
-      description: "Match the dots!",
+      description: "Be quick! Match the dots in the grid!",
       icon: Icons.psychology_rounded,
       // A color palette icon
       iconColor: AppColors.iconLogic,
