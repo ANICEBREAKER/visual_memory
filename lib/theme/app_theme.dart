@@ -501,7 +501,7 @@ class AppTheme {
 
   static TextStyle titleTextStyle(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xxxl),
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xxxl), //45
               fontWeight: FontWeight.w900,
               color: AppColors.textPrimaryDark,
             ) ??
@@ -510,7 +510,7 @@ class AppTheme {
 
   static TextStyle subtitleTextStyle(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xxl),
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xxl), //30
               fontWeight: FontWeight.w900,
               color: AppColors.textPrimaryDark,
             ) ??
@@ -519,7 +519,7 @@ class AppTheme {
 
   static TextStyle descriptionTextStyle(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xl),
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xl), //25
               fontWeight: FontWeight.normal,
               color: AppColors.textSecondaryDark,
             ) ??
@@ -530,7 +530,7 @@ class AppTheme {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontFamily: 'GoogleSans',
               fontWeight: FontWeight.w900,
-              fontSize: ResponsiveConfig.textSize(context, size: TextSize.l),
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.l), //20
               color: AppColors.textPrimaryDark,
             ) ??
         const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
@@ -540,7 +540,7 @@ class AppTheme {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
               fontFamily: 'GoogleSans',
               fontWeight: FontWeight.normal,
-              fontSize: ResponsiveConfig.textSize(context, size: TextSize.s),
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.s), //15
               color: AppColors.textSecondaryDark,
             ) ??
         const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
@@ -549,10 +549,20 @@ class AppTheme {
   static TextStyle textButtonTextStyle(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: AppColors.primaryDarkVariant,
-              fontSize: ResponsiveConfig.textSize(context, size: TextSize.m),
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.m), //18
               fontWeight: FontWeight.normal,
               fontFamily: 'GoogleSans',
             ) ??
+        const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
+  }
+
+  static TextStyle blueButtonTextStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium?.copyWith(
+      color: AppColors.textPrimaryDark,
+      fontSize: ResponsiveConfig.textSize(context, size: TextSize.xl),
+      fontWeight: FontWeight.bold,
+      fontFamily: 'GoogleSans',
+    ) ??
         const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
   }
 }

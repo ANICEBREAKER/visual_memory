@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:game_testing/theme/app_colors.dart';
 import '../../router.dart';
+import '../../theme/app_theme.dart';
+import '../../theme/responsive_config.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -59,11 +61,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 Center(
                   child: DefaultTextStyle(
-                      style: TextStyle(
-                        fontSize: 45.0,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.textPrimaryDark,
-                      ),
+                      style: AppTheme.titleTextStyle(context),
                       child: AnimatedTextKit(
                         animatedTexts: [TyperAnimatedText('Smart Games')],
                         totalRepeatCount: 1,
@@ -74,11 +72,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 Center(
                   child: DefaultTextStyle(
-                      style: TextStyle(
-                        fontSize: 25.0,
-                        fontWeight: FontWeight.w900,
-                        color: AppColors.textSecondaryDark,
-                      ),
+                      style: AppTheme.descriptionTextStyle(context),
                       child: AnimatedTextKit(
                         animatedTexts: [
                           TyperAnimatedText('Train your brain with fun!')
@@ -87,7 +81,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       )),
                 ),
                 SizedBox(
-                  height: 80.0,
+                  height: 50.0,
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -123,10 +117,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       ),
                       child: Text(
                         'Log In →',
-                        style: TextStyle(
-                          color: AppColors.textPrimaryDark,
-                          fontSize: 25.0,
-                        ),
+                        style: AppTheme.blueButtonTextStyle(context),
                       )),
                 ),
                 SizedBox(
@@ -178,10 +169,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       ),
                       child: Text(
                         'Registration →',
-                        style: TextStyle(
-                          color: AppColors.textPrimaryDark,
-                          fontSize: 25.0,
-                        ),
+                        style: AppTheme.blueButtonTextStyle(context),
                       )),
                 ),
                 SizedBox(
@@ -191,7 +179,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   child: Text(
                     'or log in with',
                     style: TextStyle(
-                      fontSize: 20.0,
+                      fontSize: ResponsiveConfig.textSize(context, size: TextSize.l),
                       fontWeight: FontWeight.w900,
                       color: AppColors.textSecondaryDark,
                     ),

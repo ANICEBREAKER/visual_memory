@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../router.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_theme.dart';
+import '../../theme/responsive_config.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -67,22 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
               Center(
                 child: Text(
                   'Smart Games',
-                  style: TextStyle(
-                    fontSize: 45.0,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.textPrimaryDark,
-                  ),
+                  style: AppTheme.titleTextStyle(context),
                 ),
               ),
               SizedBox(height: 8.0),
               Center(
                 child: Text(
                   'Train your brain with fun!',
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontWeight: FontWeight.w900,
-                    color: AppColors.textSecondaryDark,
-                  ),
+                  style: AppTheme.descriptionTextStyle(context),
                 ),
               ),
               SizedBox(height: 12.0),
@@ -144,11 +138,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: EdgeInsets.zero, minimumSize: Size(0, 0)),
                   child: Text(
                     'Forgot your password?',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primaryDarkVariant,
-                    ),
+                    style: AppTheme.textButtonTextStyle(context),
                   ),
                 ),
               ),
@@ -208,10 +198,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: Text(
                     'Log In →',
-                    style: TextStyle(
-                      color: AppColors.textPrimaryDark,
-                      fontSize: 20.0,
-                    ),
+                    style: AppTheme.blueButtonTextStyle(context),
                   ),
                 ),
               ),
@@ -222,10 +209,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 },
                 child: Text(
                   'Have no account? Register →',
-                  style: TextStyle(
-                      color: AppColors.primaryDarkVariant, fontSize: 18.0),
-                ),
+                  style: AppTheme.textButtonTextStyle(context)
               ),
+              )
             ],
           ),
         ),

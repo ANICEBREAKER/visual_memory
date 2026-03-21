@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:game_testing/service/auth_service.dart';
 import '../../router.dart';
 import '../../theme/app_colors.dart';
+import '../../theme/app_theme.dart';
+import '../../theme/responsive_config.dart';
 
 class RegistrationScreen extends StatefulWidget {
   @override
@@ -71,22 +73,14 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Center(
                       child: Text(
                         'Smart Games',
-                        style: TextStyle(
-                          fontSize: 45.0,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.textPrimaryDark,
-                        ),
+                        style: AppTheme.titleTextStyle(context),
                       ),
                     ),
                     SizedBox(height: 8.0),
                     Center(
                       child: Text(
                         'Let\'s get you set up for fun!',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textSecondaryDark,
-                        ),
+                        style: AppTheme.descriptionTextStyle(context),
                       ),
                     ),
                     SizedBox(height: 12.0),
@@ -188,10 +182,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         ),
                         child: Text(
                           'Register →',
-                          style: TextStyle(
-                            color: AppColors.textPrimaryDark,
-                            fontSize: 20.0,
-                          ),
+                          style: AppTheme.blueButtonTextStyle(context),
                         ),
                       ),
                     ),
@@ -200,7 +191,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     if (error.isNotEmpty)
                       Text(error, style: TextStyle(color: Colors.red)),
                     SizedBox(height: 12.0),
-
                     // Blue highlighted tappable line to go back to login
                     // Container(
                     //   width: double.infinity,
@@ -226,9 +216,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       child: Text(
                         'Already have an account? Log in →',
-                        style: TextStyle(
-                            color: AppColors.primaryDarkVariant, fontSize: 18.0),
-                      ),
+                        style: AppTheme.textButtonTextStyle(context),
+                    )
                     )
                   ],
                 ),
