@@ -4,6 +4,7 @@ import 'package:game_testing/theme/responsive_config.dart';
 
 import '../../../router.dart';
 import '../../../theme/app_colors.dart';
+import '../../../theme/app_theme.dart';
 
 class GameStartScreen extends StatelessWidget {
   final String name;
@@ -34,23 +35,20 @@ class GameStartScreen extends StatelessWidget {
                   color: Colors.white
               ),
             ),
-            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xs)),
+            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs)),
             Padding(
-              padding: ResponsiveConfig.padding(context, size: PaddingSize.l),
+              padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
               child: Text(
                 description,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white
-                ),
+                style: AppTheme.descriptionTextStyle(context),
               ),
             ),
             SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs)),
             Text(
               'Select your difficulty',
               style: TextStyle(
-                  fontSize: 30,
+                  fontSize: ResponsiveConfig.spacing(context, size: SpacingSize.xl),
                   fontWeight: FontWeight.bold,
                   color: Colors.white
               ),

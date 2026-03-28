@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
 import 'package:game_testing/player_progress/player_progress.dart';
+import 'package:game_testing/theme/app_theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../router.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/responsive_config.dart';
 
 class VisualMemoryGameScreen extends StatefulWidget {
   const VisualMemoryGameScreen({super.key, required this.difficulty});
@@ -69,40 +72,58 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Text("Levels: ${context.watch<VisualMemoryLevelState>().level}",
-                      style: Theme.of(context).textTheme.labelSmall),
+            Padding(
+              padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceDarkVariant,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: AppColors.borderDark),
                 ),
-                SizedBox(
-                  width: 20,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'LEVEL',
+                          style: AppTheme.descriptionTextStyle(context),
+                        ),
+                        Text(
+                            'LIVES',
+                            style: AppTheme.descriptionTextStyle(context)
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          context.watch<VisualMemoryLevelState>().level.toString().padLeft(2, '0'),
+                          style: AppTheme.subtitleTextStyle(context),
+                        ),
+                        Row(
+                            children: [
+                              Row(
+                                children: [
+                                  LivesIcon(livesNeeded: 3,),
+                                  LivesIcon(livesNeeded: 2,),
+                                  LivesIcon(livesNeeded: 1,),
+                                ],
+                              )
+                            ]
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: Text(
-                      context.watch<VisualMemoryLevelState>().lives == 3
-                          ? "Lives: 🖤🖤🖤"
-                          : context.watch<VisualMemoryLevelState>().lives == 2
-                              ? "Lives: 🖤🖤🤍"
-                              : context.watch<VisualMemoryLevelState>().lives == 1
-                                  ? "Lives: 🖤🤍🤍"
-                                  : "Lives: 🤍🤍🤍",
-                      style: Theme.of(context).textTheme.labelSmall
-                  ),
-                ),
-              ],
+              ),
             ),
+
             SizedBox(height: screenHeight * 0.01),
             Expanded(
               child: LayoutBuilder(
@@ -162,13 +183,13 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                                         borderRadius: BorderRadius.circular(squareSize * 0.2),
                                         color: levelState.isShowingTiles
                                             ? (levelState.indexOfHighlightedTiles.contains(index)
-                                                ? Colors.green
+                                                ? AppColors.correctAnswer
                                                 : Colors.grey[300])
                                         : (levelState.tileStatus[index] == null
                                             ? Colors.grey[300]
                                             : levelState.tileStatus[index] == 1
-                                                ? Colors.green
-                                                : Colors.red)
+                                                ? AppColors.correctAnswer
+                                                : AppColors.wrongAnswer)
                                       ),
                                       child: Center(
                                         // child: Text(
@@ -217,6 +238,24 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class LivesIcon extends StatelessWidget {
+  const LivesIcon({
+    super.key,
+    required this.livesNeeded
+  });
+
+  final int livesNeeded;
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      context.watch<VisualMemoryLevelState>().lives >= livesNeeded ? Icons.favorite : Icons.heart_broken_outlined,
+      color: AppColors.iconLogic,
+      size: ResponsiveConfig.iconSize(context, size: IconSize.l),
     );
   }
 }
