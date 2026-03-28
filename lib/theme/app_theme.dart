@@ -442,6 +442,8 @@ class AppTheme {
     );
   }
 
+
+
   // --- SEMANTIC COLOR HELPERS ---
   /// Returns appropriate background color for choice feedback
   static Color choiceFeedbackColor(
@@ -519,7 +521,7 @@ class AppTheme {
 
   static TextStyle descriptionTextStyle(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontSize: ResponsiveConfig.textSize(context, size: TextSize.xl), //25
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.l), //25
               fontWeight: FontWeight.normal,
               color: AppColors.textSecondaryDark,
             ) ??
@@ -559,7 +561,7 @@ class AppTheme {
   static TextStyle blueButtonTextStyle(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
       color: AppColors.textPrimaryDark,
-      fontSize: ResponsiveConfig.textSize(context, size: TextSize.xl),
+      fontSize: ResponsiveConfig.textSize(context, size: TextSize.l),
       fontWeight: FontWeight.bold,
       fontFamily: 'GoogleSans',
     ) ??
