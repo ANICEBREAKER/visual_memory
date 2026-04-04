@@ -10,7 +10,7 @@ class VisualMemoryStartScreen extends StatelessWidget {
     return GameStartScreen(
       name: 'Visual Memory',
       description: 'A pattern will be shown on the square grid for few moments Replicate the pattern by clicking on the squares',
-      icon: 'https://static.thenounproject.com/png/4411488-200.png',
+      icon: Icons.grid_view_rounded,
       gamePath: RoutePath.visualMemoryGameScreen,
     );
   }

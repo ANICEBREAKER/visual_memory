@@ -10,7 +10,7 @@ class QuickMathsStartScreen extends StatelessWidget {
     return GameStartScreen(
       name: 'Quick Maths',
       description: ' Solve simple math questions, as easy as that, but can you handle the time pressure?',
-      icon: 'https://static.thenounproject.com/png/4411488-200.png',
+      icon: Icons.calculate_rounded,
       gamePath: RoutePath.quickMathsGameScreen,
     );
   }

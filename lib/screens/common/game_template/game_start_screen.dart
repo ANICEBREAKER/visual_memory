@@ -9,7 +9,7 @@ import '../../../theme/app_theme.dart';
 class GameStartScreen extends StatelessWidget {
   final String name;
   final String description;
-  final String icon;
+  final IconData icon;
   final RoutePath gamePath;
   const GameStartScreen({super.key, required this.name, required this.description, required this.icon, required this.gamePath});
 
@@ -26,7 +26,8 @@ class GameStartScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network(icon, color: Colors.white,),
+            // Image.network(icon, color: Colors.white,),
+
             Text(
               name,
               style: TextStyle(
@@ -81,16 +82,16 @@ class GameStartScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 15),
-            TextButton(
-              onPressed: () {
-                Placeholder();
-              },
-              child: Text(
-                'View Leaderboard',
-                style: TextStyle(
-                    color: AppColors.primaryDarkVariant, fontSize: 18.0),
-              ),
-            ),
+            // TextButton(
+            //   onPressed: () {
+            //     Placeholder();
+            //   },
+            //   child: Text(
+            //     'View Leaderboard',
+            //     style: TextStyle(
+            //         color: AppColors.primaryDarkVariant, fontSize: 18.0),
+            //   ),
+            // ),
           ],
         ),
       ),
