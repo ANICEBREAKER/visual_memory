@@ -30,7 +30,7 @@ class _MenuScreenState extends State<MenuScreen> {
         child: Padding(
           padding: ResponsiveConfig.edgeInsetsSymmetric(
             context,
-            horizontal: SpacingSize.m,
+            horizontal: SpacingSize.l,
             vertical: SpacingSize.none,
           ),
           child: Column(
@@ -86,10 +86,10 @@ class _MenuScreenState extends State<MenuScreen> {
 
               // Title / subtitle
               Center(child: Text('Smart Games', style: AppTheme.titleTextStyle(context))),
-              SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xs)),
+              SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs)),
               Center(child: Text("Let's train your brain today!", style: AppTheme.descriptionTextStyle(context))),
 
-              SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.l)),
+              SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.m)),
 
               // Stats row
               Row(
@@ -112,90 +112,95 @@ class _MenuScreenState extends State<MenuScreen> {
                 ],
               ),
 
-              SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xl)),
+              SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.m)),
 
               // Game of the Day header
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Game of the Day', style: AppTheme.subtitleTextStyle(context)),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('Past Games', style: AppTheme.textButtonTextStyle(context)),
-                  ),
-                ],
-              ),
+              // FittedBox(
+              //   fit: BoxFit.fitWidth,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text('Game of the Day', style: AppTheme.subtitleTextStyle(context)),
+              //       TextButton(
+              //         onPressed: () {},
+              //         child: Text('Past Games', style: AppTheme.textButtonTextStyle(context)),
+              //       ),
+              //     ],
+              //   ),
+              // ),
 
               SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.s)),
 
               // Featured game card (large)
-              Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFF0D47A1), Color(0xFF1976D2)],
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF0D47A1), Color(0xFF1976D2)],
+                    ),
+                    borderRadius: BorderRadius.circular(ResponsiveConfig.cornerRadiusValue(context, size: RadiusSize.l)),
                   ),
-                  borderRadius: BorderRadius.circular(ResponsiveConfig.cornerRadiusValue(context, size: RadiusSize.l)),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(ResponsiveConfig.spacing(context, size: SpacingSize.l)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: ResponsiveConfig.spacing(context, size: SpacingSize.s),
-                              vertical: ResponsiveConfig.spacing(context, size: SpacingSize.xs),
+                  child: Padding(
+                    padding: EdgeInsets.all(ResponsiveConfig.spacing(context, size: SpacingSize.l)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: ResponsiveConfig.spacing(context, size: SpacingSize.s),
+                                vertical: ResponsiveConfig.spacing(context, size: SpacingSize.xs),
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.12),
+                                borderRadius: BorderRadius.circular(ResponsiveConfig.cornerRadiusValue(context, size: RadiusSize.s)),
+                              ),
+                              child: Text('FEATURED', style: AppTheme.cardSubtitleTextStyle(context).copyWith(color: Colors.white)),
                             ),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.12),
-                              borderRadius: BorderRadius.circular(ResponsiveConfig.cornerRadiusValue(context, size: RadiusSize.s)),
+                            const Icon(Icons.favorite_border_rounded, color: Colors.white),
+                          ],
+                        ),
+                        SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.m)),
+                        Center(child: Icon(Icons.grid_view_rounded, color: Colors.white, size: ResponsiveConfig.iconSize(context, size: IconSize.xl))),
+                        SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.m)),
+                        Text('Visual Memory', style: AppTheme.descriptionTextStyle(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
+                        SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.s)),
+                        Text(
+                          'Memorize patterns on a grid of squares to improve your short-term recall.',
+                          style: AppTheme.cardSubtitleTextStyle(context).copyWith(color: Colors.white.withOpacity(0.9)),
+                        ),
+                        SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.l)),
+                        SizedBox(
+                          width: double.infinity,
+                          height: ResponsiveConfig.iconSize(context, size: IconSize.xl),
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF42A5F5),
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(ResponsiveConfig.cornerRadiusValue(context, size: RadiusSize.l)),
+                              ),
+                              padding: EdgeInsets.symmetric(vertical: ResponsiveConfig.spacing(context, size: SpacingSize.s)),
                             ),
-                            child: Text('FEATURED', style: AppTheme.cardSubtitleTextStyle(context).copyWith(color: Colors.white)),
-                          ),
-                          const Icon(Icons.favorite_border_rounded, color: Colors.white),
-                        ],
-                      ),
-                      SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.l)),
-                      Center(child: Icon(Icons.grid_view_rounded, color: Colors.white, size: ResponsiveConfig.iconSize(context, size: IconSize.xl))),
-                      SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.l)),
-                      Text('Visual Memory', style: AppTheme.descriptionTextStyle(context).copyWith(color: Colors.white, fontWeight: FontWeight.bold)),
-                      SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.s)),
-                      Text(
-                        'Memorize patterns on a grid of squares to improve your short-term recall.',
-                        style: AppTheme.cardSubtitleTextStyle(context).copyWith(color: Colors.white.withOpacity(0.9)),
-                      ),
-                      SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.l)),
-                      SizedBox(
-                        width: double.infinity,
-                        height: ResponsiveConfig.iconSize(context, size: IconSize.xl),
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFF42A5F5),
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(ResponsiveConfig.cornerRadiusValue(context, size: RadiusSize.l)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.play_arrow_rounded),
+                                SizedBox(width: ResponsiveConfig.spacing(context, size: SpacingSize.s)),
+                                Text('Play Now', style: AppTheme.blueButtonTextStyle(context)),
+                              ],
                             ),
-                            padding: EdgeInsets.symmetric(vertical: ResponsiveConfig.spacing(context, size: SpacingSize.s)),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.play_arrow_rounded),
-                              SizedBox(width: ResponsiveConfig.spacing(context, size: SpacingSize.s)),
-                              Text('Play Now', style: AppTheme.blueButtonTextStyle(context)),
-                            ],
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

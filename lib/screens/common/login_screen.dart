@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: ModalProgressHUD(
         inAsyncCall: isLoading,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: ResponsiveConfig.padding(context, size: PaddingSize.xl),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(
                     color: AppColors.textPrimaryDark, fontSize: 18.0),
               ),
-              SizedBox(height: 10.0),
+              SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.m)),
               // Password field: larger input, lock icon, filled background
               TextField(
                 obscureText: true,

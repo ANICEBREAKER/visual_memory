@@ -169,7 +169,7 @@ extension RadiusSizeX on RadiusSize {
 
 /// Icon size steps; base icon is ~16dp at IconSize.s
 /// m ~ 24dp, l ~ 32dp, xl ~ 40dp (before device scaling)
-enum IconSize { s, m, l, xl }
+enum IconSize { s, m, l, xl, xxl }
 
 extension IconSizeX on IconSize {
   double get multiplier {
@@ -182,6 +182,8 @@ extension IconSizeX on IconSize {
         return 2.0; // ~32
       case IconSize.xl:
         return 2.5; // ~40
+      case IconSize.xxl:
+        return 5.0;
     }
   }
 }
