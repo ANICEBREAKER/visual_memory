@@ -24,7 +24,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surfaceDarkVariant,
+      backgroundColor: AppColors.backgroundDarkDimmed,
       body: ModalProgressHUD(
         inAsyncCall: isLoading,
         child: LayoutBuilder(
@@ -95,7 +95,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         prefixIcon: Icon(Icons.email, color: AppColors.textSecondaryDark),
                         hintText: 'Enter your email',
                         filled: true,
-                        fillColor: AppColors.backgroundDarkDimmed,
+                        fillColor: AppColors.surfaceDarkVariant,
                         contentPadding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),
@@ -116,7 +116,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         prefixIcon: Icon(Icons.lock, color: AppColors.textSecondaryDark),
                         hintText: 'Enter your password',
                         filled: true,
-                        fillColor: AppColors.backgroundDarkDimmed,
+                        fillColor: AppColors.surfaceDarkVariant,
                         contentPadding: EdgeInsets.symmetric(vertical: 18.0, horizontal: 16.0),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12.0),

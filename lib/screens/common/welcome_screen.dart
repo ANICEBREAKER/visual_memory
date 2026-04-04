@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:game_testing/theme/app_colors.dart';
 import '../../router.dart';
 import '../../theme/app_theme.dart';
+import '../../theme/button_design.dart';
 import '../../theme/responsive_config.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget build(BuildContext context) {
     //timeDilation = 2;
     return Scaffold(
-        backgroundColor: AppColors.surfaceDarkVariant,
+        backgroundColor: AppColors.backgroundDarkDimmed,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
@@ -83,42 +84,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 SizedBox(
                   height: 50.0,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.primaryDarkVariant,
-                        AppColors.secondaryDarkVariant
-                      ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    //border: Border.all(color: AppColors.borderDark, width: 1.0),
-                    borderRadius: BorderRadius.circular(30.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primaryDarkVariant.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  // ensure the button container fills available width even when Column is centered
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        context.go(RoutePath.login.path);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      child: Text(
-                        'Log In →',
-                        style: AppTheme.blueButtonTextStyle(context),
-                      )),
+                BasicBlueButton(
+                  label: "Log In →",
+                  route: RoutePath.login,
                 ),
                 SizedBox(
                   height: 25.0,
@@ -135,42 +103,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 //     ),
                 //     child: Text('Registration')
                 // ),
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.primaryDarkVariant,
-                        AppColors.secondaryDarkVariant
-                      ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ),
-                    //border: Border.all(color: AppColors.borderDark, width: 1.0),
-                    borderRadius: BorderRadius.circular(30.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primaryDarkVariant.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  // also make registration button full-width
-                  width: double.infinity,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        context.go(RoutePath.register.path);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                      ),
-                      child: Text(
-                        'Registration →',
-                        style: AppTheme.blueButtonTextStyle(context),
-                      )),
+                BasicBlueButton(
+                  label: "Registration →",
+                  route: RoutePath.register,
                 ),
                 SizedBox(
                   height: 30.0,

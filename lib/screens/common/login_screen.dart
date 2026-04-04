@@ -24,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surfaceDarkVariant,
+      backgroundColor: AppColors.backgroundDarkDimmed,
       body: ModalProgressHUD(
         inAsyncCall: isLoading,
         child: Padding(
@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Icons.email, color: AppColors.textSecondaryDark),
                   hintText: 'Enter your email',
                   filled: true,
-                  fillColor: AppColors.backgroundDarkDimmed,
+                  fillColor: AppColors.surfaceDarkVariant,
                   contentPadding: EdgeInsets.symmetric(
                       vertical: 18.0, horizontal: 16.0),
                   border: OutlineInputBorder(
@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 style: TextStyle(
                     color: AppColors.textPrimaryDark, fontSize: 18.0),
               ),
-              SizedBox(height: 8.0),
+              SizedBox(height: 10.0),
               // Password field: larger input, lock icon, filled background
               TextField(
                 obscureText: true,
@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Icons.lock, color: AppColors.textSecondaryDark),
                   hintText: 'Enter your password',
                   filled: true,
-                  fillColor: AppColors.backgroundDarkDimmed,
+                  fillColor: AppColors.surfaceDarkVariant,
                   contentPadding: EdgeInsets.symmetric(
                       vertical: 18.0, horizontal: 16.0),
                   border: OutlineInputBorder(

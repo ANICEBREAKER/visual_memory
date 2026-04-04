@@ -17,7 +17,7 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surfaceDarkVariant,
+      backgroundColor: AppColors.backgroundDarkDimmed,
       appBar: AppBar(
         backgroundColor: AppColors.surfaceDarkVariant,
         elevation: 0,
