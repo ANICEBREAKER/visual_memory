@@ -295,7 +295,6 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                     )),
               ),
             ),
-
             // ElevatedButton(
             //   onPressed: () {
             //     final level = context.read<VisualMemoryLevelState>().level;
