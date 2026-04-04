@@ -1,3 +1,5 @@
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:game_testing/player_progress/player_progress.dart';
 import 'package:game_testing/router.dart';
@@ -15,7 +17,10 @@ void main() async {
     providers: [
       ChangeNotifierProvider(create: (context) => PlayerProgress()),
     ],
-    child: const MyApp(),
+    child: DevicePreview(
+      enabled: !kReleaseMode,
+      builder: (context) => MyApp(), // Wrap your app
+    ),
   ));
 }
 
@@ -31,6 +36,9 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.dark(context),
       themeMode: ThemeMode.dark,
       routerConfig: visualMemoryGoRouter,
+      //useInheritedMediaQuery: true,
+      locale: DevicePreview.locale(context),
+      builder: DevicePreview.appBuilder,
       // theme: ThemeData(
       //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
       //   scaffoldBackgroundColor: Colors.blue,
