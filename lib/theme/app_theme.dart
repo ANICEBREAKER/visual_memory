@@ -521,7 +521,7 @@ class AppTheme {
 
   static TextStyle descriptionTextStyle(BuildContext context) {
     return Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontSize: ResponsiveConfig.textSize(context, size: TextSize.l), //25
+              fontSize: ResponsiveConfig.textSize(context, size: TextSize.m), //25
               fontWeight: FontWeight.normal,
               color: AppColors.textSecondaryDark,
             ) ??
