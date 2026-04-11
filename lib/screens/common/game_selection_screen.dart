@@ -27,6 +27,12 @@ class _TempGameScreenState extends State<TempGameScreen> {
               Icons.arrow_back,
               color: Colors.white,
             )),
+        title: Center(
+          child: Text(
+            'Select game',
+            style: AppTheme.subtitleTextStyle(context)
+          ),
+        ),
         // title: Text(
         //   'Select the game you wanna play',
         //   style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
@@ -43,17 +49,6 @@ class _TempGameScreenState extends State<TempGameScreen> {
       body: Padding(
         padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
         child: Column(children: [
-          Center(
-            child: Text(
-              'Select game',
-              style: TextStyle(
-                fontSize: 45.0,
-                fontWeight: FontWeight.w900,
-                color: AppColors.textPrimaryDark,
-              ),
-            ),
-          ),
-          SizedBox(height: 20.0),
           Expanded(
             child: ListView.builder(
                 itemCount: dummyGames.length,

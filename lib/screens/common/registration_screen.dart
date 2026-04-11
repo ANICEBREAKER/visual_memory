@@ -30,7 +30,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+              padding: ResponsiveConfig.padding(context, size: PaddingSize.xl),
               child: ConstrainedBox(
                 constraints: BoxConstraints(minHeight: constraints.maxHeight),
                 child: Column(
@@ -104,8 +104,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       style: TextStyle(color: AppColors.textPrimaryDark, fontSize: 18.0),
                     ),
-                    SizedBox(height: 8.0),
-
+                    SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.m)),
                     // Password field
                     TextField(
                       obscureText: true,
@@ -125,8 +124,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       style: TextStyle(color: AppColors.textPrimaryDark, fontSize: 18.0),
                     ),
-                    SizedBox(height: 12.0),
-
+                    SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.l)),
                     // Registration button (preserve original signUp logic)
                     Container(
                       decoration: BoxDecoration(

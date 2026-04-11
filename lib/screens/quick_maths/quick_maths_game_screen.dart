@@ -5,6 +5,9 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../router.dart';
+import '../../theme/app_colors.dart';
+import '../../theme/app_theme.dart';
+import '../../theme/responsive_config.dart';
 import '../quick_maths/widget/simple_numpad.dart';
 import 'widget/equation_list.dart';
 
@@ -73,35 +76,66 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: screenHeight * 0.005),
-            Expanded(
-              flex: 1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
+            Padding(
+              padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceDarkVariant,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: AppColors.borderDark),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'LEVEL',
+                          style: AppTheme.descriptionTextStyle(context),
+                        ),
+                        Text('LIVES',
+                            style: AppTheme.descriptionTextStyle(context)),
+                      ],
                     ),
-                    child: Text("Levels: ${context.watch<QuickMathsLevelState>().level}",
-                        style: Theme.of(context).textTheme.labelSmall),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5),
+                    SizedBox(
+                      height: ResponsiveConfig.spacing(context,
+                          size: SpacingSize.xxs),
                     ),
-                    child: Text(
-                        "Lives: ${'🖤' * context.watch<QuickMathsLevelState>().lives}${'🤍' * (3 - context.watch<QuickMathsLevelState>().lives)}"),
-                  ),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          context
+                              .watch<QuickMathsLevelState>()
+                              .level
+                              .toString()
+                              .padLeft(2, '0'),
+                          style: AppTheme.subtitleTextStyle(context),
+                        ),
+                        Row(children: [
+                          Row(
+                            children: [
+                              LivesIcon(
+                                livesNeeded: 3,
+                              ),
+                              LivesIcon(
+                                livesNeeded: 2,
+                              ),
+                              LivesIcon(
+                                livesNeeded: 1,
+                              ),
+                            ],
+                          )
+                        ]),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ), // Displaying levels and lives
+            ), //Displaying Level & Lives
             SizedBox(height: screenHeight * 0.0025),
             Expanded(
               flex: 1,
@@ -213,73 +247,6 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
-            // Numpad area: responsive sizing using LayoutBuilder
-            // LayoutBuilder(builder: (context, constraints) {
-            //   // apply container padding inside the numpad area
-            //   final horizontalPadding = constraints.maxWidth * 0.03; // 3% padding
-            //   final availableWidth = constraints.maxWidth - horizontalPadding * 2;
-            //   // 3 buttons per row, 2 gaps between columns
-            //   final gridSpacing = 6.0;
-            //   final buttonWidth = (availableWidth - gridSpacing * 2) / 3;
-            //   // button height approximately similar to width, but allow room for 4 rows
-            //   double numpadContainerHeight = screenHeight * 0.28;
-            //   if (numpadContainerHeight < 180) numpadContainerHeight = 180;
-            //   if (numpadContainerHeight > 380) numpadContainerHeight = 380;
-            //   final buttonHeight = (numpadContainerHeight - 3 * gridSpacing) / 4;
-            //
-            //   return SizedBox(
-            //     height: numpadContainerHeight,
-            //     child:
-            //     Expanded(
-            //       child: Container(
-            //         width: double.infinity,
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(10),
-            //           color: Colors.grey[600],
-            //         ),
-            //         child: Padding(
-            //           padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 8),
-            //           child: SimpleNumpad(
-            //             buttonWidth: buttonWidth,
-            //             buttonHeight: buttonHeight,
-            //             gridSpacing: gridSpacing,
-            //             buttonBorderRadius: 8,
-            //             foregroundColor: Colors.white,
-            //             backgroundColor: Colors.black.withAlpha(200),
-            //             textStyle: const TextStyle(
-            //               color: Colors.white,
-            //               fontSize: 22,
-            //               fontWeight: FontWeight.w400,
-            //             ),
-            //             useBackspace: true,
-            //             optionText: 'Clear',
-            //             onPressed: (str) {
-            //               // handle special keys
-            //               setState(() {
-            //                 if (str == 'Clear') {
-            //                   playerAnswer = "";
-            //                 } else if (str == 'BACKSPACE') {
-            //                   if (playerAnswer.isNotEmpty) {
-            //                     playerAnswer = playerAnswer.substring(0, playerAnswer.length - 1);
-            //                   }
-            //                   return;
-            //                 } else {
-            //                   playerAnswer += str;
-            //                 }
-            //               });
-            //               // try parse and evaluate
-            //               final parsed = int.tryParse(playerAnswer);
-            //               if (parsed != null && context.read<QuickMathsLevelState>().equations.isNotEmpty && context.read<QuickMathsLevelState>().equations.first.result.toString().length == parsed.toString().length) {
-            //                 context.read<QuickMathsLevelState>().evaluate(parsed);
-            //                 playerAnswer = "";
-            //               }
-            //             },
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   );
-            // }),
             Expanded(
               flex: 6,
               child: Container(
@@ -329,6 +296,23 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class LivesIcon extends StatelessWidget {
+  const LivesIcon({super.key, required this.livesNeeded});
+
+  final int livesNeeded;
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      context.watch<QuickMathsLevelState>().lives >= livesNeeded
+          ? Icons.favorite
+          : Icons.heart_broken_outlined,
+      color: AppColors.iconLogic,
+      size: ResponsiveConfig.iconSize(context, size: IconSize.l),
     );
   }
 }
