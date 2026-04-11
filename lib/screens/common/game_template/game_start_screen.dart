@@ -27,52 +27,66 @@ class GameStartScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Image.network(icon, color: Colors.white,),
-
-            Text(
-              name,
-              style: TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.surfaceDarkVariant,
+                borderRadius: BorderRadius.circular(20.0),
+                border: Border.all(
+                    color: AppColors.primaryDarkVariant, width: 2.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primaryDarkVariant.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              width: ResponsiveConfig.iconSize(context, size: IconSize.xxl)*1.75,
+              height: ResponsiveConfig.iconSize(context, size: IconSize.xxl)*1.75,
+              child: Center(
+                child: Icon(
+                  icon,
+                  size: ResponsiveConfig.iconSize(context, size: IconSize.xxl),
+                  color: AppColors.primaryDarkVariant,
+                ),
               ),
             ),
-            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs)),
+            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.l),),
+            Text(
+              name,
+              style: AppTheme.titleTextStyle(context),
+            ),
             Padding(
-              padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
+              padding: ResponsiveConfig.padding(context, size: PaddingSize.xxs),
               child: Text(
                 description,
                 textAlign: TextAlign.center,
                 style: AppTheme.descriptionTextStyle(context),
               ),
             ),
-            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs)),
-            Text(
-              'Select your difficulty',
-              style: TextStyle(
-                  fontSize: ResponsiveConfig.spacing(context, size: SpacingSize.xl),
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white
-              ),
-            ),
-            SizedBox(height: 10),
             Padding(
               padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 spacing: ResponsiveConfig.spacing(context, size: SpacingSize.xs),
                 children: [
+                  Text(
+                    'Select your difficulty',
+                    style: AppTheme.cardTitleTextStyle(context),
+                  ),
                   DifficultyButton(
                     label: 'Easy',
                     gamePath: gamePath,
                     icon: Icons.sentiment_satisfied,
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Medium',
                     gamePath: gamePath,
                     icon: Icons.sentiment_neutral,
                   ),
-                  SizedBox(width: 20),
+                  SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Hard',
                     gamePath: gamePath,
