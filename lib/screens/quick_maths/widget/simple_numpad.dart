@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/theme/app_colors.dart';
 
 /// A simple numpad.
 class SimpleNumpad extends StatelessWidget {
@@ -106,6 +107,8 @@ class SimpleNumpad extends StatelessWidget {
             buttonBorderRadius,
           ),
         ),
+        shadowColor: AppColors.hoverOverlay,
+
       ),
       onPressed: onPressed,
       child: child,
