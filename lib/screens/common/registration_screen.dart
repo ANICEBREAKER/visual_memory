@@ -162,9 +162,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             if (user != null) {
                               context.go(RoutePath.menu.path);
                             }
-                          } catch (e) {
+                          } on AuthException catch (e) {
+                            print(e.message);    // Human-readable message
                             setState(() {
-                              error = e.toString();
+                              error = e.message.toString();
+                            });
+                          } catch (e) {
+                            print(e);
+                            setState(() {
+                              error = "Unknown error, retry later";
                             });
                           } finally {
                             setState(() {
@@ -188,7 +194,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(height: 8.0),
                     if (error.isNotEmpty)
                       Text(error, style: TextStyle(color: Colors.red)),
-                    SizedBox(height: 12.0),
+                    SizedBox(height: 10.0),
                     // Blue highlighted tappable line to go back to login
                     // Container(
                     //   width: double.infinity,
@@ -208,6 +214,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     //     ),
                     //   ),
                     // ),
+                    Text(
+                      error,
+                      style: AppTheme.errorTextStyle(context),
+                    ),
+                    SizedBox(height: 2.0),
                     TextButton(
                       onPressed: () {
                         context.go(RoutePath.login.path); // or Navigator.push(...)

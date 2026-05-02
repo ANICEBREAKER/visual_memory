@@ -127,7 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: AppColors.textPrimaryDark, fontSize: 18.0),
               ),
               SizedBox(height: 8.0),
-              // Align "Forgot your password?" to the right
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
@@ -180,15 +179,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         print('Log in successfully!');
                         context.go(RoutePath.menu.path);
                       }
+                    } on AuthException catch (e) {
+                      print(e.message);    // Human-readable message
+                      setState(() {
+                        error = e.message.toString();
+                      });
                     } catch (e) {
                       print(e);
                       setState(() {
-                        error = e.toString();
+                        error = "Unknown error, retry later";
+                      });
+                    } finally {
+                      setState(() {
+                        isLoading = false;
                       });
                     }
-                    setState(() {
-                      isLoading = false;
-                    });
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -202,7 +207,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 12.0),
+              SizedBox(height: 10.0),
+              Text(
+                error,
+                style: AppTheme.errorTextStyle(context),
+              ),
+              SizedBox(height: 2.0),
               TextButton(
                 onPressed: () {
                   context.go(RoutePath.register.path); // or Navigator.push(...)

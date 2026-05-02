@@ -567,4 +567,14 @@ class AppTheme {
     ) ??
         const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
   }
+
+  static TextStyle errorTextStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyMedium?.copyWith(
+      color: AppColors.wrongAnswer,
+      fontSize: ResponsiveConfig.textSize(context, size: TextSize.s),
+      fontWeight: FontWeight.bold,
+      fontFamily: 'GoogleSans',
+    ) ??
+        const TextStyle(fontFamily: 'GoogleSans', fontStyle: FontStyle.italic);
+  }
 }
