@@ -33,10 +33,6 @@ class _TempGameScreenState extends State<TempGameScreen> {
             style: AppTheme.subtitleTextStyle(context)
           ),
         ),
-        // title: Text(
-        //   'Select the game you wanna play',
-        //   style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-        // ),
         actions: [
           IconButton(
               onPressed: () {},
@@ -55,40 +51,44 @@ class _TempGameScreenState extends State<TempGameScreen> {
                 itemBuilder: (context, index) => Padding(
                       padding:
                           ResponsiveConfig.padding(context, size: PaddingSize.xs),
-                      child: ListTile(
-                        title: Text(
-                          dummyGames[index].name,
-                          style: AppTheme.cardTitleTextStyle(context),
-                        ),
-                        subtitle: Text(dummyGames[index].description,
-                            style: AppTheme.cardSubtitleTextStyle(context),
-                        ),
-                        leading: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: dummyGames[index].displayColor,
-                            borderRadius: BorderRadius.circular(10.0),
+                      child: Opacity(
+                        opacity: dummyGames[index].active? 1 : 0.25,
+                        child: ListTile(
+                          title: Text(
+                            dummyGames[index].name,
+                            style: AppTheme.cardTitleTextStyle(context),
                           ),
-                          child: Center(
-                              child:
-                                  Icon(dummyGames[index].icon, color: dummyGames[index].iconColor)),
-                        ),
-                        trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    dummyGames[index].destination),
-                          );
-                        },
-                        tileColor: AppColors.surfaceDarkVariant,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          side: BorderSide(
-                            color: AppColors.borderDark,
-                            width: 2.0,
+                          subtitle: Text(dummyGames[index].description,
+                              style: AppTheme.cardSubtitleTextStyle(context),
+                          ),
+                          leading: Container(
+                            width: 50,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: dummyGames[index].displayColor,
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: Center(
+                                child:
+                                    Icon(dummyGames[index].icon, color: dummyGames[index].iconColor)),
+                          ),
+                          trailing: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      dummyGames[index].destination),
+                            );
+                          },
+                          enabled: dummyGames[index].active,
+                          tileColor: AppColors.surfaceDarkVariant,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                            side: BorderSide(
+                              color: AppColors.borderDark,
+                              width: 2.0,
+                            ),
                           ),
                         ),
                       ),

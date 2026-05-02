@@ -11,6 +11,7 @@ class GameTileItem {
   final Widget destination;
   final Color? iconColor;
   final Color? displayColor;
+  final bool active;
 
   GameTileItem({
     required this.name,
@@ -19,6 +20,7 @@ class GameTileItem {
     this.destination = const Placeholder(), // Default destination
     required this.iconColor,
     required this.displayColor,
+    required this.active
   });
 }
 
@@ -32,42 +34,50 @@ List<GameTileItem> dummyGames = [
       // A brain/memory icon
       destination: VisualMemoryStartScreen(),
       iconColor: AppColors.iconMemory,
-      displayColor: AppColors.iconMemoryBg),
+      displayColor: AppColors.iconMemoryBg,
+    active: true
+  ),
+  GameTileItem(
+      name: "Quick maths",
+      description: "Solve as many math equations quickly!",
+      icon: Icons.calculate_rounded,
+      // A calculator icon
+      destination: QuickMathsStartScreen(),
+      iconColor: AppColors.iconMath,
+      displayColor: AppColors.iconMathBg,
+      active: true
+  ),
   GameTileItem(
       name: "Flashing tiles",
       description: "Remember the patterns of the tiles flashing",
       icon: Icons.bolt_rounded,
       // A grid icon
       iconColor: AppColors.iconTiles,
-      displayColor: AppColors.iconTilesBg),
-  GameTileItem(
-      name: "Quick maths",
-      description: "Solve as many math equations as fast as you can!",
-      icon: Icons.calculate_rounded,
-      // A calculator icon
-      destination: QuickMathsStartScreen(),
-      iconColor: AppColors.iconMath,
-      displayColor: AppColors.iconMathBg),
-
+      displayColor: AppColors.iconTilesBg,
+    active: false
+  ),
   GameTileItem(
       name: "Word Ladder",
       description: "Change one letter to form a new word",
       icon: Icons.sort_by_alpha_rounded,
       // A ladder icon
       iconColor: AppColors.iconWord,
-      displayColor: AppColors.iconWordBg),
+      displayColor: AppColors.iconWordBg,
+      active: false),
   GameTileItem(
       name: "Color Match",
       description: "Match the color to its name against the clock",
       icon: Icons.palette_rounded,
       // A color palette icon
       iconColor: AppColors.iconColor,
-      displayColor: AppColors.iconColorBg),
+      displayColor: AppColors.iconColorBg,
+      active: false),
   GameTileItem(
       name: "Logic Flow",
       description: "Be quick! Match the dots in the grid!",
       icon: Icons.psychology_rounded,
       // A color palette icon
       iconColor: AppColors.iconLogic,
-      displayColor: AppColors.iconLogicBg),
+      displayColor: AppColors.iconLogicBg,
+      active: false),
 ];
