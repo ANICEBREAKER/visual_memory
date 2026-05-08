@@ -27,8 +27,8 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
   // Timer / progress related
   Timer? _timer;
   int level = 0;
-  final int totalSeconds = 10; // seconds per equation
-  double timeRemaining = 10.0;
+  final int totalSeconds = 10; // seconds per equation //Set it from 10 -> 300 for the sake of testing
+  double timeRemaining = 10;
   final int totalSteps = 100;
 
   int get currentStep {
@@ -58,15 +58,6 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
     if (parsed == correct) {
       // correct answer
       level += 1;
-      // remove the solved equation and generate a new one to keep list length steady
-      listKey.currentState?.removeItem(
-        0,
-        (context, animation) => SizeTransition(
-          sizeFactor: animation,
-          child: Container(),
-        ),
-        duration: const Duration(milliseconds: 1000),
-      );
       equations.removeAt(0);
       generateEquation(level + 19);
       // reset timer for next equation
@@ -76,15 +67,13 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
       lives -= 1;
       if (lives <= 0) {
         stopTimer();
-        // Navigate to result (include game_path)
         visualMemoryGoRouter.go('/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
         notifyListeners();
         return;
       }
-      // keep the same equation but reset timer so player can try again
       timeRemaining = totalSeconds.toDouble();
     }
-    //notifyListeners();
+    notifyListeners(); //
   }
 
   @override

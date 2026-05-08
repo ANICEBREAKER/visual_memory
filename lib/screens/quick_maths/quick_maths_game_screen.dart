@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/screens/quick_maths/quick_maths_logic/level_state.dart';
-import 'package:game_testing/screens/quick_maths/widget/equation_tile.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../../router.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/responsive_config.dart';
 import '../quick_maths/widget/simple_numpad.dart';
-import 'widget/equation_list.dart';
+import 'widget/equation_display.dart';
 
 class QuickMathsGameScreen extends StatefulWidget {
   QuickMathsGameScreen({super.key, required this.difficulty});
+
   String difficulty = 'Easy';
 
   @override
@@ -20,8 +19,8 @@ class QuickMathsGameScreen extends StatefulWidget {
 }
 
 class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
-
   String playerAnswer = "";
+  bool _showCorrectAnimating = false; // NEW: show temporary correct state
 
   @override
   void initState() {
@@ -53,7 +52,8 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
       appBar: AppBar(
         leading: IconButton(
             onPressed: () {
-              Provider.of<QuickMathsLevelState>(context, listen: false).stopTimer();
+              Provider.of<QuickMathsLevelState>(context, listen: false)
+                  .stopTimer();
               context.go(RoutePath.menu.path);
             },
             icon: Icon(
@@ -70,14 +70,18 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.all(screenWidth * 0.02), // 2% of width
+        padding: ResponsiveConfig.padding(context, size: PaddingSize.s),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          // ensure children fill width and respect outer padding
           children: [
-            SizedBox(height: screenHeight * 0.005),
             Padding(
-              padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
+              padding: ResponsiveConfig.edgeInsetsSymmetric(
+                context,
+                horizontal: SpacingSize.none,
+                vertical: SpacingSize.m,
+              ),
               child: Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
@@ -136,163 +140,151 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                 ),
               ),
             ), //Displaying Level & Lives
-            SizedBox(height: screenHeight * 0.0025),
-            Expanded(
-              flex: 1,
-              child: Container(
-                padding: EdgeInsets.all(8),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey[600],
-                ),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: StepProgressIndicator(
-                        totalSteps: context.watch<QuickMathsLevelState>().totalSteps,
-                        currentStep: context.watch<QuickMathsLevelState>().currentStep, // pulled from logic
-                        size: 8,
-                        padding: 0,
-                        selectedColor: Colors.green,
-                        unselectedColor: Colors.red,
-                        roundedEdges: Radius.circular(10),
-                      ),
-                    ),
-                  ],
-                )
+            Padding(
+              // keep only small vertical padding; horizontal alignment comes from body padding
+              padding: ResponsiveConfig.edgeInsetsSymmetric(
+                context,
+                horizontal: SpacingSize.none,
+                vertical: SpacingSize.xxs,
               ),
-            ), //Displaying timer
-            SizedBox(height: screenHeight * 0.005),
-            // Equations area: fixed height to show at most 4 tiles (1 top + 3 follow-ups)
-            // Expanded(
-            //   flex: 6,
-            //   //height: tileHeight * 4 + 16, // extra padding
-            //   child: Container(
-            //     color: Colors.grey[700],
-            //     child: Padding(
-            //       padding: const EdgeInsets.all(8.0),
-            //       child: Column(
-            //         mainAxisAlignment: MainAxisAlignment.center,
-            //         children: [
-            //           // Top/current tile with fade-out + slide transition on change
-            //           SizedBox(
-            //             height: tileHeight,
-            //             child: AnimatedSwitcher(
-            //               duration: const Duration(milliseconds: 500),
-            //               transitionBuilder: (child, animation) {
-            //                 // Combined slide up for incoming, fade for outgoing
-            //                 final inAnimation = Tween<Offset>(
-            //                   begin: const Offset(0, 0.2),
-            //                   end: Offset.zero,
-            //                 ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
-            //                 return SlideTransition(position: inAnimation, child: FadeTransition(opacity: animation, child: child));
-            //               },
-            //               child: (equations.isNotEmpty)
-            //                   ? SizedBox(
-            //                       key: ValueKey(equations.first.hashCode),
-            //                       height: tileHeight,
-            //                       child: EquationTile(
-            //                         eq: equations.first,
-            //                         index: 0,
-            //                         playerAnswer: playerAnswer,
-            //                         verticalEmptySpace: 4,
-            //                         horizontalEmptySpace: 6,
-            //                         isMainEquation: true
-            //                       ),
-            //                     )
-            //                   : SizedBox(
-            //                       key: const ValueKey('empty_top'),
-            //                       height: tileHeight,
-            //                       child: const SizedBox.shrink(),
-            //                     ),
-            //             ),
-            //           ),
-            //           const SizedBox(height: 3),
-            //           // Follow-up list (max 3) wrapped in AnimatedSwitcher so the block animates up when the top changes
-            //           Expanded(
-            //             child: AnimatedSwitcher(
-            //               duration: const Duration(milliseconds: 350),
-            //               transitionBuilder: (child, animation) {
-            //                 final offset = Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
-            //                     .animate(CurvedAnimation(parent: animation, curve: Curves.easeOut));
-            //                 return SlideTransition(position: offset, child: FadeTransition(opacity: animation, child: child));
-            //               },
-            //               child: SizedBox(
-            //                 key: ValueKey(equations.length), // rebuild when equations length changes
-            //                 height: tileHeight * 3,
-            //                 child: EquationList(
-            //                   equations: equations,
-            //                   tileHeight: tileHeight,
-            //                   verticalSpacing: 6,
-            //                   horizontalSpacing: 48,
-            //                 ),
-            //               ),
-            //             ),
-            //           ),
-            //         ],
-            //       )
-            //     ),
-            //   ),
-            // ), //Displaying equations
+              child: ProgressBarCountdown(
+                total: context
+                    .watch<QuickMathsLevelState>()
+                    .totalSeconds
+                    .toDouble(),
+                remaining: context.watch<QuickMathsLevelState>().timeRemaining,
+                backgroundColor: AppColors.surfaceDarkVariant,
+                color: AppColors.primaryDarkVariant,
+                height: 8,
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ), //Countdown
             Expanded(
-              flex: 6,
-              child: EquationList(
-                equations: equations,
-                tileHeight: tileHeight,
-                verticalSpacing: 6,
-                horizontalSpacing: 48,
-                playerAnswer: playerAnswer,
-                listKey: Provider.of<QuickMathsLevelState>(context, listen: false).listKey,
+              flex: 7,
+              child: Padding(
+                // keep only vertical spacing here; L/R uses outer body padding
+                padding: ResponsiveConfig.edgeInsetsSymmetric(
+                  context,
+                  horizontal: SpacingSize.none,
+                  vertical: SpacingSize.xs,
+                ),
+                child: Center(
+                  child: Builder(builder: (_) {
+                    final eqs = context.watch<QuickMathsLevelState>().equations;
+                    if (eqs.isEmpty) {
+                      return Text(
+                        'No equations',
+                        style: AppTheme.subtitleTextStyle(context),
+                        textAlign: TextAlign.center,
+                      );
+                    }
+                    final top = eqs.first;
+
+                    // determine correctness feedback for the displayed playerAnswer:
+                    // null = pending, true = correct, false = wrong
+                    bool? isCorrect;
+                    if (_showCorrectAnimating) {
+                      isCorrect = true; // force green while animating
+                    } else {
+                      if (playerAnswer.isEmpty) {
+                        isCorrect = null;
+                      } else {
+                        final parsed = int.tryParse(playerAnswer);
+                        if (parsed == null) {
+                          isCorrect = null;
+                        } else {
+                          // only show definite correct/wrong when lengths match expected result length
+                          if (playerAnswer.length ==
+                              top.result.toString().length) {
+                            isCorrect = parsed == top.result;
+                          } else {
+                            isCorrect = null;
+                          }
+                        }
+                      }
+                    }
+
+                    return SizedBox(
+                      width: double.infinity,
+                      child: MathEquationCard(
+                        firstNumber: top.firstNumber.toString(),
+                        secondNumber: top.secondNumber.toString(),
+                        operator: top.operator,
+                        playerAnswer: playerAnswer,
+                        isCorrect: isCorrect,
+                      ),
+                    );
+                  }),
+                ),
               ),
             ),
-            SizedBox(height: screenHeight * 0.01),
+            SizedBox(height: screenHeight * 0.005), // slightly smaller gap
             Expanded(
-              flex: 6,
-              child: Container(
+              flex: 8,
+              child: SizedBox(
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey[600],
-                ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  child: SimpleNumpad(
-                    buttonBorderRadius: 8,
-                    foregroundColor: Colors.white,
-                    backgroundColor: Colors.black.withAlpha(200),
-                    textStyle: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    useBackspace: true,
-                    optionText: 'Clear',
-                    onPressed: (str) {
-                      // handle special keys
-                      setState(() {
-                        if (str == 'Clear') {
-                          playerAnswer = "";
-                        } else if (str == 'BACKSPACE') {
-                          if (playerAnswer.isNotEmpty) {
-                            playerAnswer = playerAnswer.substring(0, playerAnswer.length - 1);
+                  // no extra horizontal inset here; outer body padding governs L/R spacing
+                  padding: ResponsiveConfig.edgeInsetsSymmetric(
+                    context,
+                    horizontal: SpacingSize.none,
+                    vertical: SpacingSize.none,
+                  ),
+                  // add a transparent Material so any InkWell / InkResponse within the numpad works correctly
+                  child: Material(
+                    color: Colors.transparent,
+                    child: SimpleNumpad(
+                      buttonBorderRadius: 8,
+                      gridSpacing: 6,
+                      foregroundColor: Colors.white,
+                      backgroundColor: AppColors.surfaceDarkVariant,
+                      textStyle: TextStyle(
+                          color: Colors.white,
+                          fontSize: ResponsiveConfig.textSize(context,
+                              size: TextSize.xl),
+                          fontFamily: 'GoogleSans',
+                          fontVariations: [FontVariation('wght', 700)]),
+                      useBackspace: true,
+                      optionText: 'Clear',
+                      onPressed: (str) {
+                        // handle special keys
+                        setState(() {
+                          if (str == 'Clear') {
+                            playerAnswer = "";
+                          } else if (str == 'BACKSPACE') {
+                            if (playerAnswer.isNotEmpty) {
+                              playerAnswer = playerAnswer.substring(
+                                  0, playerAnswer.length - 1);
+                            }
+                            return;
+                          } else {
+                            playerAnswer += str;
                           }
-                          return;
-                        } else {
-                          playerAnswer += str;
+                        });
+                        // try parse and evaluate
+                        final parsed = int.tryParse(playerAnswer);
+                        if (parsed != null &&
+                            context
+                                .read<QuickMathsLevelState>()
+                                .equations
+                                .isNotEmpty &&
+                            context
+                                    .read<QuickMathsLevelState>()
+                                    .equations
+                                    .first
+                                    .result
+                                    .toString()
+                                    .length ==
+                                parsed.toString().length) {
+                          context.read<QuickMathsLevelState>().evaluate(parsed);
+                          playerAnswer = "";
                         }
-                      });
-                      // try parse and evaluate
-                      final parsed = int.tryParse(playerAnswer);
-                      if (parsed != null && context.read<QuickMathsLevelState>().equations.isNotEmpty && context.read<QuickMathsLevelState>().equations.first.result.toString().length == parsed.toString().length) {
-                        context.read<QuickMathsLevelState>().evaluate(parsed);
-                        playerAnswer = "";
-                      }
-                    },
+                      },
+                    ),
                   ),
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
@@ -313,6 +305,55 @@ class LivesIcon extends StatelessWidget {
           : Icons.heart_broken_outlined,
       color: AppColors.iconLogic,
       size: ResponsiveConfig.iconSize(context, size: IconSize.l),
+    );
+  }
+}
+
+// Compact, local rounded linear progress bar driven by remaining/total.
+class ProgressBarCountdown extends StatelessWidget {
+  final double total;
+  final double remaining;
+  final double height;
+  final Color color;
+  final Color backgroundColor;
+  final BorderRadiusGeometry borderRadius;
+
+  const ProgressBarCountdown({
+    Key? key,
+    required this.total,
+    required this.remaining,
+    this.height = 8.0,
+    this.color = Colors.blue,
+    this.backgroundColor = const Color(0xFF2C3444),
+    this.borderRadius = const BorderRadius.all(Radius.circular(6)),
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final double clampedTotal = (total <= 0) ? 1.0 : total;
+    final double progress = (remaining / clampedTotal).clamp(0.0, 1.0);
+
+    return ClipRRect(
+      borderRadius: borderRadius,
+      child: Stack(
+        alignment: Alignment.centerLeft,
+        children: [
+          Container(
+            height: height,
+            color: backgroundColor,
+          ),
+          FractionallySizedBox(
+            widthFactor: progress,
+            child: Container(
+              height: height,
+              decoration: BoxDecoration(
+                color: color,
+                borderRadius: borderRadius,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
