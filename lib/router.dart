@@ -3,6 +3,7 @@ import 'package:game_testing/screens/common/game_template/game_result_screen.dar
 import 'package:game_testing/screens/common/login_screen.dart';
 import 'package:game_testing/screens/common/registration_screen.dart';
 import 'package:game_testing/screens/common/game_selection_screen.dart';
+import 'package:game_testing/screens/common/settings_screen.dart';
 import 'package:game_testing/screens/common/welcome_screen.dart';
 import 'package:game_testing/screens/quick_maths/quick_maths_logic/level_state.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_logic/level_state.dart';
@@ -23,6 +24,7 @@ enum RoutePath {
   result(path: '/result'),
   login(path: '/login'),
   register(path: '/register'),
+  settings(path: '/settings'),
   menu(path: '/menu'),
   gameSelection(path: '/gameSelection');
 
@@ -99,6 +101,10 @@ final GoRouter visualMemoryGoRouter = GoRouter(routes: <RouteBase>[
           path: RoutePath.register.path,
           builder: (BuildContext context, GoRouterState state) =>
               RegistrationScreen()),
+      GoRoute(
+          path: RoutePath.settings.path,
+          builder: (BuildContext context, GoRouterState state) =>
+              SettingsScreen()),
       GoRoute(
           path: RoutePath.menu.path,
           builder: (BuildContext context, GoRouterState state) =>

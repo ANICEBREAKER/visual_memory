@@ -24,18 +24,23 @@ class _MenuScreenState extends State<MenuScreen> {
         elevation: 0,
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                AlertDialog();
+              },
               icon: Icon(
                 Icons.notifications,
                 color: Colors.white,
               )),
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                context.go(RoutePath.settings.path);
+              },
               icon: Icon(
                 Icons.settings,
                 color: Colors.white,
               ))
         ],
+        automaticallyImplyLeading: false,
       ),
       body: Center(
         child: Padding(
