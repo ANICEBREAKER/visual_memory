@@ -205,31 +205,22 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
                                                 squareSize * 0.2),
                                             //border: Border.all(color: AppColors.gameCardBorder, width: 2.5),
                                             color: levelState.isShowingTiles
-                                                ? (levelState
-                                                        .indexOfHighlightedTiles
-                                                        .contains(index)
+                                                ? (levelState.indexOfHighlightedTiles.contains(index)
                                                     ? AppColors.correctAnswer
-                                                    : AppColors
-                                                        .gameCardHighlight)
-                                                : (levelState.tileStatus[
-                                                            index] ==
-                                                        null
-                                                    ? AppColors
-                                                        .gameCardHighlight
-                                                    : levelState.tileStatus[
-                                                                index] ==
-                                                            1
-                                                        ? AppColors
-                                                            .correctAnswer
+                                                    : AppColors.gameCardHighlight)
+                                                : (levelState.tileStatus[index] == null
+                                                    ? AppColors.gameCardHighlight
+                                                    : levelState.tileStatus[index] == 1
+                                                        ? AppColors.correctAnswer
                                                         : AppColors.iconLogic)),
                                         // child: Center(
-                                        //   // child: Text(
-                                        //   //   'Item $index',
-                                        //   //   style: TextStyle(
-                                        //   //     fontSize: squareSize * 0.25,
-                                        //   //     color: Colors.black,
-                                        //   //   ),
-                                        //   // ), Only used for debug purposes, or cheating
+                                        //   child: Text(
+                                        //     '$index',
+                                        //     style: TextStyle(
+                                        //       fontSize: squareSize * 0.25,
+                                        //       color: Colors.black,
+                                        //     ),
+                                        //   ), // Only used for debug purposes, or cheating
                                         // ),
                                       ),
                                     );
