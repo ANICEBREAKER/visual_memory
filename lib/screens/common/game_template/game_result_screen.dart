@@ -187,7 +187,7 @@ class _QuickMathsResultScreen extends State<GameResultScreen> {
                 padding:
                     ResponsiveConfig.padding(context, size: PaddingSize.xs),
                 child: BasicBlueButton(
-                    route: RoutePath.menu, label: "View Leaderboard"),
+                    route: RoutePath.gameSelection, label: "Play more!"),
               )
             ],
           ),
