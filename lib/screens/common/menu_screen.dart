@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/theme/button_design.dart';
 import 'package:go_router/go_router.dart';
 import '../../data/game_list.dart';
 import '../../router.dart';
@@ -210,7 +211,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         height: ResponsiveConfig.iconSize(context,
                             size: IconSize.xl),
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {context.go(RoutePath.visualMemoryStartScreen.path);},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF42A5F5),
                             foregroundColor: Colors.white,
