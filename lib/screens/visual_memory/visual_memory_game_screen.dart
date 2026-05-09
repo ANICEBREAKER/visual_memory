@@ -247,54 +247,54 @@ class _VisualMemoryGameScreenState extends State<VisualMemoryGameScreen> {
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
-            Padding(
-              padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      AppColors.quitLightButtonBackground,
-                      AppColors.quitDarkButtonBackground
-                    ],
-                    begin: Alignment.centerLeft,
-                    end: Alignment.centerRight,
-                  ),
-                  //border: Border.all(color: AppColors.borderDark, width: 1.0),
-                  borderRadius: BorderRadius.circular(30.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.quitLightButtonBackground.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                // ensure the button container fills available width even when Column is centered
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () {
-                      final level = context.read<VisualMemoryLevelState>().level;
-                      context.push(
-                          '/result?game_path=visual_memory&level=$level&difficulty=${widget.difficulty}');
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                        side: BorderSide(width: 0)
-                      ),
-                      backgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: Text(
-                        "Quit",
-                        style: AppTheme.blueButtonTextStyle(context),
-                      ),
-                    )),
-              ),
-            ),
+            // Padding(
+            //   padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       gradient: LinearGradient(
+            //         colors: [
+            //           AppColors.quitLightButtonBackground,
+            //           AppColors.quitDarkButtonBackground
+            //         ],
+            //         begin: Alignment.centerLeft,
+            //         end: Alignment.centerRight,
+            //       ),
+            //       //border: Border.all(color: AppColors.borderDark, width: 1.0),
+            //       borderRadius: BorderRadius.circular(30.0),
+            //       boxShadow: [
+            //         BoxShadow(
+            //           color: AppColors.quitLightButtonBackground.withOpacity(0.5),
+            //           spreadRadius: 2,
+            //           blurRadius: 5,
+            //           offset: Offset(0, 3), // changes position of shadow
+            //         ),
+            //       ],
+            //     ),
+            //     // ensure the button container fills available width even when Column is centered
+            //     width: double.infinity,
+            //     child: ElevatedButton(
+            //         onPressed: () {
+            //           final level = context.read<VisualMemoryLevelState>().level;
+            //           context.push(
+            //               '/result?game_path=visual_memory&level=$level&difficulty=${widget.difficulty}');
+            //         },
+            //         style: ElevatedButton.styleFrom(
+            //           shape: RoundedRectangleBorder(
+            //             borderRadius: BorderRadius.circular(30.0),
+            //             side: BorderSide(width: 0)
+            //           ),
+            //           backgroundColor: Colors.transparent,
+            //           shadowColor: Colors.transparent
+            //         ),
+            //         child: Padding(
+            //           padding: EdgeInsets.symmetric(vertical: 8.0),
+            //           child: Text(
+            //             "Quit",
+            //             style: AppTheme.blueButtonTextStyle(context),
+            //           ),
+            //         )),
+            //   ),
+            // ),
             // ElevatedButton(
             //   onPressed: () {
             //     final level = context.read<VisualMemoryLevelState>().level;
