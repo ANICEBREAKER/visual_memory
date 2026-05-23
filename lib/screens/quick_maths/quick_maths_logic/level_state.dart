@@ -5,8 +5,8 @@ import 'package:game_testing/level_state_interface.dart';
 import '../../../router.dart' show visualMemoryGoRouter;
 import '../widget/equation_data.dart';
 
-
-class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface {
+class QuickMathsLevelState extends ChangeNotifier
+    implements LevelStateInterface {
   QuickMathsLevelState({required this.difficulty}) {
     if (difficulty == "Easy") {
       lives = 3;
@@ -19,15 +19,33 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
   }
 
   final String difficulty;
-  final GlobalKey <AnimatedListState> listKey = GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   List<EquationData> equations = [];
   late int lives;
   late int correct;
 
+  // Current available operators
+  List<String> ops = ["+", "-"];
+
+  // Bounds for addition / subtraction
+  int aAddBound = 10;
+  int bAddBound = 10;
+
+  // Bounds for multiplication (simple & hard)
+  int aMultBound = 10;
+  int bMultBound = 10;
+
+  // Bounds for simple division (divisor & quotient)
+  int bDivBound = 10;
+  int resDivBound = 10;
+
+  // Flag for hardest division (2‑digit divisor & quotient)
+  bool hardDivision = false;
+
   // Timer / progress related
   Timer? _timer;
   int level = 0;
-  final int totalSeconds = 10; // seconds per equation //Set it from 10 -> 300 for the sake of testing
+  final int totalSeconds = 10; // seconds per equation
   double timeRemaining = 10;
   final int totalSteps = 100;
 
@@ -37,7 +55,6 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
     if (step > totalSteps) return totalSteps;
     return step;
   }
-
 
   @override
   void evaluate(value) async {
@@ -54,7 +71,7 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
     }
 
     correct = equations.first.result;
-    print(lives);
+    //print(lives);
     if (parsed == correct) {
       // correct answer
       level += 1;
@@ -67,7 +84,8 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
       lives -= 1;
       if (lives <= 0) {
         stopTimer();
-        visualMemoryGoRouter.go('/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
+        visualMemoryGoRouter.go(
+            '/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
         notifyListeners();
         return;
       }
@@ -89,62 +107,137 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
     startTimer();
   }
 
-  void generateEquation(int index) {
-    final rng = Random();
+  void updateDifficulty(int index) {
+    // ----- Operators -------------------------------------------------
+    if (index >= 20 && !ops.contains('×')) ops.add('×');
+    if (index >= 107 && !ops.contains('÷')) ops.add('÷');
 
-    String op;
-    int a;
-    int b;
-
-    if (index < 10) {
-      // First 10: only + and -, numbers between 0..10
-      op = rng.nextBool() ? '+' : '-';
-      a = rng.nextInt(11); // 0..10
-      b = rng.nextInt(11); // 0..10
-    } else if (index < 20) {
-      // Next 10: introduce multiplication (1..10), + and - still 0..10
-      final ops = ['+', '-', '×'];
-      op = ops[rng.nextInt(ops.length)];
-      if (op == '×') {
-        a = rng.nextInt(10) + 1; // 1..10
-        b = rng.nextInt(10) + 1; // 1..10
-      } else {
-        a = rng.nextInt(21); // 0..20
-        b = rng.nextInt(21); // 0..20
-      }
+    // ----- Addition / Subtraction ranges ----------------------------
+    if (index >= 300) {
+      aAddBound = 9999;
+      bAddBound = 9999;
+    } else if (index >= 180) {
+      aAddBound = 999;
+      bAddBound = 999;
+    } else if (index >= 54) {
+      aAddBound = 99;
+      bAddBound = 99;
+    } else if (index >= 53) {
+      aAddBound = 20;
+      bAddBound = 20;
+    } else if (index >= 12) {
+      aAddBound = 15;
+      bAddBound = 15;
     } else {
-      // index >= 20: + and - use 1..30, multiplication: 1..10 * 1..20
-      final ops = ['+', '-', '×'];
-      op = ops[rng.nextInt(ops.length)];
-      if (op == '×') {
-        a = rng.nextInt(11); // 0..10
-        b = rng.nextInt(20) + 1; // 1..20
-      } else {
-        a = rng.nextInt(31); // 0..30
-        b = rng.nextInt(31); // 0..30
-      }
+      aAddBound = 10;
+      bAddBound = 10;
     }
 
-    // For subtraction, ensure non-negative result
-    if (op == '-' && a < b) {
-      final tmp = a;
-      a = b;
-      b = tmp;
+    // ----- Multiplication ranges ------------------------------------
+    if (index >= 182) {
+      // HARDEST: both a and b are 2‑digit numbers (10‑99)
+      aMultBound = 99;
+      bMultBound = 99;
+    } else if (index >= 75) {
+      // Intermediate: a = 10..20, b = 2..9
+      aMultBound = 20;
+      bMultBound = 9;
+    } else if (index >= 38) {
+      aMultBound = 12;
+      bMultBound = 12;
+    } else {
+      aMultBound = 10;
+      bMultBound = 10;
     }
 
-    int result;
+    // ----- Division ranges & mode ----------------------------------
+    if (index >= 182) {
+      // HARDEST: divisor and result are both 2‑digit numbers
+      hardDivision = true;
+      // simple bounds no longer used
+    } else if (index >= 135) {
+      hardDivision = false;
+      bDivBound = 20;
+      resDivBound = 12;
+    } else if (index >= 107) {
+      hardDivision = false;
+      bDivBound = 12;
+      resDivBound = 12;
+    } else {
+      hardDivision = false;
+      bDivBound = 10;
+      resDivBound = 10;
+    }
+  }
+
+  void generateEquation(int index) {
+    updateDifficulty(index);
+
+    final rng = Random();
+    String op = ops[rng.nextInt(ops.length)];
+
+    int a = 0;
+    int b = 0;
+    int result = 0;
+
     if (op == '+') {
+      a = rng.nextInt(aAddBound + 1);
+      b = rng.nextInt(bAddBound + 1);
       result = a + b;
     } else if (op == '-') {
+      a = rng.nextInt(aAddBound + 1);
+      b = rng.nextInt(bAddBound + 1);
+      // Ensure non‑negative result
+      if (a < b) {
+        int tmp = a;
+        a = b;
+        b = tmp;
+      }
       result = a - b;
-    } else {
+    } else if (op == '×') {
+      if (index >= 75 && index < 182) {
+        // Special intermediate: a = 10‑20, b = 2‑9
+        a = rng.nextInt(11) + 10; // 10..20
+        b = rng.nextInt(8) + 2; // 2..9
+      } else {
+        a = rng.nextInt(aMultBound + 1);
+        b = rng.nextInt(bMultBound + 1);
+        // At hardest (index >=182): both become 10‑99 automatically
+        if (index >= 182) {
+          // Ensure both are at least 10 (2‑digit)
+          if (a < 10) a += 10;
+          if (b < 10) b += 10;
+          // Clamp to 99
+          if (a > 99) a = 99;
+          if (b > 99) b = 99;
+        }
+      }
       result = a * b;
+    } else {
+      // op == '÷'
+      if (hardDivision) {
+        // Hardest: divisor and quotient are both 2‑digit numbers (10‑99)
+        do {
+          b = rng.nextInt(90) + 10; // 10‑99
+          result = rng.nextInt(90) + 10; // 10‑99
+          a = result * b;
+          // Prevent overflow (should be within 4 digits)
+        } while (a > 9999); // safety, though max is 99*99=9801
+      } else {
+        // Simple division: exact, no remainder
+        do {
+          b = rng.nextInt(bDivBound + 1);
+        } while (b < 2);
+        result = rng.nextInt(resDivBound + 1);
+        if (result == 0) result = 1;
+        a = result * b;
+      }
     }
 
-    final tile = EquationData(firstNumber: a, secondNumber: b, operator: op, result: result);
+    final tile = EquationData(
+        firstNumber: a, secondNumber: b, operator: op, result: result);
     listKey.currentState?.insertItem(equations.length - 1);
     equations.add(tile);
-    //notifyListeners();
   }
 
   void startTimer() {
@@ -157,7 +250,8 @@ class QuickMathsLevelState extends ChangeNotifier implements LevelStateInterface
         lives -= 1;
         if (lives <= 0) {
           stopTimer();
-          visualMemoryGoRouter.go('/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
+          visualMemoryGoRouter.go(
+              '/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
           notifyListeners();
           return;
         } else {
