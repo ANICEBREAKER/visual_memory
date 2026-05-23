@@ -39,8 +39,6 @@ class QuickMathsLevelState extends ChangeNotifier
   int bDivBound = 10;
   int resDivBound = 10;
 
-  // Flag for hardest division (2‑digit divisor & quotient)
-  bool hardDivision = false;
 
   // Timer / progress related
   Timer? _timer;
@@ -104,7 +102,7 @@ class QuickMathsLevelState extends ChangeNotifier
       startTimer();
       return;
     } else {
-      // wrong answer (or null/invalid)
+
       lives -= 1;
       if (lives <= 0) {
         stopTimer();
@@ -144,19 +142,16 @@ class QuickMathsLevelState extends ChangeNotifier
   void updateDifficulty(int index) {
     // ----- Operators -------------------------------------------------
     if (index >= 20 && !ops.contains('×')) ops.add('×');
-    if (index >= 107 && !ops.contains('÷')) ops.add('÷');
+    if (index >= 30 && !ops.contains('÷')) ops.add('÷');
 
     // ----- Addition / Subtraction ranges ----------------------------
-    if (index >= 300) {
-      aAddBound = 9999;
-      bAddBound = 9999;
-    } else if (index >= 180) {
+    if (index >= 120) {
       aAddBound = 999;
-      bAddBound = 999;
+      bAddBound = 99;
     } else if (index >= 54) {
       aAddBound = 99;
       bAddBound = 99;
-    } else if (index >= 53) {
+    } else if (index >= 25) {
       aAddBound = 20;
       bAddBound = 20;
     } else if (index >= 12) {
@@ -170,10 +165,9 @@ class QuickMathsLevelState extends ChangeNotifier
     // ----- Multiplication ranges ------------------------------------
     if (index >= 182) {
       // HARDEST: both a and b are 2‑digit numbers (10‑99)
-      aMultBound = 99;
-      bMultBound = 99;
+      aMultBound = 50;
+      bMultBound = 10;
     } else if (index >= 75) {
-      // Intermediate: a = 10..20, b = 2..9
       aMultBound = 20;
       bMultBound = 9;
     } else if (index >= 38) {
@@ -186,19 +180,16 @@ class QuickMathsLevelState extends ChangeNotifier
 
     // ----- Division ranges & mode ----------------------------------
     if (index >= 182) {
-      // HARDEST: divisor and result are both 2‑digit numbers
-      hardDivision = true;
-      // simple bounds no longer used
+      // HARDEST: both divisor and quotient are 2‑digit numbers (10‑99)
+      bDivBound = 50;
+      resDivBound = 10;
     } else if (index >= 135) {
-      hardDivision = false;
       bDivBound = 20;
       resDivBound = 12;
     } else if (index >= 107) {
-      hardDivision = false;
       bDivBound = 12;
       resDivBound = 12;
     } else {
-      hardDivision = false;
       bDivBound = 10;
       resDivBound = 10;
     }
@@ -249,23 +240,12 @@ class QuickMathsLevelState extends ChangeNotifier
       result = a * b;
     } else {
       // op == '÷'
-      if (hardDivision) {
-        // Hardest: divisor and quotient are both 2‑digit numbers (10‑99)
-        do {
-          b = rng.nextInt(90) + 10; // 10‑99
-          result = rng.nextInt(90) + 10; // 10‑99
-          a = result * b;
-          // Prevent overflow (should be within 4 digits)
-        } while (a > 9999); // safety, though max is 99*99=9801
-      } else {
-        // Simple division: exact, no remainder
-        do {
-          b = rng.nextInt(bDivBound + 1);
-        } while (b < 2);
-        result = rng.nextInt(resDivBound + 1);
-        if (result == 0) result = 1;
-        a = result * b;
-      }
+      do {
+        b = rng.nextInt(bDivBound + 1);
+      } while (b < 2);
+      result = rng.nextInt(resDivBound + 1);
+      if (result == 0) result = 1;
+      a = result * b;
     }
 
     final tile = EquationData(

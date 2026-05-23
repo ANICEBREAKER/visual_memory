@@ -29,9 +29,9 @@ class MathEquationCard extends StatelessWidget {
 
 
     Color answerColor;
-    if (effectiveIsCorrect == null) {
+    if (context.watch<QuickMathsLevelState>().isCorrect == null) {
       answerColor = Color(0xFF00E5FF); // pending / cyan
-    } else if (effectiveIsCorrect == true) {
+    } else if (context.watch<QuickMathsLevelState>().isCorrect == true) {
       answerColor = Color(0xFF76FF03); // correct (green)
     } else {
       answerColor = Color(0xFFFF1744); // wrong (red)
@@ -42,7 +42,8 @@ class MathEquationCard extends StatelessWidget {
         ? answerColor
         : (effectiveIsCorrect == false ? Color(0xFFFF1744) : Color(0xFF2C3444));
 
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 500),
       width: double.infinity,
       padding:  EdgeInsets.symmetric(vertical: 16, horizontal: 16), // compact padding
       decoration: BoxDecoration(
