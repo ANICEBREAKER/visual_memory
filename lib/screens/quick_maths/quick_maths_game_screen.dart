@@ -20,7 +20,7 @@ class QuickMathsGameScreen extends StatefulWidget {
 
 class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
   String playerAnswer = "";
-  bool _showCorrectAnimating = false; // NEW: show temporary correct state
+  final bool _showCorrectAnimating = true;
 
   @override
   void initState() {
@@ -80,7 +80,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
               padding: ResponsiveConfig.edgeInsetsSymmetric(
                 context,
                 horizontal: SpacingSize.none,
-                vertical: SpacingSize.m,
+                vertical: SpacingSize.s,
               ),
               child: Container(
                 width: double.infinity,
@@ -145,7 +145,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
               padding: ResponsiveConfig.edgeInsetsSymmetric(
                 context,
                 horizontal: SpacingSize.none,
-                vertical: SpacingSize.xxs,
+                vertical: SpacingSize.s,
               ),
               child: ProgressBarCountdown(
                 total: context
@@ -166,7 +166,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                 padding: ResponsiveConfig.edgeInsetsSymmetric(
                   context,
                   horizontal: SpacingSize.none,
-                  vertical: SpacingSize.xs,
+                  vertical: SpacingSize.s,
                 ),
                 child: Center(
                   child: Builder(builder: (_) {
@@ -180,11 +180,9 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                     }
                     final top = eqs.first;
 
-                    // determine correctness feedback for the displayed playerAnswer:
-                    // null = pending, true = correct, false = wrong
                     bool? isCorrect;
                     if (_showCorrectAnimating) {
-                      isCorrect = true; // force green while animating
+                      isCorrect = null;
                     } else {
                       if (playerAnswer.isEmpty) {
                         isCorrect = null;
@@ -193,9 +191,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                         if (parsed == null) {
                           isCorrect = null;
                         } else {
-                          // only show definite correct/wrong when lengths match expected result length
-                          if (playerAnswer.length ==
-                              top.result.toString().length) {
+                          if (playerAnswer.length == top.result.toString().length) {
                             isCorrect = parsed == top.result;
                           } else {
                             isCorrect = null;
@@ -204,8 +200,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                       }
                     }
 
-                    return SizedBox(
-                      width: double.infinity,
+                    return SizedBox.expand(
                       child: MathEquationCard(
                         firstNumber: top.firstNumber.toString(),
                         secondNumber: top.secondNumber.toString(),
@@ -218,7 +213,6 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                 ),
               ),
             ),
-            SizedBox(height: screenHeight * 0.005), // slightly smaller gap
             Expanded(
               flex: 8,
               child: SizedBox(
@@ -228,7 +222,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                   padding: ResponsiveConfig.edgeInsetsSymmetric(
                     context,
                     horizontal: SpacingSize.none,
-                    vertical: SpacingSize.none,
+                    vertical: SpacingSize.s,
                   ),
                   // add a transparent Material so any InkWell / InkResponse within the numpad works correctly
                   child: Material(
@@ -241,7 +235,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                       textStyle: TextStyle(
                           color: Colors.white,
                           fontSize: ResponsiveConfig.textSize(context,
-                              size: TextSize.xl),
+                              size: TextSize.xxl),
                           fontFamily: 'GoogleSans',
                           fontVariations: [FontVariation('wght', 700)]),
                       useBackspace: true,
@@ -284,7 +278,8 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.m)), // slightly smaller gap
           ],
         ),
       ),
@@ -322,7 +317,7 @@ class ProgressBarCountdown extends StatelessWidget {
     Key? key,
     required this.total,
     required this.remaining,
-    this.height = 8.0,
+    this.height = 6.0,
     this.color = Colors.blue,
     this.backgroundColor = const Color(0xFF2C3444),
     this.borderRadius = const BorderRadius.all(Radius.circular(6)),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/theme/responsive_config.dart';
 
 // Assuming AppColors is defined as we discussed
 // class AppColors { ... }
@@ -33,8 +34,8 @@ class MathEquationCard extends StatelessWidget {
 
     // Outer container border color: green when correct, red when wrong, default otherwise
     final Color outerBorderColor = isCorrect == true
-        ? answerColor.withOpacity(0.35)
-        : (isCorrect == false ? Color(0xFFFF1744).withOpacity(0.5) : Color(0xFF2C3444));
+        ? answerColor
+        : (isCorrect == false ? Color(0xFFFF1744) : Color(0xFF2C3444));
 
     return Container(
       width: double.infinity,
@@ -47,112 +48,95 @@ class MathEquationCard extends StatelessWidget {
           width: 2,
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Numbers row: use Flexible+FittedBox to scale down if needed
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                fit: FlexFit.tight,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.center,
-                  child: Text(
-                    firstNumber,
-                    style:  TextStyle(
-                      color: Colors.white,
-                      fontSize: 56, // reduced
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: -1,
-                    ),
-                    maxLines: 1,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  firstNumber,
+                  style:  TextStyle(
+                    color: Colors.white,
+                    fontSize: 56, // reduced
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -1,
                   ),
+                  maxLines: 1,
                 ),
-              ),
 
-              Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 12), // tighter spacing
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
+                Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: 12), // tighter spacing
                   child: Text(
                     operator == '*' ? '×' : operator,
                     style:  TextStyle(
                       color: Color(0xFF00E5FF), // accent color
-                      fontSize: 34, // reduced
+                      fontSize: 40, // reduced
                       fontWeight: FontWeight.bold,
                     ),
                     maxLines: 1,
                   ),
                 ),
-              ),
 
-              Flexible(
-                fit: FlexFit.tight,
-                child: FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.center,
-                  child: Text(
-                    secondNumber,
-                    style:  TextStyle(
-                      color: Colors.white,
-                      fontSize: 56, // reduced
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: -1,
-                    ),
-                    maxLines: 1,
+                Text(
+                  secondNumber,
+                  style:  TextStyle(
+                    color: Colors.white,
+                    fontSize: 56, // reduced
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: -1,
                   ),
-                ),
-              ),
-            ],
-          ),
-
-           SizedBox(height: 12), // reduced
-
-          // --- Divider ---
-          Container(
-            width: 48,
-            height: 3,
-            decoration: BoxDecoration(
-              color:  Color(0xFF2C3444),
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-
-           SizedBox(height: 12), // reduced
-
-          // --- Player Answer Box ---
-          Container(
-            padding:  EdgeInsets.symmetric(horizontal: 28, vertical: 12), // reduced
-            decoration: BoxDecoration(
-              color:  Color(0xFF05070C), // backgroundDarkDimmed
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(
-                color: answerColor.withOpacity(0.3),
-                width: 2,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: answerColor.withOpacity(0.08),
-                  blurRadius: 16,
-                  spreadRadius: -4,
+                  maxLines: 1,
                 ),
               ],
             ),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
+
+            //SizedBox(height: 12), // reduced
+
+            // --- Divider ---
+            Container(
+              width: 48,
+              height: 3,
+              decoration: BoxDecoration(
+                color:  Color(0xFF2C3444),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+
+            //SizedBox(height: 12), // reduced
+            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.s),),
+
+            // --- Player Answer Box ---
+            Container(
+              padding:  ResponsiveConfig.edgeInsetsSymmetric(context, horizontal: SpacingSize.l, vertical: SpacingSize.s), // reduced
+              decoration: BoxDecoration(
+                color:  Color(0xFF05070C), // backgroundDarkDimmed
+                borderRadius: BorderRadius.circular(18),
+                border: Border.all(
+                  color: answerColor,
+                  width: 2,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: answerColor,
+                    blurRadius: 16,
+                    spreadRadius: -4,
+                  ),
+                ],
+              ),
               child: Text(
                 playerAnswer.isEmpty ? '?' : playerAnswer,
                 style: TextStyle(
-                  color: playerAnswer.isEmpty ? Colors.white.withOpacity(0.25) : answerColor,
+                  color: playerAnswer.isEmpty ? Colors.white : answerColor,
                   fontSize: 48, // reduced
                   fontWeight: FontWeight.bold,
                   shadows: [
                     if (isCorrect != null)
                       Shadow(
-                        color: answerColor.withOpacity(0.45),
+                        color: answerColor,
                         blurRadius: 12,
                       ),
                   ],
@@ -160,8 +144,8 @@ class MathEquationCard extends StatelessWidget {
                 maxLines: 1,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
