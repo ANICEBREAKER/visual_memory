@@ -60,35 +60,52 @@ class SimpleNumpad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // make sure childAspectRatio is a valid double (avoid division by zero)
-    return GridView.count(
-      padding: EdgeInsets.zero,
-      physics: const NeverScrollableScrollPhysics(),
-      crossAxisCount: 3,
-      crossAxisSpacing: gridSpacing,
-      mainAxisSpacing: gridSpacing,
-      shrinkWrap: true,
-      childAspectRatio: 2,
-      children: [
-        _padTextButton("1"),
-        _padTextButton("2"),
-        _padTextButton("3"),
-        _padTextButton("4"),
-        _padTextButton("5"),
-        _padTextButton("6"),
-        _padTextButton("7"),
-        _padTextButton("8"),
-        _padTextButton("9"),
-        optionText != null ? _padTextButton(optionText!) : _padDummyButton(),
-        _padTextButton("0"),
-        useBackspace ? _padImageButton() : _padDummyButton(),
-      ],
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      int rows = 4;
+      double itemHeight = (constraints.maxHeight - (gridSpacing * (rows - 1))) / rows;
+      return GridView.builder(
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          crossAxisSpacing: gridSpacing,
+          mainAxisSpacing: gridSpacing,
+          mainAxisExtent: itemHeight,
+          childAspectRatio: 2,
+        ),
+        shrinkWrap: true,
+        itemCount: 12,
+        itemBuilder: (context, index) => index == 9
+            ? _padTextButton(optionText!)
+            : index == 10
+                ? _padTextButton("0")
+                : index == 11
+                    ? _padImageButton()
+                    : _padTextButton((index.toInt() + 1).toString()),
+        // children: [
+        //   _padTextButton("1"),
+        //   _padTextButton("2"),
+        //   _padTextButton("3"),
+        //   _padTextButton("4"),
+        //   _padTextButton("5"),
+        //   _padTextButton("6"),
+        //   _padTextButton("7"),
+        //   _padTextButton("8"),
+        //   _padTextButton("9"),
+        //   optionText != null
+        //       ? _padTextButton(optionText!)
+        //       : _padDummyButton(),
+        //   _padTextButton("0"),
+        //   useBackspace ? _padImageButton() : _padDummyButton(),
+        // ],
+      );
+    });
   }
 
   Widget _flatButton(
-      Widget child,
-      VoidCallback onPressed,
-      ) {
+    Widget child,
+    VoidCallback onPressed,
+  ) {
     return ElevatedButton(
       clipBehavior: Clip.antiAlias,
       style: OutlinedButton.styleFrom(
@@ -108,7 +125,6 @@ class SimpleNumpad extends StatelessWidget {
           ),
         ),
         shadowColor: AppColors.hoverOverlay,
-
       ),
       onPressed: onPressed,
       child: child,
@@ -140,14 +156,14 @@ class SimpleNumpad extends StatelessWidget {
         text,
         style: textStyle,
       ),
-          () => onPressed(text),
+      () => onPressed(text),
     );
   }
 
   Widget _padImageButton() {
     return _flatButton(
       _backspaceSvg(),
-          () => onPressed('BACKSPACE'),
+      () => onPressed('BACKSPACE'),
     );
   }
 
