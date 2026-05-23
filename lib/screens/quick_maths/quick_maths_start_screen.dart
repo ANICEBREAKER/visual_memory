@@ -9,7 +9,7 @@ class QuickMathsStartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return GameStartScreen(
       name: 'Quick Maths',
-      description: ' Solve simple math questions, as easy as that, but can you handle the time pressure?',
+      description: ' Solve increasingly difficult equations under time pressure. Sharpen your mental math skills and challenge yourself to beat the clock!',
       icon: Icons.calculate_rounded,
       gamePath: RoutePath.quickMathsGameScreen,
     );
