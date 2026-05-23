@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/theme/responsive_config.dart';
+import 'package:provider/provider.dart';
+import '../quick_maths_logic/level_state.dart';
 
 // Assuming AppColors is defined as we discussed
 // class AppColors { ... }
@@ -22,20 +24,23 @@ class MathEquationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the color of the player's answer based on the condition
+    // If parent didn't pass isCorrect explicitly, read it from provider so this widget updates reactively.
+    final bool? effectiveIsCorrect = context.watch<QuickMathsLevelState>().isCorrect;
+
+
     Color answerColor;
-    if (isCorrect == null) {
-      answerColor =  Color(0xFF00E5FF); // primaryDark / Cyan for pending
-    } else if (isCorrect == true) {
-      answerColor =  Color(0xFF76FF03); // correctAnswer (Pastel Green)
+    if (effectiveIsCorrect == null) {
+      answerColor = Color(0xFF00E5FF); // pending / cyan
+    } else if (effectiveIsCorrect == true) {
+      answerColor = Color(0xFF76FF03); // correct (green)
     } else {
-      answerColor =  Color(0xFFFF1744); // wrongAnswer (Pastel Red)
+      answerColor = Color(0xFFFF1744); // wrong (red)
     }
 
     // Outer container border color: green when correct, red when wrong, default otherwise
-    final Color outerBorderColor = isCorrect == true
+    final Color outerBorderColor = effectiveIsCorrect == true
         ? answerColor
-        : (isCorrect == false ? Color(0xFFFF1744) : Color(0xFF2C3444));
+        : (effectiveIsCorrect == false ? Color(0xFFFF1744) : Color(0xFF2C3444));
 
     return Container(
       width: double.infinity,
@@ -134,7 +139,7 @@ class MathEquationCard extends StatelessWidget {
                   fontSize: 48, // reduced
                   fontWeight: FontWeight.bold,
                   shadows: [
-                    if (isCorrect != null)
+                    if (effectiveIsCorrect != null)
                       Shadow(
                         color: answerColor,
                         blurRadius: 12,

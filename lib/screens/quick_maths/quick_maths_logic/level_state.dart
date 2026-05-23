@@ -56,42 +56,75 @@ class QuickMathsLevelState extends ChangeNotifier
     return step;
   }
 
+  bool? isCorrect;
+
+  bool _isAnimating = false;
+
   @override
-  void evaluate(value) async {
-    if (equations.isEmpty) {
+  Future<void> evaluate(value) async {
+    // prevent evaluating while an animation is showing
+    if (_isAnimating || equations.isEmpty) {
       notifyListeners();
       return;
     }
 
     int? parsed;
-    if (value is int) {
+    if (value == null) {
+      parsed = null;
+    } else if (value is int) {
       parsed = value;
     } else if (value is String) {
       parsed = int.tryParse(value);
     }
 
-    correct = equations.first.result;
-    //print(lives);
-    if (parsed == correct) {
-      // correct answer
+    final correctAnswer = equations.first.result;
+
+    // determine correctness
+    final bool correct = (parsed != null && parsed == correctAnswer);
+
+    // set animating state and show immediate feedback
+    _isAnimating = true;
+    isCorrect = correct;
+    stopTimer(); // freeze timer while showing feedback
+    notifyListeners();
+
+    // show feedback for 500ms
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    // commit effect after feedback
+    if (correct) {
       level += 1;
       equations.removeAt(0);
       generateEquation(level + 19);
-      // reset timer for next equation
       timeRemaining = totalSeconds.toDouble();
+      isCorrect = null;
+      _isAnimating = false;
+      notifyListeners();
+      // restart timer for next equation
+      startTimer();
+      return;
     } else {
-      // incorrect answer -> lose a life
+      // wrong answer (or null/invalid)
       lives -= 1;
       if (lives <= 0) {
         stopTimer();
+        // clear animation state before navigating
+        isCorrect = null;
+        _isAnimating = false;
+        notifyListeners();
         visualMemoryGoRouter.go(
             '/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
+        return;
+      } else {
+        // reset timer and continue with same equation
+        timeRemaining = totalSeconds.toDouble();
+        isCorrect = null;
+        _isAnimating = false;
         notifyListeners();
+        startTimer();
         return;
       }
-      timeRemaining = totalSeconds.toDouble();
     }
-    notifyListeners(); //
   }
 
   @override
@@ -103,6 +136,7 @@ class QuickMathsLevelState extends ChangeNotifier
       generateEquation(i);
     }
     timeRemaining = totalSeconds.toDouble();
+    isCorrect = null;
     notifyListeners();
     startTimer();
   }
@@ -244,20 +278,15 @@ class QuickMathsLevelState extends ChangeNotifier
     _timer?.cancel();
     // tick every 100ms for smoother progress
     _timer = Timer.periodic(const Duration(milliseconds: 100), (_) {
+      // If an animation is running, don't decrement timer here.
+      if (_isAnimating) return;
+
       timeRemaining -= 0.1;
       if (timeRemaining <= 0) {
-        // time ran out for current equation
-        lives -= 1;
-        if (lives <= 0) {
-          stopTimer();
-          visualMemoryGoRouter.go(
-              '/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
-          notifyListeners();
-          return;
-        } else {
-          // reset timer but keep the same equation so player can still answer
-          timeRemaining = totalSeconds.toDouble();
-        }
+        // treat timeout as a wrong answer and route through evaluate flow
+        // call evaluate asynchronously (it's safe — it will stop the timer internally)
+        evaluate(null);
+        return;
       }
       notifyListeners();
     });

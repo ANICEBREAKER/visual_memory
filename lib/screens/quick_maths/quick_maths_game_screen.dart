@@ -20,19 +20,42 @@ class QuickMathsGameScreen extends StatefulWidget {
 
 class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
   String playerAnswer = "";
-  final bool _showCorrectAnimating = true;
+  bool? _prevIsCorrect;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<QuickMathsLevelState>(context, listen: false).gameSetup();
+      final lvl = Provider.of<QuickMathsLevelState>(context, listen: false);
+      // listen to isCorrect changes so we can clear the player's answer after animation ends
+      lvl.addListener(_onLevelStateChanged);
+      _prevIsCorrect = lvl.isCorrect;
+      lvl.gameSetup();
     });
   }
 
   @override
   void dispose() {
+    // remove our listener
+    try {
+      Provider.of<QuickMathsLevelState>(context, listen: false)
+          .removeListener(_onLevelStateChanged);
+    } catch (_) {}
     super.dispose();
+  }
+
+  void _onLevelStateChanged() {
+    final lvl = Provider.of<QuickMathsLevelState>(context, listen: false);
+    final current = lvl.isCorrect;
+    // when animation finishes (was non-null, now null) clear the player's answer
+    if (_prevIsCorrect != current) {
+      if (_prevIsCorrect != null && current == null) {
+        setState(() {
+          playerAnswer = "";
+        });
+      }
+      _prevIsCorrect = current;
+    }
   }
 
   @override
@@ -180,25 +203,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                     }
                     final top = eqs.first;
 
-                    bool? isCorrect;
-                    if (_showCorrectAnimating) {
-                      isCorrect = null;
-                    } else {
-                      if (playerAnswer.isEmpty) {
-                        isCorrect = null;
-                      } else {
-                        final parsed = int.tryParse(playerAnswer);
-                        if (parsed == null) {
-                          isCorrect = null;
-                        } else {
-                          if (playerAnswer.length == top.result.toString().length) {
-                            isCorrect = parsed == top.result;
-                          } else {
-                            isCorrect = null;
-                          }
-                        }
-                      }
-                    }
+                    final providerIsCorrect = context.watch<QuickMathsLevelState>().isCorrect;
 
                     return SizedBox.expand(
                       child: MathEquationCard(
@@ -206,7 +211,7 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                         secondNumber: top.secondNumber.toString(),
                         operator: top.operator,
                         playerAnswer: playerAnswer,
-                        isCorrect: isCorrect,
+                        isCorrect: providerIsCorrect,
                       ),
                     );
                   }),
@@ -241,6 +246,9 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                       useBackspace: true,
                       optionText: 'Clear',
                       onPressed: (str) {
+                        final lvl = context.read<QuickMathsLevelState>();
+                        // ignore inputs while feedback animation is active
+                        if (lvl.isCorrect != null) return;
                         // handle special keys
                         setState(() {
                           if (str == 'Clear') {
@@ -270,8 +278,8 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                                     .toString()
                                     .length ==
                                 parsed.toString().length) {
+                          // call evaluate and let level_state manage timer/animation and eventual state reset
                           context.read<QuickMathsLevelState>().evaluate(parsed);
-                          playerAnswer = "";
                         }
                       },
                     ),
@@ -304,7 +312,6 @@ class LivesIcon extends StatelessWidget {
   }
 }
 
-// Compact, local rounded linear progress bar driven by remaining/total.
 class ProgressBarCountdown extends StatelessWidget {
   final double total;
   final double remaining;
