@@ -74,6 +74,7 @@ final GoRouter visualMemoryGoRouter = GoRouter(routes: <RouteBase>[
           return ChangeNotifierProvider<QuickMathsLevelState>(
             create: (_) => QuickMathsLevelState(
               difficulty: difficulty,
+              isSurvivalMode: true, //for now
             ),
             child: QuickMathsGameScreen(difficulty: difficulty),
           );
