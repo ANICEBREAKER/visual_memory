@@ -12,6 +12,7 @@ class VisualMemoryStartScreen extends StatelessWidget {
       description: 'Memorize and replicate the pattern shown by clicking on the squares',
       icon: Icons.grid_view_rounded,
       gamePath: RoutePath.visualMemoryGameScreen,
+      hasSurvivalMode: false, // Placeholder for future use
     );
   }
 }

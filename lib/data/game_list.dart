@@ -12,6 +12,8 @@ class GameTileItem {
   final Color? iconColor;
   final Color? displayColor;
   final bool active;
+  //final List<String> gameModes;
+  final bool hasSurvivalMode; // Placeholder for future use
 
   GameTileItem({
     required this.name,
@@ -20,7 +22,9 @@ class GameTileItem {
     this.destination = const Placeholder(), // Default destination
     required this.iconColor,
     required this.displayColor,
-    required this.active
+    required this.active,
+    //required this.gameModes,
+    this.hasSurvivalMode = false,
   });
 }
 
@@ -45,7 +49,8 @@ List<GameTileItem> dummyGames = [
       destination: QuickMathsStartScreen(),
       iconColor: AppColors.iconMath,
       displayColor: AppColors.iconMathBg,
-      active: true
+      active: true,
+      hasSurvivalMode: true,
   ),
   GameTileItem(
       name: "Flashing tiles",
@@ -81,3 +86,4 @@ List<GameTileItem> dummyGames = [
       displayColor: AppColors.iconLogicBg,
       active: false),
 ];
+

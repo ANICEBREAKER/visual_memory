@@ -6,12 +6,20 @@ import '../../../router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
 
-class GameStartScreen extends StatelessWidget {
+class GameStartScreen extends StatefulWidget {
   final String name;
   final String description;
   final IconData icon;
   final RoutePath gamePath;
-  const GameStartScreen({super.key, required this.name, required this.description, required this.icon, required this.gamePath});
+  final bool hasSurvivalMode; // Placeholder for future use
+  const GameStartScreen({super.key, required this.name, required this.description, required this.icon, required this.gamePath, required this.hasSurvivalMode});
+
+  @override
+  State<GameStartScreen> createState() => _GameStartScreenState();
+}
+
+class _GameStartScreenState extends State<GameStartScreen> {
+  Set<String> selected = {'standard'}; // Default selection for segmented button
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +34,6 @@ class GameStartScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Image.network(icon, color: Colors.white,),
             Container(
               decoration: BoxDecoration(
                 color: AppColors.surfaceDarkVariant,
@@ -46,7 +53,7 @@ class GameStartScreen extends StatelessWidget {
               height: ResponsiveConfig.iconSize(context, size: IconSize.xxl)*1.75,
               child: Center(
                 child: Icon(
-                  icon,
+                  widget.icon,
                   size: ResponsiveConfig.iconSize(context, size: IconSize.xxl),
                   color: AppColors.primaryDarkVariant,
                 ),
@@ -54,16 +61,31 @@ class GameStartScreen extends StatelessWidget {
             ),
             SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.l),),
             Text(
-              name,
+              widget.name,
               style: AppTheme.titleTextStyle(context),
             ),
             Padding(
               padding: ResponsiveConfig.padding(context, size: PaddingSize.xxs),
               child: Text(
-                description,
+                widget.description,
                 textAlign: TextAlign.center,
                 style: AppTheme.descriptionTextStyle(context),
               ),
+            ),
+            if (widget.hasSurvivalMode) SegmentedButton(
+                multiSelectionEnabled: false,
+                segments: <ButtonSegment<String>>[
+                  ButtonSegment(value: 'standard', label: Text('Standard'), icon: Icon(Icons.timer)),
+                  ButtonSegment(value: 'survival', label: Text('Survival'), icon: Icon(Icons.lock_clock)),
+                ],
+              selected: selected,
+              onSelectionChanged: (Set<String> newSelection) {
+                setState(() {
+                  print(newSelection);
+                  selected = newSelection;
+                  print("Check condition: ${selected.contains('survival')}");
+                });
+              },
             ),
             Padding(
               padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
@@ -77,20 +99,23 @@ class GameStartScreen extends StatelessWidget {
                   ),
                   DifficultyButton(
                     label: 'Easy',
-                    gamePath: gamePath,
+                    gamePath: widget.gamePath,
                     icon: Icons.sentiment_satisfied,
+                    isSurvivalMode: selected.contains('survival'),
                   ),
                   SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Medium',
-                    gamePath: gamePath,
+                    gamePath: widget.gamePath,
                     icon: Icons.sentiment_neutral,
+                    isSurvivalMode: selected.contains('survival'),
                   ),
                   SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Hard',
-                    gamePath: gamePath,
+                    gamePath: widget.gamePath,
                     icon: Icons.sentiment_dissatisfied,
+                    isSurvivalMode: selected.contains('survival'),
                   ),
                 ],
               ),

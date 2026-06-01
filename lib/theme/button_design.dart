@@ -67,12 +67,14 @@ class DifficultyButton extends StatelessWidget {
   final String label;
   final RoutePath gamePath;
   final IconData icon;
+  final bool isSurvivalMode; // Placeholder for future use
   //final String highScore;
 
   const DifficultyButton({
     required this.label,
     required this.gamePath,
     required this.icon,
+    required this.isSurvivalMode, // For now, this will be a variable once the segmentedButton is set up
     //required this.highScore,
 
     super.key,
@@ -82,7 +84,7 @@ class DifficultyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     Color color = (label == 'Easy' ? AppColors.easyDifficulty : (label == 'Medium' ? AppColors.mediumDifficulty : AppColors.hardDifficulty));
     return InkWell(
-      onTap: () => context.go('${gamePath.path}?difficulty=$label'),
+      onTap: () => context.go('${gamePath.path}?difficulty=$label&isSurvivalMode=$isSurvivalMode'),
       borderRadius: BorderRadius.circular(24),
       child: Container(
         height: 84,

@@ -12,6 +12,7 @@ class QuickMathsStartScreen extends StatelessWidget {
       description: ' Solve increasingly difficult equations under time pressure. Sharpen your mental math skills and challenge yourself to beat the clock!',
       icon: Icons.calculate_rounded,
       gamePath: RoutePath.quickMathsGameScreen,
+      hasSurvivalMode: true,
     );
   }
 }

@@ -71,10 +71,12 @@ final GoRouter visualMemoryGoRouter = GoRouter(routes: <RouteBase>[
           path: RoutePath.quickMathsGameScreen.path,
         builder: (BuildContext context, GoRouterState state) {
           final difficulty = state.uri.queryParameters['difficulty'] ?? 'Easy';
+          final isSurvivalMode = state.uri.queryParameters['isSurvivalMode'] == "true"; // Default to false if not provided
+          print("isSurvivalMode: $isSurvivalMode"); // Debug print to check the value
           return ChangeNotifierProvider<QuickMathsLevelState>(
             create: (_) => QuickMathsLevelState(
               difficulty: difficulty,
-              isSurvivalMode: true, //for now
+              isSurvivalMode: isSurvivalMode, //For now, this will be a variable once the segmentedButton is set up
             ),
             child: QuickMathsGameScreen(difficulty: difficulty),
           );
