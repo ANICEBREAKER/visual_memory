@@ -14,6 +14,7 @@ import 'screens/visual_memory/visual_memory_start_screen.dart';
 import 'screens/common/menu_screen.dart';
 import 'screens/quick_maths/quick_maths_start_screen.dart';
 import 'screens/quick_maths/quick_maths_game_screen.dart';
+import 'package:game_testing/screens/common/leaderboard_screen.dart';
 
 enum RoutePath {
   root(path: '/'),
@@ -26,7 +27,8 @@ enum RoutePath {
   register(path: '/register'),
   settings(path: '/settings'),
   menu(path: '/menu'),
-  gameSelection(path: '/gameSelection');
+  gameSelection(path: '/gameSelection'),
+  leaderboard(path: '/leaderboard');
 
   final String path;
 
@@ -72,7 +74,6 @@ final GoRouter visualMemoryGoRouter = GoRouter(routes: <RouteBase>[
         builder: (BuildContext context, GoRouterState state) {
           final difficulty = state.uri.queryParameters['difficulty'] ?? 'Easy';
           final isSurvivalMode = state.uri.queryParameters['isSurvivalMode'] == "true"; // Default to false if not provided
-          print("isSurvivalMode: $isSurvivalMode"); // Debug print to check the value
           return ChangeNotifierProvider<QuickMathsLevelState>(
             create: (_) => QuickMathsLevelState(
               difficulty: difficulty,
@@ -116,6 +117,10 @@ final GoRouter visualMemoryGoRouter = GoRouter(routes: <RouteBase>[
           path: RoutePath.gameSelection.path,
           builder: (BuildContext context, GoRouterState state) =>
               TempGameScreen()),
+      GoRoute(
+          path: RoutePath.leaderboard.path,
+          builder: (BuildContext context, GoRouterState state) =>
+              LeaderboardScreen()),
     ],
   )
 ]);

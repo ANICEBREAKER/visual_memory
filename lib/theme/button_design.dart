@@ -67,18 +67,18 @@ class DifficultyButton extends StatelessWidget {
   final String label;
   final RoutePath gamePath;
   final IconData icon;
-  final bool isSurvivalMode; // Placeholder for future use
-  //final String highScore;
+  final String chosenGameMode;
+  final bool isSurvivalMode;
 
-  const DifficultyButton({
+  // Removed `const` constructor and `super.key` shorthand so we can compute at runtime.
+  DifficultyButton({
     required this.label,
     required this.gamePath,
     required this.icon,
-    required this.isSurvivalMode, // For now, this will be a variable once the segmentedButton is set up
-    //required this.highScore,
-
+    String? chosenGameMode,
     super.key,
-  });
+  })  : chosenGameMode = chosenGameMode ?? 'Standard',
+        isSurvivalMode = (chosenGameMode ?? 'Standard').toLowerCase() == 'survival';
 
   @override
   Widget build(BuildContext context) {

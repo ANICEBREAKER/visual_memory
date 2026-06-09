@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/theme/button_design.dart';
 import 'package:game_testing/theme/responsive_config.dart';
+import 'package:go_router/go_router.dart';
 import '../../../data/game_list.dart';
 import '../../../router.dart';
 import '../../../theme/app_colors.dart';
@@ -24,6 +25,8 @@ class _GameStartScreenState extends State<GameStartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final String chosenGameMode = selected.isNotEmpty ? selected.first : 'Standard';
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(onPressed: () {Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: Colors.white,)),
@@ -110,36 +113,36 @@ class _GameStartScreenState extends State<GameStartScreen> {
                     label: 'Easy',
                     gamePath: widget.gamePath,
                     icon: Icons.sentiment_satisfied,
-                    isSurvivalMode: selected.contains('Survival'),
+                    chosenGameMode: chosenGameMode,
                   ),
                   SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Medium',
                     gamePath: widget.gamePath,
                     icon: Icons.sentiment_neutral,
-                    isSurvivalMode: selected.contains('Survival'),
+                    chosenGameMode: chosenGameMode,
                   ),
                   SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Hard',
                     gamePath: widget.gamePath,
                     icon: Icons.sentiment_dissatisfied,
-                    isSurvivalMode: selected.contains('Survival'),
+                    chosenGameMode: chosenGameMode,
                   ),
                 ],
               ),
             ),
             SizedBox(height: 15),
-            // TextButton(
-            //   onPressed: () {
-            //     Placeholder();
-            //   },
-            //   child: Text(
-            //     'View Leaderboard',
-            //     style: TextStyle(
-            //         color: AppColors.primaryDarkVariant, fontSize: 18.0),
-            //   ),
-            // ),
+            TextButton(
+              onPressed: () {
+                context.go(RoutePath.leaderboard.path);
+              },
+              child: Text(
+                'View Leaderboard',
+                style: TextStyle(
+                    color: AppColors.primaryDarkVariant, fontSize: 18.0),
+              ),
+            ),
           ],
         ),
       ),
