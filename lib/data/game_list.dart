@@ -12,8 +12,7 @@ class GameTileItem {
   final Color? iconColor;
   final Color? displayColor;
   final bool active;
-  //final List<String> gameModes;
-  final bool hasSurvivalMode; // Placeholder for future use
+  final List<GameMode> allGameModes;
 
   GameTileItem({
     required this.name,
@@ -23,8 +22,26 @@ class GameTileItem {
     required this.iconColor,
     required this.displayColor,
     required this.active,
-    //required this.gameModes,
-    this.hasSurvivalMode = false,
+    List<GameMode>? modes,
+  }) : allGameModes = modes ??
+            [
+              GameMode(
+                name: "Standard",
+                icon: Icon(Icons.timer),
+                description: "Standard mode",
+              )
+            ];
+}
+
+class GameMode {
+  final String name;
+  final Icon icon;
+  final String description;
+
+  GameMode({
+    required this.name,
+    required this.icon,
+    required this.description,
   });
 }
 
@@ -39,18 +56,28 @@ List<GameTileItem> dummyGames = [
       destination: VisualMemoryStartScreen(),
       iconColor: AppColors.iconMemory,
       displayColor: AppColors.iconMemoryBg,
-    active: true
-  ),
+      active: true),
   GameTileItem(
-      name: "Quick maths",
-      description: "Solve as many math equations quickly!",
-      icon: Icons.calculate_rounded,
-      // A calculator icon
-      destination: QuickMathsStartScreen(),
-      iconColor: AppColors.iconMath,
-      displayColor: AppColors.iconMathBg,
-      active: true,
-      hasSurvivalMode: true,
+    name: "Quick maths",
+    description: "Solve as many math equations quickly!",
+    icon: Icons.calculate_rounded,
+    // A calculator icon
+    destination: QuickMathsStartScreen(),
+    iconColor: AppColors.iconMath,
+    displayColor: AppColors.iconMathBg,
+    active: true,
+    modes: [
+      GameMode(
+        name: "Standard",
+        icon: Icon(Icons.timer),
+        description: "The classic mode",
+      ),
+      GameMode(
+        name: "Survival",
+        icon: Icon(Icons.whatshot_rounded),
+        description: "Keep going until time runs out!",
+      ),
+    ],
   ),
   GameTileItem(
       name: "Flashing tiles",
@@ -59,11 +86,10 @@ List<GameTileItem> dummyGames = [
       // A grid icon
       iconColor: AppColors.iconTiles,
       displayColor: AppColors.iconTilesBg,
-    active: false
-  ),
+      active: false),
   GameTileItem(
-      name: "Word Ladder",
-      description: "Change one letter to form a new word",
+      name: "Word Scramble",
+      description: "Unscramble the letters to form a word",
       icon: Icons.sort_by_alpha_rounded,
       // A ladder icon
       iconColor: AppColors.iconWord,
@@ -86,4 +112,3 @@ List<GameTileItem> dummyGames = [
       displayColor: AppColors.iconLogicBg,
       active: false),
 ];
-

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/data/game_list.dart';
 import '../../router.dart';
 import '../common/game_template/game_start_screen.dart';
 
@@ -12,7 +13,7 @@ class VisualMemoryStartScreen extends StatelessWidget {
       description: 'Memorize and replicate the pattern shown by clicking on the squares',
       icon: Icons.grid_view_rounded,
       gamePath: RoutePath.visualMemoryGameScreen,
-      hasSurvivalMode: false, // Placeholder for future use
+      modes: dummyGames[0].allGameModes,
     );
   }
 }

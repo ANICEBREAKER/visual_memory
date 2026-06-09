@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_testing/theme/button_design.dart';
 import 'package:game_testing/theme/responsive_config.dart';
-
+import '../../../data/game_list.dart';
 import '../../../router.dart';
 import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
@@ -11,15 +11,16 @@ class GameStartScreen extends StatefulWidget {
   final String description;
   final IconData icon;
   final RoutePath gamePath;
-  final bool hasSurvivalMode; // Placeholder for future use
-  const GameStartScreen({super.key, required this.name, required this.description, required this.icon, required this.gamePath, required this.hasSurvivalMode});
+  final List<GameMode>? modes;
+  const GameStartScreen({super.key, required this.name, required this.description, required this.icon, required this.gamePath, required this.modes});
 
   @override
   State<GameStartScreen> createState() => _GameStartScreenState();
 }
 
 class _GameStartScreenState extends State<GameStartScreen> {
-  Set<String> selected = {'standard'}; // Default selection for segmented button
+  // Default selection: "Standard"
+  Set<String> selected = {'Standard'};
 
   @override
   Widget build(BuildContext context) {
@@ -72,21 +73,29 @@ class _GameStartScreenState extends State<GameStartScreen> {
                 style: AppTheme.descriptionTextStyle(context),
               ),
             ),
-            if (widget.hasSurvivalMode) SegmentedButton(
-                multiSelectionEnabled: false,
-                segments: <ButtonSegment<String>>[
-                  ButtonSegment(value: 'standard', label: Text('Standard'), icon: Icon(Icons.timer)),
-                  ButtonSegment(value: 'survival', label: Text('Survival'), icon: Icon(Icons.lock_clock)),
-                ],
-              selected: selected,
-              onSelectionChanged: (Set<String> newSelection) {
-                setState(() {
-                  print(newSelection);
-                  selected = newSelection;
-                  print("Check condition: ${selected.contains('survival')}");
-                });
-              },
-            ),
+
+            // Build SegmentedButton from provided modes (if any)
+            if (widget.modes != null && widget.modes!.isNotEmpty)
+              Padding(
+                padding: ResponsiveConfig.padding(context, size: PaddingSize.xs),
+                child: SegmentedButton<String>(
+                  multiSelectionEnabled: false,
+                  segments: widget.modes!.map((mode) {
+                    return ButtonSegment<String>(
+                      value: mode.name,
+                      label: Text(mode.name),
+                      icon: mode.icon,
+                    );
+                  }).toList(),
+                  selected: selected,
+                  onSelectionChanged: (Set<String> newSelection) {
+                    setState(() {
+                      selected = newSelection;
+                    });
+                  },
+                ),
+              ),
+
             Padding(
               padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
               child: Column(
@@ -101,21 +110,21 @@ class _GameStartScreenState extends State<GameStartScreen> {
                     label: 'Easy',
                     gamePath: widget.gamePath,
                     icon: Icons.sentiment_satisfied,
-                    isSurvivalMode: selected.contains('survival'),
+                    isSurvivalMode: selected.contains('Survival'),
                   ),
                   SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Medium',
                     gamePath: widget.gamePath,
                     icon: Icons.sentiment_neutral,
-                    isSurvivalMode: selected.contains('survival'),
+                    isSurvivalMode: selected.contains('Survival'),
                   ),
                   SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Hard',
                     gamePath: widget.gamePath,
                     icon: Icons.sentiment_dissatisfied,
-                    isSurvivalMode: selected.contains('survival'),
+                    isSurvivalMode: selected.contains('Survival'),
                   ),
                 ],
               ),
