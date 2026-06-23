@@ -83,6 +83,7 @@ class DifficultyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color color = (label == 'Easy' ? AppColors.easyDifficulty : (label == 'Medium' ? AppColors.mediumDifficulty : AppColors.hardDifficulty));
+    Color tintColor = (label == 'Easy' ? AppColors.easyTintDifficulty : (label == 'Medium' ? AppColors.mediumTintDifficulty : AppColors.hardTintDifficulty));
     return InkWell(
       onTap: () => context.go('${gamePath.path}?difficulty=$label&isSurvivalMode=$isSurvivalMode'),
       borderRadius: BorderRadius.circular(24),
@@ -90,15 +91,15 @@ class DifficultyButton extends StatelessWidget {
         height: 84,
         padding: EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: color,
+          color: AppColors.gameCardBackground,
           borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(
-              color: color.withOpacity(0.5),
-              blurRadius: 20,
-              offset: Offset(0, 6),
-            ),
-          ],
+          border: Border.all(color: color, width: 0.5),
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: color,
+          //     blurRadius: 5,
+          //   ),
+          // ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,11 +110,11 @@ class DifficultyButton extends StatelessWidget {
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.2),
+                    color: tintColor,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(color: Colors.white.withOpacity(0.1)),
                   ),
-                  child: Icon(icon, color: Colors.white, size: 28),
+                  child: Icon(icon, color: color, size: 28),
                 ),
                 SizedBox(width: 16),
                 Column(
@@ -125,7 +126,7 @@ class DifficultyButton extends StatelessWidget {
                       margin: EdgeInsets.only(top: 4),
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.15),
+                        color: Colors.black,
                         borderRadius: BorderRadius.circular(6),
                       ),
                       child: Text('High Score: 20', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white.withOpacity(0.9))),

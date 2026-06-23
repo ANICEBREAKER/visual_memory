@@ -77,8 +77,7 @@ class _TempGameScreenState extends State<TempGameScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      dummyGames[index].destination),
+                                  builder: (context) => dummyGames[index].destination),
                             );
                           },
                           enabled: dummyGames[index].active,

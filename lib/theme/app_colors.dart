@@ -51,6 +51,10 @@ class AppColors {
   static const Color mediumDifficulty = Color(0xFFFEB800);
   static const Color hardDifficulty = Color(0xFFB71C1C);
 
+  static const Color easyTintDifficulty = Color(0xFF0E211B);
+  static const Color mediumTintDifficulty = Color(0xFF241D12);
+  static const Color hardTintDifficulty = Color(0xFF231418);
+
   // ==========================================
   // 4. ANSWER FEEDBACK COLORS
   // ==========================================
@@ -109,4 +113,23 @@ class AppColors {
   // --- Logic Flow (Coral/Pink) ---
   static const Color iconLogic = Color(0xFFFF4081);
   static const Color iconLogicBg = Color(0x1AFF4081);
+
+  // ==========================================
+  // 9. LEADERBOARD RANKING COLORS
+  // ==========================================
+
+  // 1st Place
+  static const Color firstText = Color(0xFFFFD700);
+  static const Color firstBorder = Color(0xFFFFB300);
+  static const Color firstTint = Color(0x14FFD700); // 8% Opacity
+
+  // 2nd Place
+  static const Color secondText = Color(0xFFE0E0E0);
+  static const Color secondBorder = Color(0xFF9E9E9E);
+  static const Color secondTint = Color(0x14E0E0E0); // 8% Opacity
+
+  // 3rd Place
+  static const Color thirdText = Color(0xFFCD7F32);
+  static const Color thirdBorder = Color(0xFFA0522D);
+  static const Color thirdTint = Color(0x14CD7F32); // 8% Opacity
 }
