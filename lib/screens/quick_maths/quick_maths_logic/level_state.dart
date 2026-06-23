@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:game_testing/level_state_interface.dart';
-import '../../../router.dart' show visualMemoryGoRouter;
+import '../../../router.dart' show goRouter;
 import '../widget/equation_data.dart';
 
 class QuickMathsLevelState extends ChangeNotifier
@@ -144,7 +144,7 @@ class QuickMathsLevelState extends ChangeNotifier
           isCorrect = null;
           _isAnimating = false;
           notifyListeners();
-          visualMemoryGoRouter.go(
+          goRouter.go(
               '/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
           return;
         }
@@ -157,7 +157,7 @@ class QuickMathsLevelState extends ChangeNotifier
           isCorrect = null;
           _isAnimating = false;
           notifyListeners();
-          visualMemoryGoRouter.go(
+          goRouter.go(
               '/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
           return;
         } else {
