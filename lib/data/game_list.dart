@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
 import 'package:game_testing/screens/quick_maths/quick_maths_start_screen.dart';
 import '../../theme/app_colors.dart';
+import '../router.dart';
 
 // The class for a game item
 class GameTileItem {
@@ -11,6 +12,7 @@ class GameTileItem {
   final Widget destination;
   final Color? iconColor;
   final Color? displayColor;
+  final RoutePath gamePath;
   final bool active;
   final List<GameMode> allGameModes;
 
@@ -21,6 +23,7 @@ class GameTileItem {
     this.destination = const Placeholder(), // Default destination
     required this.iconColor,
     required this.displayColor,
+    this.gamePath = RoutePath.menu, // Default path
     required this.active,
     List<GameMode>? modes,
   }) : allGameModes = modes ??
@@ -52,10 +55,10 @@ List<GameTileItem> dummyGames = [
       name: "Visual memory",
       description: "Memorize patterns on a grid of squares",
       icon: Icons.grid_view_rounded,
-      // A brain/memory icon
       destination: VisualMemoryStartScreen(),
       iconColor: AppColors.iconMemory,
       displayColor: AppColors.iconMemoryBg,
+      gamePath: RoutePath.visualMemoryGameScreen,
       active: true),
   GameTileItem(
     name: "Quick maths",
@@ -65,6 +68,7 @@ List<GameTileItem> dummyGames = [
     destination: QuickMathsStartScreen(),
     iconColor: AppColors.iconMath,
     displayColor: AppColors.iconMathBg,
+    gamePath: RoutePath.quickMathsGameScreen,
     active: true,
     modes: [
       GameMode(

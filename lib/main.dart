@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.light(context),
       darkTheme: AppTheme.dark(context),
       themeMode: ThemeMode.dark,
-      routerConfig: visualMemoryGoRouter,
+      routerConfig: goRouter,
       //useInheritedMediaQuery: true,
       locale: DevicePreview.locale(context),
       builder: DevicePreview.appBuilder,

@@ -37,7 +37,7 @@ enum RoutePath {
   //String get name => toString().split('.').last;
 }
 
-final GoRouter visualMemoryGoRouter = GoRouter(routes: <RouteBase>[
+final GoRouter goRouter = GoRouter(routes: <RouteBase>[
   GoRoute(
     path: RoutePath.root.path,
     builder: (BuildContext context, GoRouterState state) {
@@ -119,8 +119,11 @@ final GoRouter visualMemoryGoRouter = GoRouter(routes: <RouteBase>[
               TempGameScreen()),
       GoRoute(
           path: RoutePath.leaderboard.path,
-          builder: (BuildContext context, GoRouterState state) =>
-              LeaderboardScreen()),
+          builder: (BuildContext context, GoRouterState state) {
+            final index = int.tryParse(state.uri.queryParameters['index'] ?? '0') ?? 0;
+            return LeaderboardScreen(initialGameIndex: index);
+          }
+      )
     ],
   )
 ]);

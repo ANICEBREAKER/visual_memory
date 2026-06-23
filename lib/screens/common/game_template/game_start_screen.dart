@@ -8,12 +8,8 @@ import '../../../theme/app_colors.dart';
 import '../../../theme/app_theme.dart';
 
 class GameStartScreen extends StatefulWidget {
-  final String name;
-  final String description;
-  final IconData icon;
-  final RoutePath gamePath;
-  final List<GameMode>? modes;
-  const GameStartScreen({super.key, required this.name, required this.description, required this.icon, required this.gamePath, required this.modes});
+  final int gameIndex;
+  const GameStartScreen({super.key, required this.gameIndex});
 
   @override
   State<GameStartScreen> createState() => _GameStartScreenState();
@@ -31,6 +27,7 @@ class _GameStartScreenState extends State<GameStartScreen> {
       appBar: AppBar(
         leading: IconButton(onPressed: () {Navigator.pop(context);}, icon: Icon(Icons.arrow_back, color: Colors.white,)),
         actions: [
+          IconButton(onPressed: () {context.push('/leaderboard?index=${widget.gameIndex}');}, icon: Icon(Icons.leaderboard, color: Colors.white,)),
           IconButton(onPressed: () {}, icon: Icon(Icons.settings, color: Colors.white,))
         ],
       ),
@@ -53,11 +50,11 @@ class _GameStartScreenState extends State<GameStartScreen> {
                   ),
                 ],
               ),
-              width: ResponsiveConfig.iconSize(context, size: IconSize.xxl)*1.75,
-              height: ResponsiveConfig.iconSize(context, size: IconSize.xxl)*1.75,
+              width: ResponsiveConfig.iconSize(context, size: IconSize.xxl)*1.5,
+              height: ResponsiveConfig.iconSize(context, size: IconSize.xxl)*1.5,
               child: Center(
                 child: Icon(
-                  widget.icon,
+                  dummyGames[widget.gameIndex].icon,
                   size: ResponsiveConfig.iconSize(context, size: IconSize.xxl),
                   color: AppColors.primaryDarkVariant,
                 ),
@@ -65,25 +62,25 @@ class _GameStartScreenState extends State<GameStartScreen> {
             ),
             SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.l),),
             Text(
-              widget.name,
+              dummyGames[widget.gameIndex].name,
               style: AppTheme.titleTextStyle(context),
             ),
             Padding(
               padding: ResponsiveConfig.padding(context, size: PaddingSize.xxs),
               child: Text(
-                widget.description,
+                dummyGames[widget.gameIndex].description,
                 textAlign: TextAlign.center,
                 style: AppTheme.descriptionTextStyle(context),
               ),
             ),
 
             // Build SegmentedButton from provided modes (if any)
-            if (widget.modes != null && widget.modes!.isNotEmpty)
+            if (dummyGames[widget.gameIndex].allGameModes != null && dummyGames[widget.gameIndex].allGameModes.isNotEmpty)
               Padding(
                 padding: ResponsiveConfig.padding(context, size: PaddingSize.xs),
                 child: SegmentedButton<String>(
                   multiSelectionEnabled: false,
-                  segments: widget.modes!.map((mode) {
+                  segments: dummyGames[widget.gameIndex].allGameModes!.map((mode) {
                     return ButtonSegment<String>(
                       value: mode.name,
                       label: Text(mode.name),
@@ -111,21 +108,21 @@ class _GameStartScreenState extends State<GameStartScreen> {
                   ),
                   DifficultyButton(
                     label: 'Easy',
-                    gamePath: widget.gamePath,
+                    gamePath: dummyGames[widget.gameIndex].gamePath,
                     icon: Icons.sentiment_satisfied,
                     chosenGameMode: chosenGameMode,
                   ),
                   SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Medium',
-                    gamePath: widget.gamePath,
+                    gamePath: dummyGames[widget.gameIndex].gamePath,
                     icon: Icons.sentiment_neutral,
                     chosenGameMode: chosenGameMode,
                   ),
                   SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
                   DifficultyButton(
                     label: 'Hard',
-                    gamePath: widget.gamePath,
+                    gamePath: dummyGames[widget.gameIndex].gamePath,
                     icon: Icons.sentiment_dissatisfied,
                     chosenGameMode: chosenGameMode,
                   ),
@@ -133,16 +130,6 @@ class _GameStartScreenState extends State<GameStartScreen> {
               ),
             ),
             SizedBox(height: 15),
-            TextButton(
-              onPressed: () {
-                context.go(RoutePath.leaderboard.path);
-              },
-              child: Text(
-                'View Leaderboard',
-                style: TextStyle(
-                    color: AppColors.primaryDarkVariant, fontSize: 18.0),
-              ),
-            ),
           ],
         ),
       ),

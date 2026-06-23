@@ -52,7 +52,7 @@ class VisualMemoryGameLogic {
         gameSetup();
       });
     } else if (_lives == 0) {
-      visualMemoryGoRouter.go('/result?level=$level&difficulty=$difficulty&game_path=visual_memory');
+      goRouter.go('/result?level=$level&difficulty=$difficulty&game_path=visual_memory');
     }
   }
 

@@ -9,11 +9,7 @@ class VisualMemoryStartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GameStartScreen(
-      name: 'Visual Memory',
-      description: 'Memorize and replicate the pattern shown by clicking on the squares',
-      icon: Icons.grid_view_rounded,
-      gamePath: RoutePath.visualMemoryGameScreen,
-      modes: dummyGames[0].allGameModes,
+      gameIndex: 0,
     );
   }
 }
