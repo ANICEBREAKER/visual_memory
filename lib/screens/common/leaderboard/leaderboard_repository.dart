@@ -22,3 +22,17 @@ fetchData(String difficulty, String gameName, String timeframe) async {
   // print(data);
   return data;
 }
+
+fetchPlayerData(String difficulty, String gameName, String timeframe) async {
+  final supabase = Supabase.instance.client;
+  final data = await supabase
+      .from('player_progress')
+      .select()
+      .eq('user_id', supabase.auth.currentUser!.id)
+      .eq('game', gameName)
+      .eq('difficulty', difficulty)
+      .order('level', ascending: false);
+  // print(data);
+  return data;
+}
+

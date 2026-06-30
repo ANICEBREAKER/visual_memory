@@ -15,20 +15,21 @@ class LeaderboardScreen extends StatefulWidget {
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
   int selectedGameIndex = 0; // The current selected game
-  String chosenDifficulty = 'easy'; // Moved here to make it accessible
+  String chosenDifficulty = 'Easy'; // Moved here to make it accessible
   List<dynamic> leaderboardData = [];
 
   @override
   void initState() {
     super.initState();
     selectedGameIndex = widget.initialGameIndex;
+    fetchLeaderboardData();
   }
 
   void fetchLeaderboardData() async {
     final gameName = dummyGames[selectedGameIndex].name;
-    final data = await fetchData(chosenDifficulty, gameName, ''); // Use chosenDifficulty
+    final data = await fetchData(chosenDifficulty, gameName, '');
     setState(() {
-      leaderboardData = data;
+      leaderboardData = data; // Store fetched data
     });
   }
 
@@ -85,80 +86,91 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     height:
                         ResponsiveConfig.spacing(context, size: SpacingSize.s)),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 25,
-                    itemBuilder: (context, index) {
-                      // determine rank-based colors (1st, 2nd, 3rd)
-                      final bool isFirst = index == 0;
-                      final bool isSecond = index == 1;
-                      final bool isThird = index == 2;
-
-                      final Color textColor = isFirst
-                          ? AppColors.firstText
-                          : isSecond
-                              ? AppColors.secondText
-                              : isThird
-                                  ? AppColors.thirdText
-                                  : AppColors.textPrimaryDark;
-
-                      final Color borderColor = isFirst
-                          ? AppColors.firstBorder
-                          : isSecond
-                              ? AppColors.secondBorder
-                              : isThird
-                                  ? AppColors.thirdBorder
-                                  : AppColors.gameCardBorder;
-
-                      final Color tintColor = isFirst
-                          ? AppColors.firstTint
-                          : isSecond
-                              ? AppColors.secondTint
-                              : isThird
-                                  ? AppColors.thirdTint
-                                  : AppColors.transparent;
-
-                      return Padding(
-                        padding: EdgeInsets.symmetric(vertical: 4.0),
-                        child: Card(
-                          color: AppColors.gameCardBackground,
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(color: borderColor, width: 1.2),
-                            borderRadius: BorderRadius.circular(8),
+                  child: leaderboardData.isEmpty
+                      ? Center(
+                          child: Text(
+                            "No data available",
+                            style: AppTheme.descriptionTextStyle(context),
                           ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: tintColor,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: AppColors.transparent,
-                                child: Text("${index + 1}",
-                                    style: TextStyle(
-                                        color: textColor,
-                                        fontSize: ResponsiveConfig.textSize(
-                                            context,
-                                            size: TextSize.l),
-                                        fontWeight: FontWeight.bold)),
+                        )
+                      : ListView.builder(
+                          itemCount: leaderboardData.length,
+                          itemBuilder: (context, index) {
+                            final player = leaderboardData[index];
+                            final userId = player['user_id'] ?? 'Unknown'; // Fetch user_id
+
+                            // Determine rank-based colors (1st, 2nd, 3rd)
+                            final bool isFirst = index == 0;
+                            final bool isSecond = index == 1;
+                            final bool isThird = index == 2;
+
+                            final Color textColor = isFirst
+                                ? AppColors.firstText
+                                : isSecond
+                                    ? AppColors.secondText
+                                    : isThird
+                                        ? AppColors.thirdText
+                                        : AppColors.textPrimaryDark;
+
+                            final Color borderColor = isFirst
+                                ? AppColors.firstBorder
+                                : isSecond
+                                    ? AppColors.secondBorder
+                                    : isThird
+                                        ? AppColors.thirdBorder
+                                        : AppColors.gameCardBorder;
+
+                            final Color tintColor = isFirst
+                                ? AppColors.firstTint
+                                : isSecond
+                                    ? AppColors.secondTint
+                                    : isThird
+                                        ? AppColors.thirdTint
+                                        : AppColors.transparent;
+
+                            return Padding(
+                              padding: EdgeInsets.symmetric(vertical: 4.0),
+                              child: Card(
+                                color: AppColors.gameCardBackground,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(color: borderColor, width: 1.2),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: tintColor,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundColor: AppColors.transparent,
+                                      child: Text("${index + 1}",
+                                          style: TextStyle(
+                                              color: textColor,
+                                              fontSize: ResponsiveConfig.textSize(
+                                                  context,
+                                                  size: TextSize.l),
+                                              fontWeight: FontWeight.bold)),
+                                    ),
+                                    title: Text(userId, // Display user_id
+                                        style: TextStyle(color: textColor)),
+                                    trailing: Text(
+                                        "${player['level'] ?? 0}", // Display player level
+                                        style: TextStyle(
+                                            color: textColor,
+                                            fontSize: ResponsiveConfig.textSize(
+                                                context,
+                                                size: TextSize.m),
+                                            fontWeight: FontWeight.bold)),
+                                    style: ListTileStyle.list,
+                                  ),
+                                ),
                               ),
-                              title: Text("Player ${index + 1}", // TODO: Replace with actual player email
-                                  style: TextStyle(color: textColor)),
-                              trailing: Text("${(25 - index) * 1}", // TODO: Replace with actual player score
-                                  style: TextStyle(
-                                      color: textColor,
-                                      fontSize: ResponsiveConfig.textSize(
-                                          context,
-                                          size: TextSize.m),
-                                      fontWeight: FontWeight.bold)),
-                              style: ListTileStyle.list,
-                            ),
-                          ),
+                            );
+                          },
+                          shrinkWrap: true,
+                          physics: AlwaysScrollableScrollPhysics(),
                         ),
-                      );
-                    },
-                    shrinkWrap: true,
-                    physics: AlwaysScrollableScrollPhysics(),
-                  ),
                 ),
                 SizedBox(
                     height:
@@ -292,9 +304,9 @@ class StyledLeaderboardDropdown extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
           items: const [
-            DropdownMenuItem(value: 'easy', child: Text('Easy')),
-            DropdownMenuItem(value: 'medium', child: Text('Medium')),
-            DropdownMenuItem(value: 'hard', child: Text('Hard')),
+            DropdownMenuItem(value: 'Easy', child: Text('Easy')),
+            DropdownMenuItem(value: 'Medium', child: Text('Medium')),
+            DropdownMenuItem(value: 'Hard', child: Text('Hard')),
           ],
           onChanged: (value) {
             if (value != null) {
@@ -302,7 +314,7 @@ class StyledLeaderboardDropdown extends StatelessWidget {
             }
           },
           selectedItemBuilder: (BuildContext context) {
-            return ['easy', 'medium', 'hard'].map((String value) {
+            return ['Easy', 'Medium', 'Hard'].map((String value) {
               return Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -323,11 +335,11 @@ class StyledLeaderboardDropdown extends StatelessWidget {
 
   String _getLabel(String value) {
     switch (value) {
-      case 'easy':
+      case 'Easy':
         return 'Easy';
-      case 'medium':
+      case 'Medium':
         return 'Medium';
-      case 'hard':
+      case 'Hard':
         return 'Hard';
       default:
         return '';
