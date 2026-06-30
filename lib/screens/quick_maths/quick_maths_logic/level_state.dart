@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:game_testing/level_state_interface.dart';
+import '../../../data/game_list.dart';
 import '../../../router.dart' show goRouter;
 import '../widget/equation_data.dart';
 
@@ -145,7 +146,7 @@ class QuickMathsLevelState extends ChangeNotifier
           _isAnimating = false;
           notifyListeners();
           goRouter.go(
-              '/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
+              '/result?level=$level&difficulty=$difficulty&game_path=${GameName.quick_maths.displayName}');
           return;
         }
       } else {
@@ -158,7 +159,7 @@ class QuickMathsLevelState extends ChangeNotifier
           _isAnimating = false;
           notifyListeners();
           goRouter.go(
-              '/result?level=$level&difficulty=$difficulty&game_path=quick_maths');
+              '/result?level=$level&difficulty=$difficulty&game_path=${GameName.quick_maths.displayName}');
           return;
         } else {
           // reset timer and continue with same equation

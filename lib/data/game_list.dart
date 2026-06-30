@@ -48,11 +48,23 @@ class GameMode {
   });
 }
 
+enum GameName {
+  visual_memory("Visual memory"),
+  quick_maths("Quick maths"),
+  flashing_tiles("Flashing tiles"),
+  word_scramble("Word Scramble"),
+  color_match("Color Match"),
+  logic_flow("Logic Flow");
+
+  final String displayName;
+  const GameName(this.displayName);
+}
+
 // Dummy list of games
 List<GameTileItem> dummyGames = [
   // --- Games from your image ---
   GameTileItem(
-      name: "Visual memory",
+      name: GameName.visual_memory.displayName,
       description: "Memorize patterns on a grid of squares",
       icon: Icons.grid_view_rounded,
       destination: VisualMemoryStartScreen(),
@@ -61,7 +73,7 @@ List<GameTileItem> dummyGames = [
       gamePath: RoutePath.visualMemoryGameScreen,
       active: true),
   GameTileItem(
-    name: "Quick maths",
+    name: GameName.quick_maths.displayName,
     description: "Solve as many math equations quickly!",
     icon: Icons.calculate_rounded,
     // A calculator icon
@@ -84,7 +96,7 @@ List<GameTileItem> dummyGames = [
     ],
   ),
   GameTileItem(
-      name: "Flashing tiles",
+      name: GameName.flashing_tiles.displayName,
       description: "Remember the patterns of the tiles flashing",
       icon: Icons.bolt_rounded,
       // A grid icon
@@ -92,7 +104,7 @@ List<GameTileItem> dummyGames = [
       displayColor: AppColors.iconTilesBg,
       active: false),
   GameTileItem(
-      name: "Word Scramble",
+      name: GameName.word_scramble.displayName,
       description: "Unscramble the letters to form a word",
       icon: Icons.sort_by_alpha_rounded,
       // A ladder icon
@@ -100,7 +112,7 @@ List<GameTileItem> dummyGames = [
       displayColor: AppColors.iconWordBg,
       active: false),
   GameTileItem(
-      name: "Color Match",
+      name: GameName.color_match.displayName,
       description: "Match the color to its name against the clock",
       icon: Icons.palette_rounded,
       // A color palette icon
@@ -108,7 +120,7 @@ List<GameTileItem> dummyGames = [
       displayColor: AppColors.iconColorBg,
       active: false),
   GameTileItem(
-      name: "Logic Flow",
+      name: GameName.logic_flow.displayName,
       description: "Be quick! Match the dots in the grid!",
       icon: Icons.psychology_rounded,
       // A color palette icon

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:game_testing/data/game_list.dart';
 import 'package:game_testing/router.dart';
 
 class VisualMemoryGameLogic {
@@ -52,7 +53,7 @@ class VisualMemoryGameLogic {
         gameSetup();
       });
     } else if (_lives == 0) {
-      goRouter.go('/result?level=$level&difficulty=$difficulty&game_path=visual_memory');
+      goRouter.go('/result?level=$level&difficulty=$difficulty&game_path=${GameName.visual_memory.displayName}');
     }
   }
 
