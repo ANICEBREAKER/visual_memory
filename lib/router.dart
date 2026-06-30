@@ -14,7 +14,7 @@ import 'screens/visual_memory/visual_memory_start_screen.dart';
 import 'screens/common/menu_screen.dart';
 import 'screens/quick_maths/quick_maths_start_screen.dart';
 import 'screens/quick_maths/quick_maths_game_screen.dart';
-import 'package:game_testing/screens/common/leaderboard_screen.dart';
+import 'package:game_testing/screens/common/leaderboard/leaderboard_screen.dart';
 
 enum RoutePath {
   root(path: '/'),

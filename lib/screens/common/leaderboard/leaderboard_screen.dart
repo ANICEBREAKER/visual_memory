@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:game_testing/data/game_list.dart';
 import 'package:game_testing/theme/app_colors.dart';
 import 'package:game_testing/theme/responsive_config.dart';
-import '../../theme/app_theme.dart';
+import '../../../theme/app_theme.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   final int initialGameIndex;
