@@ -3,6 +3,7 @@ import 'package:game_testing/data/game_list.dart';
 import 'package:game_testing/theme/app_colors.dart';
 import 'package:game_testing/theme/responsive_config.dart';
 import '../../../theme/app_theme.dart';
+import 'leaderboard_repository.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   final int initialGameIndex;
@@ -14,11 +15,21 @@ class LeaderboardScreen extends StatefulWidget {
 
 class _LeaderboardScreenState extends State<LeaderboardScreen> {
   int selectedGameIndex = 0; // The current selected game
+  String chosenDifficulty = 'easy'; // Moved here to make it accessible
+  List<dynamic> leaderboardData = [];
 
   @override
   void initState() {
     super.initState();
     selectedGameIndex = widget.initialGameIndex;
+  }
+
+  void fetchLeaderboardData() async {
+    final gameName = dummyGames[selectedGameIndex].name;
+    final data = await fetchData(chosenDifficulty, gameName, ''); // Use chosenDifficulty
+    setState(() {
+      leaderboardData = data;
+    });
   }
 
   @override
@@ -59,7 +70,15 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                 style: AppTheme.descriptionTextStyle(context))),
                       ],
                     ),
-                    StyledLeaderboardDropdown(),
+                    StyledLeaderboardDropdown(
+                      chosenDifficulty: chosenDifficulty,
+                      onDifficultyChanged: (value) {
+                        setState(() {
+                          chosenDifficulty = value;
+                          fetchLeaderboardData(); // Update leaderboard when difficulty changes
+                        });
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(
@@ -122,9 +141,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                                             size: TextSize.l),
                                         fontWeight: FontWeight.bold)),
                               ),
-                              title: Text("Player ${index + 1}",
+                              title: Text("Player ${index + 1}", // TODO: Replace with actual player email
                                   style: TextStyle(color: textColor)),
-                              trailing: Text("${(25 - index) * 1000}",
+                              trailing: Text("${(25 - index) * 1}", // TODO: Replace with actual player score
                                   style: TextStyle(
                                       color: textColor,
                                       fontSize: ResponsiveConfig.textSize(
@@ -178,7 +197,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                     ),
                   ),
                 ),
-                // Horizontal game selector: give the horizontal ListView a fixed height so it has a bounded cross-axis.
                 SizedBox(
                     height:
                     ResponsiveConfig.spacing(context, size: SpacingSize.m)),
@@ -199,8 +217,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                           onTap: () {
                             setState(() {
                               selectedGameIndex = index;
+                              fetchLeaderboardData(); // Update leaderboard when game changes
                             });
-                            // Switch games
                           },
                           child: Container(
                             width:
@@ -240,17 +258,15 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
   }
 }
 
-// Styled dropdown widget implementation
-class StyledLeaderboardDropdown extends StatefulWidget {
-  const StyledLeaderboardDropdown({super.key});
+class StyledLeaderboardDropdown extends StatelessWidget {
+  final String chosenDifficulty;
+  final ValueChanged<String> onDifficultyChanged;
 
-  @override
-  State<StyledLeaderboardDropdown> createState() =>
-      _StyledLeaderboardDropdownState();
-}
-
-class _StyledLeaderboardDropdownState extends State<StyledLeaderboardDropdown> {
-  String chosenTimeFrame = 'this_week';
+  const StyledLeaderboardDropdown({
+    super.key,
+    required this.chosenDifficulty,
+    required this.onDifficultyChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -264,7 +280,7 @@ class _StyledLeaderboardDropdownState extends State<StyledLeaderboardDropdown> {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
-          value: chosenTimeFrame,
+          value: chosenDifficulty,
           dropdownColor: const Color(0xFF121826),
           // Match container background
           icon: const Icon(Icons.keyboard_arrow_down_rounded,
@@ -276,21 +292,17 @@ class _StyledLeaderboardDropdownState extends State<StyledLeaderboardDropdown> {
             fontWeight: FontWeight.w600,
           ),
           items: const [
-            DropdownMenuItem(value: 'all_time', child: Text('All Time')),
-            DropdownMenuItem(value: 'this_month', child: Text('This Month')),
-            DropdownMenuItem(value: 'this_week', child: Text('This Week')),
-            DropdownMenuItem(value: 'today', child: Text('Today')),
+            DropdownMenuItem(value: 'easy', child: Text('Easy')),
+            DropdownMenuItem(value: 'medium', child: Text('Medium')),
+            DropdownMenuItem(value: 'hard', child: Text('Hard')),
           ],
           onChanged: (value) {
             if (value != null) {
-              setState(() {
-                chosenTimeFrame = value;
-              });
+              onDifficultyChanged(value); // Notify parent of the change
             }
           },
           selectedItemBuilder: (BuildContext context) {
-            return ['all_time', 'this_month', 'this_week', 'today']
-                .map((String value) {
+            return ['easy', 'medium', 'hard'].map((String value) {
               return Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -311,14 +323,12 @@ class _StyledLeaderboardDropdownState extends State<StyledLeaderboardDropdown> {
 
   String _getLabel(String value) {
     switch (value) {
-      case 'all_time':
-        return 'All Time';
-      case 'this_month':
-        return 'This Month';
-      case 'this_week':
-        return 'This Week';
-      case 'today':
-        return 'Today';
+      case 'easy':
+        return 'Easy';
+      case 'medium':
+        return 'Medium';
+      case 'hard':
+        return 'Hard';
       default:
         return '';
     }
