@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/screens/color_shift/color_shift_start_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
 import 'package:game_testing/screens/quick_maths/quick_maths_start_screen.dart';
 import '../../theme/app_colors.dart';
@@ -51,9 +52,9 @@ class GameMode {
 enum GameName {
   visual_memory("Visual memory"),
   quick_maths("Quick maths"),
-  flashing_tiles("Flashing tiles"),
+  blink_count("Blink Count"),
+  color_shift("Color Shift"),
   word_scramble("Word Scramble"),
-  color_match("Color Match"),
   logic_flow("Logic Flow");
 
   final String displayName;
@@ -71,7 +72,20 @@ List<GameTileItem> dummyGames = [
       iconColor: AppColors.iconMemory,
       displayColor: AppColors.iconMemoryBg,
       gamePath: RoutePath.visualMemoryGameScreen,
-      active: true),
+      active: true,
+    modes: [
+      GameMode(
+        name: "Standard",
+        icon: Icon(Icons.grid_view_rounded),
+        description: "The classic mode",
+      ),
+      GameMode(
+        name: "Inverted",
+        icon: Icon(Icons.grid_view_outlined),
+        description: "Click on the tiles that DID NOT light up."
+      )
+    ]
+  ),
   GameTileItem(
     name: GameName.quick_maths.displayName,
     description: "Solve as many math equations quickly!",
@@ -96,13 +110,21 @@ List<GameTileItem> dummyGames = [
     ],
   ),
   GameTileItem(
-      name: GameName.flashing_tiles.displayName,
-      description: "Remember the patterns of the tiles flashing",
-      icon: Icons.bolt_rounded,
-      // A grid icon
-      iconColor: AppColors.iconTiles,
-      displayColor: AppColors.iconTilesBg,
-      active: false),
+      name: GameName.color_shift.displayName,
+      description: "Read the color. Read the text",
+      icon: Icons.format_color_text_rounded,
+      iconColor: AppColors.iconColor,
+      displayColor: AppColors.iconColorBg,
+      gamePath: RoutePath.colorShiftGameScreen,
+      destination: ColorShiftStartScreen(),
+      active: true),
+  GameTileItem(
+      name: GameName.blink_count.displayName,
+      description: "Count the number of circles in the container",
+      icon: Icons.bubble_chart,
+      iconColor: AppColors.iconBlink,
+      displayColor: AppColors.iconBlinkBg,
+      active: true),
   GameTileItem(
       name: GameName.word_scramble.displayName,
       description: "Unscramble the letters to form a word",
@@ -110,14 +132,6 @@ List<GameTileItem> dummyGames = [
       // A ladder icon
       iconColor: AppColors.iconWord,
       displayColor: AppColors.iconWordBg,
-      active: false),
-  GameTileItem(
-      name: GameName.color_match.displayName,
-      description: "Match the color to its name against the clock",
-      icon: Icons.palette_rounded,
-      // A color palette icon
-      iconColor: AppColors.iconColor,
-      displayColor: AppColors.iconColorBg,
       active: false),
   GameTileItem(
       name: GameName.logic_flow.displayName,

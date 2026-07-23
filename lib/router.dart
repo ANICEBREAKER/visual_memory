@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/screens/blink_count/blink_count_start_screen.dart';
+import 'package:game_testing/screens/color_shift/color_shift_game_screen.dart';
+import 'package:game_testing/screens/color_shift/color_shift_logic/level_state.dart';
+import 'package:game_testing/screens/color_shift/color_shift_start_screen.dart';
 import 'package:game_testing/screens/common/game_template/game_result_screen.dart';
 import 'package:game_testing/screens/common/login_screen.dart';
 import 'package:game_testing/screens/common/registration_screen.dart';
@@ -22,6 +26,10 @@ enum RoutePath {
   visualMemoryGameScreen(path: '/visualMemoryGameScreen'),
   quickMathsStartScreen(path: '/quickMathsStartScreen'),
   quickMathsGameScreen(path: '/quickMathsGameScreen'),
+  colorShiftStartScreen(path: '/colorShiftStartScreen'),
+  colorShiftGameScreen(path: '/colorShiftGameScreen'),
+  blinkCountStartScreen(path: '/blinkCountStartScreen'),
+  // blinkCountGameScreen(path: '/blinkCountGameScreen'),
   result(path: '/result'),
   login(path: '/login'),
   register(path: '/register'),
@@ -44,8 +52,7 @@ final GoRouter goRouter = GoRouter(routes: <RouteBase>[
       return WelcomeScreen();
     },
     routes: <RouteBase>[
-
-      //Visual Memory
+      // Visual Memory
       GoRoute(
           path: RoutePath.visualMemoryStartScreen.path,
           builder: (BuildContext context, GoRouterState state) =>
@@ -70,7 +77,7 @@ final GoRouter goRouter = GoRouter(routes: <RouteBase>[
           builder: (BuildContext context, GoRouterState state) =>
               QuickMathsStartScreen()),
       GoRoute(
-          path: RoutePath.quickMathsGameScreen.path,
+        path: RoutePath.quickMathsGameScreen.path,
         builder: (BuildContext context, GoRouterState state) {
           final difficulty = state.uri.queryParameters['difficulty'] ?? 'Easy';
           final isSurvivalMode = state.uri.queryParameters['isSurvivalMode'] == "true"; // Default to false if not provided
@@ -83,6 +90,30 @@ final GoRouter goRouter = GoRouter(routes: <RouteBase>[
           );
         },
       ),
+
+      // Color Shift
+      GoRoute(
+          path: RoutePath.colorShiftStartScreen.path,
+          builder: (BuildContext context, GoRouterState state) =>
+              ColorShiftStartScreen()),
+      GoRoute(
+        path: RoutePath.colorShiftGameScreen.path,
+        builder: (BuildContext context, GoRouterState state) {
+          return ChangeNotifierProvider<ColorShiftLevelState>(
+            create: (_) => ColorShiftLevelState(
+              usingPatterns: false,
+              difficulty: 'Easy'
+            ),
+            child: ColorShiftGameScreen(),
+          );
+        },
+      ),
+
+      // Blink Count
+      GoRoute(
+          path: RoutePath.blinkCountStartScreen.path,
+          builder: (BuildContext context, GoRouterState state) =>
+              BlinkCountStartScreen()),
 
       // Common Routes
       GoRoute(

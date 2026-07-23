@@ -94,9 +94,9 @@ class AppColors {
   static const Color iconMemory = Color(0xFF00E5FF);
   static const Color iconMemoryBg = Color(0x1A00E5FF); // 10% Opacity
 
-  // --- Flashing Tiles (Amber/Yellow) ---
-  static const Color iconTiles = Color(0xFFFFD600);
-  static const Color iconTilesBg = Color(0x1AFFD600);
+  // --- Blink Count (Amber/Yellow) ---
+  static const Color iconBlink = Color(0xFFFFD600);
+  static const Color iconBlinkBg = Color(0x1AFFD600);
 
   // --- Quick Maths (Emerald Green) ---
   static const Color iconMath = Color(0xFF00E676);

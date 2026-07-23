@@ -188,7 +188,7 @@ extension IconSizeX on IconSize {
   }
 }
 
-enum TextSize { s, m, l, xl, xxl, xxxl }
+enum TextSize { s, m, l, xl, xxl, xxxl, fourxl }
 
 extension TextSizeX on TextSize {
   double get multiplier {
@@ -205,6 +205,8 @@ extension TextSizeX on TextSize {
         return 30.0 / 16.0; // 30
       case TextSize.xxxl:
         return 45.0 / 16.0; // 45
+      case TextSize.fourxl:
+        return 75.0 / 16.0; // 45
     }
   }
 }
