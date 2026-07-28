@@ -8,30 +8,20 @@ import '../widget/equation_data.dart';
 
 class QuickMathsLevelState extends ChangeNotifier
     implements LevelStateInterface {
-  QuickMathsLevelState({required this.difficulty, required this.isSurvivalMode}) {
+  QuickMathsLevelState({required this.difficulty, required this.mode}){
+    isSurvivalMode = mode.toLowerCase() == 'survival';
     if (isSurvivalMode) {
-      lives = 1; // Avoiding lives having null value
-      if (difficulty == "Easy") {
-        addedTimePerCorrect = 5;
-      } else if (difficulty == "Medium") {
-        addedTimePerCorrect = 4;
-      } else {
-        addedTimePerCorrect = 3;
-      }
+      lives = 1;
+      addedTimePerCorrect = difficulty == "Easy" ? 5 : difficulty == "Medium" ? 4 : 3;
     } else {
-      if (difficulty == "Easy") {
-        lives = 3;
-      } else if (difficulty == "Medium") {
-        lives = 2;
-      } else {
-        lives = 1;
-      }
+      lives = difficulty == "Easy" ? 3 : difficulty == "Medium" ? 2 : 1;
       timeRemaining = totalSeconds.toDouble();
     }
   }
 
   final String difficulty;
-  final bool isSurvivalMode;
+  final String mode;
+  late bool isSurvivalMode;
   final GlobalKey<AnimatedListState> listKey = GlobalKey<AnimatedListState>();
   List<EquationData> equations = [];
   late int lives;
@@ -76,12 +66,13 @@ class QuickMathsLevelState extends ChangeNotifier
 
   @override
   Future<void> evaluate(value) async {
-    // prevent evaluating while an animation is showing or if no equations
+    // Prevent evaluating while an animation is showing or if no equations
     if (_isAnimating || equations.isEmpty) {
       notifyListeners();
       return;
     }
 
+    // Parse the input value
     int? parsed;
     if (value == null) {
       parsed = null;
@@ -94,84 +85,64 @@ class QuickMathsLevelState extends ChangeNotifier
     final correctAnswer = equations.first.result;
     final bool correct = (parsed != null && parsed == correctAnswer);
 
-    // begin feedback animation
+    // Begin feedback animation
     _isAnimating = true;
     isCorrect = correct;
-    stopTimer(); // freeze timer while showing feedback
+    stopTimer(); // Freeze timer while showing feedback
     notifyListeners();
 
-    // show feedback for 500ms
+    // Show feedback for 500ms
     await Future.delayed(const Duration(milliseconds: 500));
 
-    // commit effect after feedback
     if (correct) {
-      // Correct answer flow (both modes)
+      // Scenario: Correct answer
       level += 1;
       equations.removeAt(0);
       generateEquation(level + 19);
 
       if (isSurvivalMode) {
-        // add time but cap at totalSeconds
-        if (timeRemaining + addedTimePerCorrect > totalSeconds) {
-          timeRemaining = totalSeconds.toDouble();
-        } else {
-          timeRemaining += addedTimePerCorrect;
-        }
+        // Survival mode: Add time, capped at totalSeconds
+        timeRemaining = (timeRemaining + addedTimePerCorrect > totalSeconds)
+            ? totalSeconds.toDouble()
+            : timeRemaining + addedTimePerCorrect;
       } else {
-        // reset to full time for non-survival
+        // Non-survival mode: Reset timer to full time
         timeRemaining = totalSeconds.toDouble();
       }
-
-      // clear animation state and resume timer
-      isCorrect = null;
-      _isAnimating = false;
-      notifyListeners();
-      startTimer();
-      return;
     } else {
-      // Wrong answer flow
+      // Scenario: Incorrect answer or timeout
       if (isSurvivalMode) {
-        // subtract time; if reaches zero, end game
+        // Survival mode: Subtract time or end game
         if (timeRemaining - subtractedTimePerWrong > 0) {
           timeRemaining -= subtractedTimePerWrong;
-          isCorrect = null;
-          _isAnimating = false;
-          notifyListeners();
-          startTimer();
-          return;
         } else {
+          // Out of time: End game
           timeRemaining = 0;
           stopTimer();
-          isCorrect = null;
-          _isAnimating = false;
-          notifyListeners();
           goRouter.go(
               '/result?level=$level&difficulty=$difficulty&game_path=${GameName.quick_maths.displayName}');
           return;
         }
       } else {
-        // non-survival: lose a life
+        // Non-survival mode: Lose a life or end game
         lives -= 1;
         if (lives <= 0) {
           stopTimer();
-          // clear animation state before navigating
-          isCorrect = null;
-          _isAnimating = false;
-          notifyListeners();
           goRouter.go(
               '/result?level=$level&difficulty=$difficulty&game_path=${GameName.quick_maths.displayName}');
           return;
         } else {
-          // reset timer and continue with same equation
+          // Reset timer for next attempt
           timeRemaining = totalSeconds.toDouble();
-          isCorrect = null;
-          _isAnimating = false;
-          notifyListeners();
-          startTimer();
-          return;
         }
       }
     }
+
+    // Clear animation state and resume timer
+    isCorrect = null;
+    _isAnimating = false;
+    notifyListeners();
+    startTimer();
   }
 
   @override

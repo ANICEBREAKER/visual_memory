@@ -80,11 +80,11 @@ final GoRouter goRouter = GoRouter(routes: <RouteBase>[
         path: RoutePath.quickMathsGameScreen.path,
         builder: (BuildContext context, GoRouterState state) {
           final difficulty = state.uri.queryParameters['difficulty'] ?? 'Easy';
-          final isSurvivalMode = state.uri.queryParameters['isSurvivalMode'] == "true"; // Default to false if not provided
+          final chosenMode = state.uri.queryParameters['chosenMode'] ?? 'Standard';
           return ChangeNotifierProvider<QuickMathsLevelState>(
             create: (_) => QuickMathsLevelState(
               difficulty: difficulty,
-              isSurvivalMode: isSurvivalMode, //For now, this will be a variable once the segmentedButton is set up
+              mode: chosenMode,
             ),
             child: QuickMathsGameScreen(difficulty: difficulty),
           );

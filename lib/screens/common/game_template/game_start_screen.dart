@@ -75,7 +75,7 @@ class _GameStartScreenState extends State<GameStartScreen> {
             ),
 
             // Build SegmentedButton from provided modes (if any)
-            if (dummyGames[widget.gameIndex].allGameModes != null && dummyGames[widget.gameIndex].allGameModes.isNotEmpty)
+            if (dummyGames[widget.gameIndex].allGameModes.isNotEmpty)
               Padding(
                 padding: ResponsiveConfig.padding(context, size: PaddingSize.xs),
                 child: SegmentedButton<String>(
@@ -99,8 +99,6 @@ class _GameStartScreenState extends State<GameStartScreen> {
             Padding(
               padding: ResponsiveConfig.padding(context, size: PaddingSize.m),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                spacing: ResponsiveConfig.spacing(context, size: SpacingSize.xs),
                 children: [
                   Text(
                     'Select your difficulty',
@@ -112,14 +110,14 @@ class _GameStartScreenState extends State<GameStartScreen> {
                     icon: Icons.sentiment_satisfied,
                     chosenGameMode: chosenGameMode,
                   ),
-                  SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
+                  SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs)),
                   DifficultyButton(
                     label: 'Medium',
                     gamePath: dummyGames[widget.gameIndex].gamePath,
                     icon: Icons.sentiment_neutral,
                     chosenGameMode: chosenGameMode,
                   ),
-                  SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs),),
+                  SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.xxs)),
                   DifficultyButton(
                     label: 'Hard',
                     gamePath: dummyGames[widget.gameIndex].gamePath,
