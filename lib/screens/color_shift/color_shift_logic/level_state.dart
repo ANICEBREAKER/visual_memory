@@ -44,7 +44,7 @@ class ColorShiftLevelState extends ChangeNotifier implements LevelStateInterface
   void evaluate(value) {
     stopTimer();
     notifyListeners();
-    if (value && value == textColor) {
+    if (value == textColor) {
 
       if (timeRemaining + addedTimePerCorrect > totalSeconds) {
         timeRemaining = totalSeconds.toDouble();

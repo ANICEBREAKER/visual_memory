@@ -73,7 +73,7 @@ class _ColorShiftGameScreenState extends State<ColorShiftGameScreen> {
                           'LEVEL',
                           style: AppTheme.descriptionTextStyle(context),
                         ),
-                        Text('LIVES',
+                        Text('',
                             style: AppTheme.descriptionTextStyle(context)),
                       ],
                     ),
@@ -92,21 +92,7 @@ class _ColorShiftGameScreenState extends State<ColorShiftGameScreen> {
                               .padLeft(2, '0'),
                           style: AppTheme.subtitleTextStyle(context),
                         ),
-                        Row(children: [
-                          Row(
-                            children: [
-                              LivesIcon(
-                                livesNeeded: 3,
-                              ),
-                              LivesIcon(
-                                livesNeeded: 2,
-                              ),
-                              LivesIcon(
-                                livesNeeded: 1,
-                              ),
-                            ],
-                          )
-                        ]),
+                        Row(),
                       ],
                     ),
                   ],
@@ -136,16 +122,28 @@ class _ColorShiftGameScreenState extends State<ColorShiftGameScreen> {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            Container(
-              // Proper Decorations Later
-              // And may need to change the height
-              child: Center(
-                child: Text(
-                  context.watch<ColorShiftLevelState>().displayedText.toUpperCase(),
-                  style: TextStyle(
-                    fontSize: ResponsiveConfig.textSize(context, size: TextSize.fourxl), // 100
-                    fontWeight: FontWeight.w900,
-                    color: context.watch<ColorShiftLevelState>().getTextColor(), // Use mapped color
+            Padding(
+              padding: ResponsiveConfig.edgeInsetsSymmetric(
+                context,
+                horizontal: SpacingSize.none,
+                vertical: SpacingSize.s,
+              ),
+              child: Container(
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceDarkVariant,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: AppColors.borderDark),
+                ),
+                child: Center(
+                  child: Text(
+                    context.watch<ColorShiftLevelState>().displayedText.toUpperCase(),
+                    style: TextStyle(
+                      fontSize: ResponsiveConfig.textSize(context, size: TextSize.fourxl), // 100
+                      fontWeight: FontWeight.w900,
+                      color: context.watch<ColorShiftLevelState>().getTextColor(), // Use mapped color
+                    ),
                   ),
                 ),
               ),
@@ -196,23 +194,6 @@ class _ColorShiftGameScreenState extends State<ColorShiftGameScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class LivesIcon extends StatelessWidget {
-  const LivesIcon({super.key, required this.livesNeeded});
-
-  final int livesNeeded;
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      context.watch<ColorShiftLevelState>().lives >= livesNeeded
-          ? Icons.favorite
-          : Icons.heart_broken_outlined,
-      color: AppColors.iconLogic,
-      size: ResponsiveConfig.iconSize(context, size: IconSize.l),
     );
   }
 }
