@@ -6,6 +6,7 @@ import 'package:game_testing/router.dart';
 class VisualMemoryGameLogic {
   VisualMemoryGameLogic({
     required this.difficulty,
+    required this.mode,
     required this.notifyParent,
   }) {
     if (difficulty == "Easy") {
@@ -20,6 +21,7 @@ class VisualMemoryGameLogic {
 
   final String difficulty;
   final VoidCallback notifyParent;
+  final String mode;
 
   int level = 0;
   late int _lives;
@@ -37,14 +39,33 @@ class VisualMemoryGameLogic {
   Future<void> evaluate(var value) async {
     int index = value as int;
     selectedTiles[index] = 1;
-    if (correctTiles[index] == 1) {
-      tileStatus[index] = 1;
-      indexOfHighlightedTiles.remove(index);
+
+    if (mode == "Inverted") {
+      // Inverted mode: Correct if the tile is NOT highlighted
+      if (!indexOfHighlightedTiles.contains(index)) {
+        tileStatus[index] = 1;
+        indexOfHighlightedTiles.remove(index);
+      } else {
+        tileStatus[index] = 0;
+        _lives -= 1;
+      }
+      // Found logic error: indexOfHighlightedTiles is holding tiles that you are highlighted initially
+      // E.g. If the highlighted tiles are [0, 1, 2] then I click on the tiles 3 to 8 but the indexOfHighlightedTiles
+      // is not empty because it still contains [0, 1, 2] and the game will not end even if I click on all the tiles that are not highlighted
+      // TODO: Make so the animation turns red when showing up initially instead of green in standard mode
     } else {
-      tileStatus[index] = 0;
-      _lives -= 1;
+      // Standard mode: Correct if the tile is highlighted
+      if (indexOfHighlightedTiles.contains(index)) {
+        tileStatus[index] = 1;
+        indexOfHighlightedTiles.remove(index);
+      } else {
+        tileStatus[index] = 0;
+        _lives -= 1;
+      }
     }
+
     notifyParent();
+
     if (indexOfHighlightedTiles.isEmpty) {
       await Future.delayed(Duration(milliseconds: 500), () {
         clearGame();
@@ -74,15 +95,27 @@ class VisualMemoryGameLogic {
       }
     }
     indexOfHighlightedTiles.sort();
+
     for (int i = 0; i < gridSize * gridSize; i++) {
-      if (indexOfHighlightedTiles.contains(i)) {
-        correctTiles.add(1);
+      if (mode == "Inverted") {
+        // Inverted mode: Highlight tiles that cannot be touched
+        if (!indexOfHighlightedTiles.contains(i)) {
+          correctTiles.add(1);
+        } else {
+          correctTiles.add(0);
+        }
       } else {
-        correctTiles.add(0);
+        // Standard mode: Highlight tiles that can be touched
+        if (indexOfHighlightedTiles.contains(i)) {
+          correctTiles.add(1);
+        } else {
+          correctTiles.add(0);
+        }
       }
       selectedTiles.add(0);
       tileStatus.add(null);
     }
+
     isShowingTiles = true;
     notifyParent();
     Future.delayed(Duration(milliseconds: ((level + 3) * 125).toInt()), () {
@@ -102,4 +135,3 @@ class VisualMemoryGameLogic {
     notifyParent();
   }
 }
-
