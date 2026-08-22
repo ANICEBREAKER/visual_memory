@@ -2,31 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:game_testing/theme/responsive_config.dart';
 import 'package:provider/provider.dart';
 import '../quick_maths_logic/level_state.dart';
+import 'equation_data.dart';
 
-// Assuming AppColors is defined as we discussed
-// class AppColors { ... }
 
 class MathEquationCard extends StatelessWidget {
-  final String firstNumber;
-  final String secondNumber;
+  final EquationData eq; // The correct result of the equation
   final String operator;
   final String playerAnswer;
+  final String askingPosition;
   final bool? isCorrect; // null = pending, true = correct, false = wrong
 
-   MathEquationCard({
+  MathEquationCard({
     super.key,
-    required this.firstNumber,
-    required this.secondNumber,
+    required this.eq,
     required this.operator,
     required this.playerAnswer,
+    required this.askingPosition,
     this.isCorrect,
   });
 
   @override
   Widget build(BuildContext context) {
     // If parent didn't pass isCorrect explicitly, read it from provider so this widget updates reactively.
-    final bool? effectiveIsCorrect = context.watch<QuickMathsLevelState>().isCorrect;
-
+    final bool? effectiveIsCorrect =
+        context.watch<QuickMathsLevelState>().isCorrect;
 
     Color answerColor;
     if (context.watch<QuickMathsLevelState>().isCorrect == null) {
@@ -45,9 +44,10 @@ class MathEquationCard extends StatelessWidget {
     return AnimatedContainer(
       duration: Duration(milliseconds: 500),
       width: double.infinity,
-      padding:  EdgeInsets.symmetric(vertical: 16, horizontal: 16), // compact padding
+      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      // compact padding
       decoration: BoxDecoration(
-        color:  Color(0xFF121826).withOpacity(0.8), // surfaceDarkVariant
+        color: Color(0xFF121826).withOpacity(0.8), // surfaceDarkVariant
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           color: outerBorderColor,
@@ -63,22 +63,19 @@ class MathEquationCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  firstNumber,
-                  style:  TextStyle(
-                    color: Colors.white,
-                    fontSize: 56, // reduced
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: -1,
-                  ),
-                  maxLines: 1,
-                ),
+                flexibleEqPart(
+                    answerColor: answerColor,
+                    playerAnswer: playerAnswer,
+                    askedPosition: askingPosition,
+                    widgetPosition: "a",
+                    eq: eq),
 
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 12), // tighter spacing
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  // tighter spacing
                   child: Text(
                     operator == '*' ? '×' : operator,
-                    style:  TextStyle(
+                    style: TextStyle(
                       color: Color(0xFF00E5FF), // accent color
                       fontSize: 40, // reduced
                       fontWeight: FontWeight.bold,
@@ -87,72 +84,135 @@ class MathEquationCard extends StatelessWidget {
                   ),
                 ),
 
-                Text(
-                  secondNumber,
-                  style:  TextStyle(
-                    color: Colors.white,
-                    fontSize: 56, // reduced
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: -1,
-                  ),
-                  maxLines: 1,
-                ),
+                flexibleEqPart(
+                    answerColor: answerColor,
+                    playerAnswer: playerAnswer,
+                    askedPosition: askingPosition,
+                    widgetPosition: "b",
+                    eq: eq),
               ],
             ),
 
-            //SizedBox(height: 12), // reduced
+            SizedBox(
+              height: ResponsiveConfig.spacing(context, size: SpacingSize.m),
+            ),
 
             // --- Divider ---
             Container(
               width: 48,
               height: 3,
               decoration: BoxDecoration(
-                color:  Color(0xFF2C3444),
+                color: Color(0xFF2C3444),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
 
-            //SizedBox(height: 12), // reduced
-            SizedBox(height: ResponsiveConfig.spacing(context, size: SpacingSize.s),),
+
+            SizedBox(
+              height: ResponsiveConfig.spacing(context, size: SpacingSize.m),
+            ),
 
             // --- Player Answer Box ---
-            Container(
-              padding:  ResponsiveConfig.edgeInsetsSymmetric(context, horizontal: SpacingSize.l, vertical: SpacingSize.s), // reduced
-              decoration: BoxDecoration(
-                color:  Color(0xFF05070C), // backgroundDarkDimmed
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(
-                  color: answerColor,
-                  width: 2,
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: answerColor,
-                    blurRadius: 16,
-                    spreadRadius: -4,
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  // tighter spacing
+                  child: Text(
+                    "=",
+                    style: TextStyle(
+                      color: Color(0xFF00E5FF), // accent color
+                      fontSize: 40, // reduced
+                      fontWeight: FontWeight.bold,
+                    ),
+                    maxLines: 1,
                   ),
-                ],
-              ),
-              child: Text(
-                playerAnswer.isEmpty ? '?' : playerAnswer,
-                style: TextStyle(
-                  color: playerAnswer.isEmpty ? Colors.white : answerColor,
-                  fontSize: 48, // reduced
-                  fontWeight: FontWeight.bold,
-                  shadows: [
-                    if (effectiveIsCorrect != null)
-                      Shadow(
-                        color: answerColor,
-                        blurRadius: 12,
-                      ),
-                  ],
                 ),
-                maxLines: 1,
-              ),
+                flexibleEqPart(
+                    answerColor: answerColor,
+                    playerAnswer: playerAnswer,
+                    askedPosition: askingPosition,
+                    widgetPosition: "res",
+                    eq: eq),
+              ],
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+class flexibleEqPart extends StatelessWidget {
+  const flexibleEqPart({
+    super.key,
+    required this.answerColor,
+    required this.playerAnswer,
+    required this.eq,
+    required this.askedPosition,
+    required this.widgetPosition,
+  });
+
+  final Color answerColor;
+  final String playerAnswer;
+  final String askedPosition;
+  final EquationData eq;
+  final String widgetPosition;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!(askedPosition == widgetPosition)) {
+      return Text(
+        widgetPosition == "a"
+            ? eq.firstNumber.toString()
+            : widgetPosition == "b"
+                ? eq.secondNumber.toString()
+                : eq.result.toString(),
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 50, // reduced
+          fontWeight: FontWeight.w900,
+          letterSpacing: -1,
+        ),
+        maxLines: 1,
+      );
+    } else {
+      return Container(
+        padding: ResponsiveConfig.edgeInsetsSymmetric(context,
+            horizontal: SpacingSize.l, vertical: SpacingSize.s),
+        // reduced
+        decoration: BoxDecoration(
+          color: Color(0xFF05070C), // backgroundDarkDimmed
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: answerColor,
+            width: 2,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: answerColor,
+              blurRadius: 16,
+              spreadRadius: -4,
+            ),
+          ],
+        ),
+        child: Text(
+          playerAnswer.isEmpty ? '?' : playerAnswer,
+          style: TextStyle(
+            color: playerAnswer.isEmpty ? Colors.white : answerColor,
+            fontSize: 50, // reduced
+            fontWeight: FontWeight.w900,
+            // shadows: [
+            //   if (effectiveIsCorrect != null)
+            //     Shadow(
+            //       color: answerColor,
+            //       blurRadius: 12,
+            //     ),
+            // ],
+          ),
+          maxLines: 1,
+        ),
+      );
+    }
   }
 }

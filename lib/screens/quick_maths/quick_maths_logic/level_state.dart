@@ -64,6 +64,9 @@ class QuickMathsLevelState extends ChangeNotifier
 
   bool _isAnimating = false;
 
+  // New variable to determine which part of the equation the user needs to answer
+  String askedPosition = "res"; // Default to result position
+
   @override
   Future<void> evaluate(value) async {
     // Prevent evaluating while an animation is showing or if no equations
@@ -82,7 +85,16 @@ class QuickMathsLevelState extends ChangeNotifier
       parsed = int.tryParse(value);
     }
 
-    final correctAnswer = equations.first.result;
+    // Determine the correct answer based on the asked position
+    int correctAnswer;
+    if (askedPosition == "a") {
+      correctAnswer = equations.first.firstNumber;
+    } else if (askedPosition == "b") {
+      correctAnswer = equations.first.secondNumber;
+    } else {
+      correctAnswer = equations.first.result;
+    }
+
     final bool correct = (parsed != null && parsed == correctAnswer);
 
     // Begin feedback animation
@@ -276,6 +288,13 @@ class QuickMathsLevelState extends ChangeNotifier
         firstNumber: a, secondNumber: b, operator: op, result: result);
     listKey.currentState?.insertItem(equations.length - 1);
     equations.add(tile);
+
+    // Randomly set the asked position for the equation
+    const positions = ["a", "b", "res"];
+    askedPosition = positions[rng.nextInt(positions.length)];
+
+    print('Generated equation: $a $op $b = $result');
+    print(askedPosition);
   }
 
   void startTimer() {

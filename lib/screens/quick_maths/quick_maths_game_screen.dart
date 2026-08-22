@@ -202,15 +202,15 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                       );
                     }
                     final top = eqs.first;
-
                     final providerIsCorrect = context.watch<QuickMathsLevelState>().isCorrect;
+                    final askingPosition = context.watch<QuickMathsLevelState>().askedPosition;
 
                     return SizedBox.expand(
                       child: MathEquationCard(
-                        firstNumber: top.firstNumber.toString(),
-                        secondNumber: top.secondNumber.toString(),
+                        eq: top,
                         operator: top.operator,
                         playerAnswer: playerAnswer,
+                        askingPosition: askingPosition, // Listen to askedPosition
                         isCorrect: providerIsCorrect,
                       ),
                     );
@@ -266,20 +266,21 @@ class _QuickMathsGameScreenState extends State<QuickMathsGameScreen> {
                         // try parse and evaluate
                         final parsed = int.tryParse(playerAnswer);
                         if (parsed != null &&
-                            context
-                                .read<QuickMathsLevelState>()
-                                .equations
-                                .isNotEmpty &&
-                            context
-                                    .read<QuickMathsLevelState>()
-                                    .equations
-                                    .first
-                                    .result
-                                    .toString()
-                                    .length ==
-                                parsed.toString().length) {
-                          // call evaluate and let level_state manage timer/animation and eventual state reset
-                          context.read<QuickMathsLevelState>().evaluate(parsed);
+                            context.read<QuickMathsLevelState>().equations.isNotEmpty) {
+                          final eq = context.read<QuickMathsLevelState>().equations.first;
+                          final askedPosition = context.read<QuickMathsLevelState>().askedPosition;
+
+                          // Determine the length of the asked position
+                          final correctLength = (askedPosition == "a")
+                              ? eq.firstNumber.toString().length
+                              : (askedPosition == "b")
+                                  ? eq.secondNumber.toString().length
+                                  : eq.result.toString().length;
+
+                          if (parsed.toString().length == correctLength) {
+                            // Call evaluate and let level_state manage timer/animation and eventual state reset
+                            context.read<QuickMathsLevelState>().evaluate(parsed);
+                          }
                         }
                       },
                     ),
