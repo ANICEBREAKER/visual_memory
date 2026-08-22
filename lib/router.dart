@@ -61,9 +61,11 @@ final GoRouter goRouter = GoRouter(routes: <RouteBase>[
         path: RoutePath.visualMemoryGameScreen.path,
         builder: (BuildContext context, GoRouterState state) {
           final difficulty = state.uri.queryParameters['difficulty'] ?? 'Easy';
+          final chosenMode = state.uri.queryParameters['chosenMode'] ?? 'Standard';
           return ChangeNotifierProvider<VisualMemoryLevelState>(
             create: (_) => VisualMemoryLevelState(
               difficulty: difficulty,
+              mode: chosenMode,
             ),
             child: VisualMemoryGameScreen(difficulty: difficulty),
           );
@@ -99,9 +101,11 @@ final GoRouter goRouter = GoRouter(routes: <RouteBase>[
       GoRoute(
         path: RoutePath.colorShiftGameScreen.path,
         builder: (BuildContext context, GoRouterState state) {
+          final chosenMode = state.uri.queryParameters['chosenMode'] ?? 'Standard';
           return ChangeNotifierProvider<ColorShiftLevelState>(
             create: (_) => ColorShiftLevelState(
               usingPatterns: false,
+              mode: chosenMode,
               difficulty: 'Easy'
             ),
             child: ColorShiftGameScreen(),

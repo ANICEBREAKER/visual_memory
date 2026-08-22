@@ -66,7 +66,7 @@ List<GameTileItem> dummyGames = [
   // --- Games from your image ---
   GameTileItem(
       name: GameName.visual_memory.displayName,
-      description: "Memorize patterns on a grid of squares",
+      description: "Memorize patterns on a square grid",
       icon: Icons.grid_view_rounded,
       destination: VisualMemoryStartScreen(),
       iconColor: AppColors.iconMemory,
@@ -82,7 +82,7 @@ List<GameTileItem> dummyGames = [
       GameMode(
         name: "Inverted",
         icon: Icon(Icons.grid_view_outlined),
-        description: "Click on the tiles that DID NOT light up."
+        description: "Click on the tiles that DID NOT light up.",
       )
     ]
   ),
@@ -111,13 +111,33 @@ List<GameTileItem> dummyGames = [
   ),
   GameTileItem(
       name: GameName.color_shift.displayName,
-      description: "Read the color. Read the text",
+      description: "See the Color. Do not let your eyes trick your mind.",
       icon: Icons.format_color_text_rounded,
       iconColor: AppColors.iconColor,
       displayColor: AppColors.iconColorBg,
       gamePath: RoutePath.colorShiftGameScreen,
       destination: ColorShiftStartScreen(),
-      active: true),
+      active: true,
+    modes: [
+      GameMode(
+        name: "Standard",
+        icon: Icon(Icons.whatshot_rounded),
+        description: "Keep going until time runs out, only the color of the text matters",
+      ),
+      GameMode(
+        name: "Rule Flip",
+        icon: Icon(Icons.published_with_changes_outlined),
+        description: "Keep going until time runs out!",
+      ),
+      GameMode(
+        name: "Vocal",
+        icon: Icon(Icons.mic_rounded),
+        description: "Read the color. Speak it out.",
+      ),
+    ]
+  ),
+
+  //Non active games
   GameTileItem(
       name: GameName.blink_count.displayName,
       description: "Count the number of circles in the container",
