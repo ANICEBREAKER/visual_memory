@@ -31,7 +31,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _initSpeech();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initSpeech();
+    });
   }
 
   /// This has to happen only once per app
@@ -42,7 +44,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// Each time to start a speech recognition session
   void _startListening() async {
-    await _speechToText.listen(onResult: _onSpeechResult);
+    await _speechToText.listen(onResult: _onSpeechResult, listenOptions: SpeechListenOptions(
+      partialResults: false,
+      pauseFor: Duration(seconds: 2),
+    ));
     setState(() {});
   }
 
@@ -59,7 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
   /// the platform returns recognized words.
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
-      _lastWords = result.recognizedWords;
+      _lastWords = result.toFinal().recognizedWords.trim().split(' ').last;
+      //print(result.recognizedWords.trim().split(' '));
     });
   }
 
@@ -86,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Text(
                   // If listening is active show the recognized words
                   _speechToText.isListening
-                      ? '$_lastWords'
+                      ? 'You are saying: $_lastWords'
                   // If listening isn't active but could be tell the user
                   // how to start it, otherwise indicate that speech
                   // recognition is not yet ready or not supported on
