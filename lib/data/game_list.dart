@@ -136,8 +136,6 @@ List<GameTileItem> dummyGames = [
       ),
     ]
   ),
-
-  //Non active games
   GameTileItem(
       name: GameName.blink_count.displayName,
       description: "Count the number of circles in the container",
@@ -145,6 +143,7 @@ List<GameTileItem> dummyGames = [
       iconColor: AppColors.iconBlink,
       displayColor: AppColors.iconBlinkBg,
       active: true),
+  //Non active games
   GameTileItem(
       name: GameName.word_scramble.displayName,
       description: "Unscramble the letters to form a word",
