@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:game_testing/router.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
 import '../../theme/app_colors.dart';
 import '../../theme/app_theme.dart';
 import '../../theme/responsive_config.dart';
 import '../quick_maths/quick_maths_game_screen.dart';
 import 'color_shift_logic/level_state.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class ColorShiftGameScreen extends StatefulWidget {
   const ColorShiftGameScreen({super.key});
@@ -23,6 +24,12 @@ class _ColorShiftGameScreenState extends State<ColorShiftGameScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<ColorShiftLevelState>(context, listen: false).gameSetup();
     });
+  }
+
+  @override
+  void dispose() {
+    context.read<ColorShiftLevelState>().stopTimer();
+    super.dispose();
   }
 
   @override
@@ -152,48 +159,147 @@ class _ColorShiftGameScreenState extends State<ColorShiftGameScreen> {
               height: ResponsiveConfig.spacing(context, size: SpacingSize.s),
             ),
             Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, // 3 columns
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: 1, // Square cells
-                ),
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  final colorName = context.watch<ColorShiftLevelState>().colorList[index];
-                  return Visibility(
-                    visible: index < context.watch<ColorShiftLevelState>().colorsInPlay,
-                    child: InkWell(
-                      onTap: () {
-                        context.read<ColorShiftLevelState>().evaluate(colorName);
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.surfaceDarkVariant,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.borderDark
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            colorName.toUpperCase(),
-                            style: TextStyle(
-                              fontSize: ResponsiveConfig.textSize(context, size: TextSize.l),
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryDarkVariant,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+              child: context.watch<ColorShiftLevelState>().isVocalMode
+                  ? SoundInterface()
+                  : answerButtons(),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class answerButtons extends StatelessWidget {
+  const answerButtons({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3, // 3 columns
+        crossAxisSpacing: 16,
+        mainAxisSpacing: 16,
+        childAspectRatio: 1, // Square cells
+      ),
+      itemCount: 6,
+      itemBuilder: (context, index) {
+        final colorName = context.watch<ColorShiftLevelState>().colorList[index];
+        return Visibility(
+          visible: index < context.watch<ColorShiftLevelState>().colorsInPlay,
+          child: InkWell(
+            onTap: () {
+              context.read<ColorShiftLevelState>().evaluate(colorName);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.surfaceDarkVariant,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.borderDark
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  colorName.toUpperCase(),
+                  style: TextStyle(
+                    fontSize: ResponsiveConfig.textSize(context, size: TextSize.l),
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryDarkVariant,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class SoundInterface extends StatefulWidget {
+  const SoundInterface({Key? key}) : super(key: key);
+
+  @override
+  _SoundInterfaceState createState() => _SoundInterfaceState();
+}
+
+class _SoundInterfaceState extends State<SoundInterface> {
+  final SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  String _lastWords = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  void _initSpeech() async {
+    try {
+      _speechEnabled = await _speechToText.initialize(
+        onStatus: (status) {
+          debugPrint('Speech status: $status');
+          setState(() {});
+        },
+        onError: (errorNotification) {
+          debugPrint('Speech error: $errorNotification');
+          setState(() {});
+        },
+      );
+    } catch (e) {
+      debugPrint('Speech initialization failed: $e');
+      _speechEnabled = false;
+    }
+    setState(() {});
+  }
+
+  void _startListening() async {
+    _lastWords = '';
+    await _speechToText.listen(
+      onResult: _onSpeechResult,
+      cancelOnError: true,
+    );
+    setState(() {});
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+    setState(() {});
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      _lastWords = result.toFinal().recognizedWords.trim().split(' ').last;
+    });
+
+    final colorList = context.read<ColorShiftLevelState>().colorList;
+    if (colorList.contains(_lastWords.toLowerCase())) {
+      context.read<ColorShiftLevelState>().evaluate(_lastWords.toLowerCase());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          _speechToText.isListening
+              ? _lastWords
+              : _speechEnabled
+                  ? 'Tap the microphone to start listening...'
+                  : 'Speech recognition not available.',
+          style: TextStyle(fontSize: 20.0),
+        ),
+        const SizedBox(height: 20),
+        FloatingActionButton(
+          onPressed: _speechToText.isNotListening ? _startListening : _stopListening,
+          tooltip: 'Listen',
+          child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
+        ),
+      ],
     );
   }
 }

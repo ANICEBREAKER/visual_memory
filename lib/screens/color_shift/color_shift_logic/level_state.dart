@@ -8,10 +8,14 @@ import '../../../router.dart'; //Random
 
 
 class ColorShiftLevelState extends ChangeNotifier implements LevelStateInterface {
-  ColorShiftLevelState({required this.usingPatterns, required this.difficulty}) {}
+  ColorShiftLevelState({required this.usingPatterns, required this.difficulty, required this.mode}) {
+    isVocalMode = mode.toLowerCase() == 'vocal';
+  }
 
   final bool usingPatterns;
+  final String mode;
   final String difficulty;
+  late bool isVocalMode;
   final rng = Random();
 
   // Lives & Level

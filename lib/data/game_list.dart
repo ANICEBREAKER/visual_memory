@@ -124,11 +124,11 @@ List<GameTileItem> dummyGames = [
         icon: Icon(Icons.whatshot_rounded),
         description: "Keep going until time runs out, only the color of the text matters",
       ),
-      GameMode(
-        name: "Rule Flip",
-        icon: Icon(Icons.published_with_changes_outlined),
-        description: "Keep going until time runs out!",
-      ),
+      // GameMode(
+      //   name: "Rule Flip",
+      //   icon: Icon(Icons.published_with_changes_outlined),
+      //   description: "Keep going until time runs out!",
+      // ),
       GameMode(
         name: "Vocal",
         icon: Icon(Icons.mic_rounded),
