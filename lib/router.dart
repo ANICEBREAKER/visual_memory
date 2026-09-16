@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'screens/visual_memory/visual_memory_game_screen.dart';
 import 'screens/visual_memory/visual_memory_start_screen.dart';
-import 'screens/common/menu_screen.dart';
+import 'screens/common/menu/menu_screen.dart';
 import 'screens/quick_maths/quick_maths_start_screen.dart';
 import 'screens/quick_maths/quick_maths_game_screen.dart';
 import 'package:game_testing/screens/common/leaderboard/leaderboard_screen.dart';

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_testing/screens/blink_count/blink_count_start_screen.dart';
 import 'package:game_testing/screens/color_shift/color_shift_start_screen.dart';
 import 'package:game_testing/screens/visual_memory/visual_memory_start_screen.dart';
 import 'package:game_testing/screens/quick_maths/quick_maths_start_screen.dart';
@@ -142,6 +143,7 @@ List<GameTileItem> dummyGames = [
       icon: Icons.bubble_chart,
       iconColor: AppColors.iconBlink,
       displayColor: AppColors.iconBlinkBg,
+      destination: BlinkCountStartScreen(),
       active: true),
   //Non active games
   GameTileItem(
